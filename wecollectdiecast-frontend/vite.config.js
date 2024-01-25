@@ -3,6 +3,8 @@ import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
