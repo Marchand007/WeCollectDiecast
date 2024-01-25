@@ -16,7 +16,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://wecollectdiecast.ca',
+        target: 'http://wcd-api-7fcyt.ondigitalocean.app',
         rewrite: (path) => path.replace(/^\/api/, ''),
       }
     } 
