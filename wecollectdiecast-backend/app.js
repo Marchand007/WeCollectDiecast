@@ -15,9 +15,9 @@ const userRouter = require('./routes/userRouter');
 
 const userQueries = require("./queries/userQueries");
 
-
-
 const app = express();
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
 
 app.use(logger('dev'));
 app.use(express.json());
