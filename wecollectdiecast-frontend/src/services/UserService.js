@@ -53,7 +53,7 @@ export async function getUserBy(option, value) {
 }
 
 export async function createUser(user) {
-    const response = await fetch(`/api/user`, {
+    const response = await fetch(`http://wcd-api-7fcyt.ondigitalocean.app/api/user`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
