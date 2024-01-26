@@ -1,13 +1,13 @@
 <template>
   <div class="authentication">
 
-    <h2>Bienvenue à bord</h2>
+    <h1>Bienvenue à bord</h1>
     <p class="error-message">{{ errorMessage }}</p>
     <v-form @submit.prevent="createUserAccount" validate-on="blur" ref="createUserForm">
       <v-row no-gutters>
         <v-col cols="12">
-          <v-text-field v-model="user.username" label="Nom d'utilisateur *" :rules="[rules.required]" clearable
-            autocomplete="null" density="compact">
+          <v-text-field v-model="user.username" label="Nom d'utilisateur *" :rules="[rules.required]"
+            clearable autocomplete="null" density="compact">
           </v-text-field>
         </v-col>
         <v-col cols="6">
@@ -73,14 +73,14 @@
       </v-card-title>
       <v-card-text>
         <p>Félicitations {{ user.username }}, votre compte utilisateur a bien été créé. </p>
-          <p>Un courriel vous sera envoyé lorsque la plateforme
+        <p>Un courriel vous sera envoyé lorsque la plateforme
           sera prête pour l'utilisation</p>
       </v-card-text>
       <v-row class="justify-center">
-          <v-col cols="12">
-            <v-btn @click="closeCreateAccountSection" color="black" size="large" elevation="5">OK</v-btn>
-          </v-col>
-        </v-row>
+        <v-col cols="12">
+          <v-btn @click="closeCreateAccountSection" color="black" size="large" elevation="5">OK</v-btn>
+        </v-col>
+      </v-row>
     </v-card>
   </v-dialog>
 </template>
@@ -144,7 +144,20 @@ export default {
       {
         if (user)
         {
-          this.newUserAddedDialog = true;
+          userSession.login(this.user.username, this.user.password)
+            .then(user =>
+            {
+              if (user) {
+              this.newUserAddedDialog = true;
+              } else
+              {
+                throw new Error("Une erreur est survenue lors de la création de votre compte. Veuillez réessayer plus tard.");
+            }
+            })
+            .catch(err =>
+            {
+              this.errorMessage = err.message;
+            })
         }
       }).catch(err =>
       {
@@ -159,6 +172,7 @@ export default {
       return !this.user.email
         || !validEmail.test(this.user.email)
         || !this.user.username
+        || this.user.username.length > 10
         || !this.user.firstName
         || !this.user.lastName
         || !this.user.password
@@ -171,9 +185,11 @@ export default {
 </script>
 
 <style scoped>
-p { 
+p {
   color: black;
-  text-align: center; }
+  text-align: center;
+}
+
 h2 {
   text-align: center;
 }

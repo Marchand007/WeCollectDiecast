@@ -53,6 +53,14 @@ export default {
     display: none;
 }
 
+h1 {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bolder;
+  margin-bottom: 1rem;
+}
+
+
 h2 {
   text-align: left;
   font-size: 1.5rem;

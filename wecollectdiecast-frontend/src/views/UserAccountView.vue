@@ -1,21 +1,20 @@
 <template>
-    <span v-if="user.username">
-        <v-row class="name-banner ma-0 align-center">
-            <p class="d-flex align-center">
-                <span>{{ user.username }}&nbsp;</span>
-                <span>( </span>
-                <v-rating size="small" v-model="user.rating" color="black" density="compact" half-increments
-                    readonly></v-rating>
-                <span> )</span>
-            </p>
-            <v-spacer></v-spacer>
-            <v-tooltip :text="shareTooltipText">
-                <template v-slot:activator="{ props }">
-                    <v-icon @click="copyLinkToClipboard" v-bind="props">
-                        mdi-share
-                    </v-icon>
-                </template>
-            </v-tooltip>
+    <div v-if="user.username">
+        <v-row class="name-banner ma-0 align-center" no-gutters>
+            <v-col cols="10">
+                <v-row class="ma-0" no-gutters>
+                    <p>{{ user.username }}&nbsp;</p>
+                </v-row>
+            </v-col>
+            <v-col cols="2" class="text-right">
+                <v-tooltip right :text="shareTooltipText">
+                    <template v-slot:activator="{ props }">
+                        <v-icon @click="copyLinkToClipboard" v-bind="props">
+                            mdi-share
+                        </v-icon>
+                    </template>
+                </v-tooltip>
+            </v-col>
         </v-row>
 
         <v-icon v-if="display.smAndDown.value" @click="showMenu = !showMenu" color="white" size="40"
@@ -48,25 +47,29 @@
                     </v-icon>
                     Le contacter
                 </v-tab>
-                <v-tab v-if="userSession.user && userSession.user.username == user.username" selected-class="active-tab" value="editinformations">
+                <v-tab v-if="userSession.user && userSession.user.username == user.username" selected-class="active-tab"
+                    value="editinformations">
                     <v-icon start>
                         mdi-pencil
                     </v-icon>
                     <span style="font-size:x-small">Modifier mes informations</span>
                 </v-tab>
-                <v-tab v-if="userSession.user && userSession.user.username == user.username" selected-class="active-tab" value="additem">
+                <v-tab v-if="userSession.user && userSession.user.username == user.username" selected-class="active-tab"
+                    value="additem">
                     <v-icon start>
                         mdi-plus
                     </v-icon>
                     <span style="font-size:x-small">Ajouter un item</span>
                 </v-tab>
-                <v-tab v-if="userSession.user && userSession.user.username == user.username" selected-class="active-tab" value="managecollection">
+                <v-tab v-if="userSession.user && userSession.user.username == user.username" selected-class="active-tab"
+                    value="managecollection">
                     <v-icon start>
                         mdi-chart-timeline
                     </v-icon>
                     <span style="font-size:x-small">Gerer sa collection</span>
                 </v-tab>
-                <v-tab v-if="userSession.user && userSession.user.username == user.username" selected-class="active-tab" value="option-x">
+                <v-tab v-if="userSession.user && userSession.user.username == user.username" selected-class="active-tab"
+                    value="option-x">
                     <v-icon start>
                         mdi-radioactive
                     </v-icon>
@@ -93,8 +96,10 @@
                         <v-card-text>
                             <h2>Collection</h2>
                             <p class="mb-2"> Ici sera la collection de l'utilisateur. </p>
-                            <p class="mb-2"> Il sera possible de voir les items que l'utilisateur possede et qu'il public.</p>
-                            <p class="mb-2"> Il ne sera pas possible de voir les items que l'utilisateur possede et qu'il met private.</p>
+                            <p class="mb-2"> Il sera possible de voir les items que l'utilisateur possede et qu'il public.
+                            </p>
+                            <p class="mb-2"> Il ne sera pas possible de voir les items que l'utilisateur possede et qu'il
+                                met private.</p>
                             <p class="mb-2"> Un systeme de filtre sera mis en place pour faciliter la recherche.</p>
                         </v-card-text>
                     </v-card>
@@ -113,10 +118,12 @@
                         <v-card-text>
                             <h2>Envoyez-lui un message!</h2>
 
-                            <p class="mb-2"> Ici sera un formulaire pour envoyer un message a l'utilisateur. Un systeme de messagerie interne sera mis en place.</p>
-                                <p class="mb-2">Cela evitera de devoir donner son adresse courriel.</p>
-                                <p class="mb-2"> Il sera possible de voir les messages recus et envoyes dans la section "Mes message".</p>
-                                <p class="mb-2">Cela permettera de garder une trace des messages envoyes et recus.</p>
+                            <p class="mb-2"> Ici sera un formulaire pour envoyer un message a l'utilisateur. Un systeme de
+                                messagerie interne sera mis en place.</p>
+                            <p class="mb-2">Cela evitera de devoir donner son adresse courriel.</p>
+                            <p class="mb-2"> Il sera possible de voir les messages recus et envoyes dans la section "Mes
+                                message".</p>
+                            <p class="mb-2">Cela permettera de garder une trace des messages envoyes et recus.</p>
                         </v-card-text>
                     </v-card>
                 </v-window-item>
@@ -126,7 +133,8 @@
                             <v-card-text>
                                 <h2>Modification de ses informations</h2>
                                 <p class="mb-2"> Ici sera un formulaire pour modifier ses informations.</p>
-                                <p class="mb-2"> Il sera possible de modifier son nom, prenom, courriel, mot de passe, etc.</p>
+                                <p class="mb-2"> Il sera possible de modifier son nom, prenom, courriel, mot de passe, etc.
+                                </p>
                                 <p class="mb-2"> Il ne sera pas possible de modifier son nom d'utilisateur.</p>
                             </v-card-text>
                         </v-card>
@@ -136,11 +144,15 @@
                             <v-card-text>
                                 <h2>Ajout d'un item a sa collection</h2>
                                 <p class="mb-2"> Ici sera un formulaire pour ajouter un item a sa collection.</p>
-                                <p class="mb-2">Plusieurs options seront disponibles pour faciliter l'ajout d'un item et pour sa classification.</p>
-                                <p class="mb-2">Il sera possible d'ajouter une photo egalement afin de faciliter la reconnaisance de celui ci.</p>
-                                <p class="mb-2">Il sera possible de mettre l'item en "private" ou "public" afin que seul l'utilisateur puisse le voir ou non.</p>
+                                <p class="mb-2">Plusieurs options seront disponibles pour faciliter l'ajout d'un item et
+                                    pour sa classification.</p>
+                                <p class="mb-2">Il sera possible d'ajouter une photo egalement afin de faciliter la
+                                    reconnaisance de celui ci.</p>
+                                <p class="mb-2">Il sera possible de mettre l'item en "private" ou "public" afin que seul
+                                    l'utilisateur puisse le voir ou non.</p>
                                 <p class="mb-2">Il sera possible de mettre l'item dans sa "wishlist".</p>
-                                <p class="mb-2">Il sera possible de mettre l'item a "vendre", "échanger" car éventuellement des ventes seront possible sur la plateforme version 2.0</p>
+                                <p class="mb-2">Il sera possible de mettre l'item a "vendre", "échanger" car éventuellement
+                                    des ventes seront possible sur la plateforme version 2.0</p>
 
                             </v-card-text>
                         </v-card>
@@ -150,8 +162,10 @@
                             <v-card-text>
                                 <h2>Gerer sa collection</h2>
                                 <p class="mb-2"> Ici sera la gestion pour gerer sa collection.</p>
-                                <p class="mb-2"> Il sera possible de modifier les informations d'un item ou le supprimer de sa collection.</p>
-                                <p class="mb-2"> Il sera possible de modifier les informations d'un item ou le supprimer de sa wishlist.</p>
+                                <p class="mb-2"> Il sera possible de modifier les informations d'un item ou le supprimer de
+                                    sa collection.</p>
+                                <p class="mb-2"> Il sera possible de modifier les informations d'un item ou le supprimer de
+                                    sa wishlist.</p>
                             </v-card-text>
                         </v-card>
                     </v-window-item>
@@ -160,7 +174,8 @@
                             <v-card-text>
                                 <h2>Un autre option a venir</h2>
                                 <p class="mb-2"> Plusieurs autres options seront à venir.</p>
-                                <p class="mb-2"> Il nous feras un plaisir de connaitre vos suggestions via un formulaire qui sera fait éventuellement.</p>
+                                <p class="mb-2"> Il nous feras un plaisir de connaitre vos suggestions via un formulaire qui
+                                    sera fait éventuellement.</p>
                             </v-card-text>
                         </v-card>
                     </v-window-item>
@@ -170,7 +185,7 @@
         <v-snackbar v-model="snackbarShare" :timeout="2000">
             Lien copié dans le presse-papier
         </v-snackbar>
-    </span>
+    </div>
 </template>
 
 <script>
@@ -257,7 +272,8 @@ export default {
         },
         copyLinkToClipboard()
         {
-            this.snackbarShare = true;
+            this.shareTooltipText = 'Lien copié dans le presse-papier';
+            //this.snackbarShare = true;
             const link = "www.wecollectdiecast.ca/user?u=" + this.user.username;
             navigator.clipboard.writeText(link);
         }
@@ -290,15 +306,14 @@ export default {
     },
     mounted()
     {
-        console.log("mounted", this.display.smAndDown.value)
+
         if (this.display.smAndDown.value)
         {
-            console.log("ici1")
             this.showMenu = false;
         }
         else
         {
-            console.log("ici2")
+
             this.showMenu = true;
         }
         this.loadUser();
@@ -323,6 +338,12 @@ a {
     cursor: pointer;
     color: blue;
     text-decoration: underline;
+}
+
+div {
+    white-space: pre-wrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .share-icon {
@@ -362,7 +383,13 @@ a {
 
 .v-tab {
     background-color: black;
-    border: 1px solid rgb(138, 103, 9);
+    border-top: 1px solid rgb(138, 103, 9);
+    color: white;
+}
+
+.v-tab:last-of-type {
+    background-color: black;
+    border-bottom: 1px solid rgb(138, 103, 9);
     color: white;
 }
 

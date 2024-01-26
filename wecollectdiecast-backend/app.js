@@ -126,7 +126,6 @@ app.post('/login/lostpassword',
   {
     try
     {
-      console.log("body", req.body)
       if (!req.body) return next(new HttpError(400, "Un body est requis"));
       if (!req.body.email) return next(new HttpError(400, "Un champ email est requis "));
       let user = await userQueries.getUserBy("email",req.body.email);

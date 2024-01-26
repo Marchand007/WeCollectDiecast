@@ -138,10 +138,8 @@ export default {
             this.errorMessage = "";
             const formValid = await this.$refs.clientInfoRefManagement.$refs.EditClientFormAdmin.validate();
             if (!formValid.valid) return;
-            console.log("Client recu", this.$refs.clientInfoRefManagement.clientToEdit)
             await updateClientByAdmin(this.$refs.clientInfoRefManagement.clientToEdit).then(client =>
             {
-                console.log("Client retourner", client)
                 this.clientList = this.clientList.filter(client => client.id !== this.selectedclient)
                 if (!client.isActive)
                 {

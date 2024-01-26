@@ -129,7 +129,6 @@ router.post("/",
     {
         try
         {
-            console.log("body", req.body)
             const username = req.body.username;
             if (!username || username === "") return next(new HttpError(400, "Le champ username est requis"));
             if (username.length > 255) return next(new HttpError(400, `Le champ username ne peux pas dépasser 255 caractères. Il y a ${firstName.length - 255} caractères de trop.`));
@@ -412,7 +411,6 @@ router.put("/newpassword/:clientid",
 
             const clientId = req.params.clientid;
             if (user.id != clientId) return next(new HttpError(403, "Interdiction de changer le mot de passe d'un autre utilisateur"));
-            console.log("body", req.body)
             const newPassword = req.body.newPassword;
             if (!newPassword || newPassword === "") return next(new HttpError(400, "Le champ newPassword est requis"));
             if (!regex.validPassword.test(newPassword)) return next(new HttpError(400, "Le champ password ne respect pas les critères d'acceptation"));
