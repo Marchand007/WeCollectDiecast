@@ -1,9 +1,10 @@
 <template>
-  <div>
+  <div class="home-view ma-10">
+  <v-row class="ma-0 d-flex flex-column">
     <v-row style="margin: 0px 15%">
       <img class="w-100" src="@/assets/FullLogoNoBG.png" />
     </v-row>
-    <v-row class="justify-center" no-gutters>
+    <v-row class="justify-center ma-0" no-gutters>
       <p style="font-size: 24px; text-align: center; color:white">We Collect Diecast sera bientôt disponible</p>
     </v-row>
     <v-row v-if="!userSession || !userSession.user" class="justify-center ma-0" no-gutters>
@@ -13,6 +14,7 @@
             CREER UN COMPTE DÈS MAINTENANT</p>
         </v-btn>
     </v-row>
+  </v-row>
   </div>
   <!-- transition="dialog-bottom-transition" -->
 
@@ -80,6 +82,9 @@ p {
   cursor: pointer;
 }
 
+.home-view {
+  height: 75vh;
+}
 .v-btn.btn-new-account:hover,
 .v-btn.btn-new-account:focus {
   background-color: #D9AF37;

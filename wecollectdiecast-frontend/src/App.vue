@@ -1,20 +1,20 @@
 <template>
-  <v-app :class="isDialogOpen ? 'blur-background' : ''" style="background-color: black; width: 100%">
+  <v-app :class="isDialogOpen ? 'blur-background' : ''" style="background-color: #121212; width: 100%">
     <header>
       <Navigation></Navigation>
     </header>
     <v-main>
-      <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
-  />
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+      <v-row class="ma-0">
       <router-view class="my-5">
 
       </router-view>
-
-      <v-row class="ma-0 justify-center" style="border-top: 1px white solid">
-      <p>Ceci sera un footer</p></v-row>
-
+    </v-row>
+      <footer>
+        <v-row class="ma-0 justify-center" style="border-top: 1px white solid">
+          <p>Ceci sera un footer</p>
+        </v-row>
+      </footer>
     </v-main>
   </v-app>
 </template>
@@ -48,9 +48,8 @@ export default {
 </script>
 
 <style>
-
 *::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 h1 {
@@ -74,16 +73,17 @@ p {
 }
 
 h2 {
-    color: white;
-    text-align: left;
-    font-size: 25px;
-    margin-bottom: 1rem;
-    line-height: 1.2;
+  color: white;
+  text-align: left;
+  font-size: 25px;
+  margin-bottom: 1rem;
+  line-height: 1.2;
 }
 
 div {
   cursor: url('@/assets/favicon.ico'), auto;
 }
+
 .error-message {
   color: red;
   font-size: x-small;
@@ -111,8 +111,8 @@ div {
   padding: 10px;
   background-color: white;
   border-radius: 10px;
-  box-shadow: rgba(138, 103, 9, 0.9) 0 0 70px 5px ;
-  
+  box-shadow: rgba(138, 103, 9, 0.9) 0 0 70px 5px;
+
   /* background: radial-gradient(rgb(0, 228, 95), rgb(0, 26, 255), rgb(255, 0, 0)) 0% 0% / 100% 400%; */
   /* background: radial-gradient(rgba(50, 50, 50, 1) 20%, rgba(50, 50, 50, 0.1)); */
   /* background: radial-gradient(circle at 50%, rgba(50,50,50,0.9), rgba(50,50,50,0.8) 10%, rgba(50,50,50,0.0) 100%, rgba(50,50,50,0.1) 10%); */
@@ -120,52 +120,52 @@ div {
 
 @media (min-width: 960px) {
   .login {
-  position: relative;
-  max-height: 100vh;
-  width: 50%;
-  margin: auto;
-  opacity: 0.9;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  padding: 10px;
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: rgba(138, 103, 9, 0.9) 0 0 70px 5px ;
-  
-  /* background: radial-gradient(rgb(0, 228, 95), rgb(0, 26, 255), rgb(255, 0, 0)) 0% 0% / 100% 400%; */
-  /* background: radial-gradient(rgba(50, 50, 50, 1) 20%, rgba(50, 50, 50, 0.1)); */
-  /* background: radial-gradient(circle at 50%, rgba(50,50,50,0.9), rgba(50,50,50,0.8) 10%, rgba(50,50,50,0.0) 100%, rgba(50,50,50,0.1) 10%); */
-}
+    position: relative;
+    max-height: 100vh;
+    width: 50%;
+    margin: auto;
+    opacity: 0.9;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    padding: 10px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: rgba(138, 103, 9, 0.9) 0 0 70px 5px;
+
+    /* background: radial-gradient(rgb(0, 228, 95), rgb(0, 26, 255), rgb(255, 0, 0)) 0% 0% / 100% 400%; */
+    /* background: radial-gradient(rgba(50, 50, 50, 1) 20%, rgba(50, 50, 50, 0.1)); */
+    /* background: radial-gradient(circle at 50%, rgba(50,50,50,0.9), rgba(50,50,50,0.8) 10%, rgba(50,50,50,0.0) 100%, rgba(50,50,50,0.1) 10%); */
+  }
 
 }
 
 @media (max-width: 960px) {
   .login {
-  position: relative;
-  max-height: 100vh;
-  width: 90%;
-  margin: auto;
-  opacity: 0.9;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  padding: 10px;
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: rgba(138, 103, 9, 0.9) 0 0 70px 5px ;
-  
-  /* background: radial-gradient(rgb(0, 228, 95), rgb(0, 26, 255), rgb(255, 0, 0)) 0% 0% / 100% 400%; */
-  /* background: radial-gradient(rgba(50, 50, 50, 1) 20%, rgba(50, 50, 50, 0.1)); */
-  /* background: radial-gradient(circle at 50%, rgba(50,50,50,0.9), rgba(50,50,50,0.8) 10%, rgba(50,50,50,0.0) 100%, rgba(50,50,50,0.1) 10%); */
-}
+    position: relative;
+    max-height: 100vh;
+    width: 90%;
+    margin: auto;
+    opacity: 0.9;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    padding: 10px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: rgba(138, 103, 9, 0.9) 0 0 70px 5px;
+
+    /* background: radial-gradient(rgb(0, 228, 95), rgb(0, 26, 255), rgb(255, 0, 0)) 0% 0% / 100% 400%; */
+    /* background: radial-gradient(rgba(50, 50, 50, 1) 20%, rgba(50, 50, 50, 0.1)); */
+    /* background: radial-gradient(circle at 50%, rgba(50,50,50,0.9), rgba(50,50,50,0.8) 10%, rgba(50,50,50,0.0) 100%, rgba(50,50,50,0.1) 10%); */
+  }
 
 }
 
 
 @media (max-width: 960px) {
   .authentication {
-  width: 100%;
+    width: 100%;
   }
 }
 </style>
