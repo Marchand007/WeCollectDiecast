@@ -1,66 +1,82 @@
 <template>
-    <v-row class="name-banner ma-0 align-center">
-        <p class="d-flex align-center">
-            <span>{{ user.username }}&nbsp;</span>
-            <span>( </span>
-            <v-rating size="small" v-model="user.rating" color="black" density="compact" half-increments
-                readonly></v-rating>
-            <span> )</span>
-        </p>
-    </v-row>
+    <span v-if="user.username">
+        <v-row class="name-banner ma-0 align-center">
+            <p class="d-flex align-center">
+                <span>{{ user.username }}&nbsp;</span>
+                <span>( </span>
+                <v-rating size="small" v-model="user.rating" color="black" density="compact" half-increments
+                    readonly></v-rating>
+                <span> )</span>
+            </p>
+            <v-spacer></v-spacer>
+            <v-tooltip :text="shareTooltipText">
+                <template v-slot:activator="{ props }">
+                    <v-icon @click="copyLinkToClipboard" v-bind="props">
+                        mdi-share
+                    </v-icon>
+                </template>
+            </v-tooltip>
+        </v-row>
 
-    <v-icon v-if="display.smAndDown.value" @click="showMenu = !showMenu" color="white" size="40"
-        :icon="showMenu ? 'mdi-close' : 'mdi-menu'"> </v-icon>
+        <v-icon v-if="display.smAndDown.value" @click="showMenu = !showMenu" color="white" size="40"
+            :icon="showMenu ? 'mdi-close' : 'mdi-menu'"> </v-icon>
 
-    <div :class="display.smAndDown.value ? 'd-flex flex-row ma-0 pa-0' : 'd-flex flex-column ma-0 pa-0'">
-        <v-tabs v-show="showMenu || display.mdAndUp.value == true" v-model="tab" :direction="display.smAndDown.value ? 'vertical' : 'horizontal'">
-            <v-tab selected-class="active-tab" value="userinformations">
-                <v-icon start>
-                    mdi-account
-                </v-icon>
-                Informations
-            </v-tab>
-            <v-tab selected-class="active-tab" value="usercollection">
-                <v-icon start>
-                    mdi-car
-                </v-icon>
-                Collection
-            </v-tab>
-            <v-tab selected-class="active-tab" value="contactuser">
-                <v-icon start>
-                    mdi-email
-                </v-icon>
-                Le contacter
-            </v-tab>
-            <v-tab v-if="userSession.user" selected-class="active-tab" value="editinformations">
-                <v-icon start>
-                    mdi-email
-                </v-icon>
-                <p style="font-size:x-small">Modifier mes informations</p>
-            </v-tab>
-            <v-tab v-if="userSession.user" selected-class="active-tab" value="additem">
-                <v-icon start>
-                    mdi-email
-                </v-icon>
-                <span style="font-size:x-small">Ajouter un item</span>
-            </v-tab>
-            <v-tab v-if="userSession.user" selected-class="active-tab" value="managecollection">
-                <v-icon start>
-                    mdi-email
-                </v-icon>
-                <span style="font-size:x-small">Gerer sa collection</span>
-            </v-tab>
-            <v-tab v-if="userSession.user" selected-class="active-tab" value="option-x">
-                <v-icon start>
-                    mdi-email
-                </v-icon>
-                <span style="font-size:x-small">Un autre options</span>
-            </v-tab>
+        <div :class="display.smAndDown.value ? 'd-flex flex-row ma-0 pa-0' : 'd-flex flex-column ma-0 pa-0'">
+            <v-tabs v-show="showMenu || display.mdAndUp.value == true" v-model="tab"
+                :direction="display.smAndDown.value ? 'vertical' : 'horizontal'">
+                <v-tab selected-class="active-tab" value="userinformations">
+                    <v-icon start>
+                        mdi-account
+                    </v-icon>
+                    Informations
+                </v-tab>
+                <v-tab selected-class="active-tab" value="usercollection">
+                    <v-icon start>
+                        mdi-car
+                    </v-icon>
+                    Collection
+                </v-tab>
+                <v-tab selected-class="active-tab" value="userwishlist">
+                    <v-icon start>
+                        mdi-heart
+                    </v-icon>
+                    Wishlist
+                </v-tab>
+                <v-tab selected-class="active-tab" value="contactuser">
+                    <v-icon start>
+                        mdi-email
+                    </v-icon>
+                    Le contacter
+                </v-tab>
+                <v-tab v-if="userSession.user" selected-class="active-tab" value="editinformations">
+                    <v-icon start>
+                        mdi-pencil
+                    </v-icon>
+                    <span style="font-size:x-small">Modifier mes informations</span>
+                </v-tab>
+                <v-tab v-if="userSession.user" selected-class="active-tab" value="additem">
+                    <v-icon start>
+                        mdi-plus
+                    </v-icon>
+                    <span style="font-size:x-small">Ajouter un item</span>
+                </v-tab>
+                <v-tab v-if="userSession.user" selected-class="active-tab" value="managecollection">
+                    <v-icon start>
+                        mdi-chart-timeline
+                    </v-icon>
+                    <span style="font-size:x-small">Gerer sa collection</span>
+                </v-tab>
+                <v-tab v-if="userSession.user" selected-class="active-tab" value="option-x">
+                    <v-icon start>
+                        mdi-radioactive
+                    </v-icon>
+                    <span style="font-size:x-small">Un autre options</span>
+                </v-tab>
 
-        </v-tabs>
-        <v-window v-model="tab">
-            <v-window-item value="userinformations">
-                <v-card elevation="0" flat>
+            </v-tabs>
+            <v-window v-model="tab">
+                <v-window-item value="userinformations">
+                    <!-- <v-card elevation="0" flat>
                     <v-card-text >
                         <h2>Informations de l'utilisateur</h2>
                         <p> Prénom: {{ user.firstName }} </p>
@@ -70,121 +86,92 @@
                         <p v-if="user.country">Pays: {{ user.country }} </p>
                         <p>Membre depuis: {{ user.createdDate }} </p>
                     </v-card-text>
-                </v-card>
-            </v-window-item>
-            <v-window-item  value="usercollection">
-                <v-card elevation="0" flat>
+                </v-card> -->
+                    <UserInfo :user="user"> </UserInfo>
+                </v-window-item>
+                <v-window-item value="usercollection">
+                    <v-card elevation="0" flat>
                         <v-card-text>
                             <h2>Collection</h2>
-                        </v-card-text>
-                    </v-card>
-            </v-window-item>
-            <v-window-item value="contactuser">
-                <v-card elevation="0" flat>
-                    <v-card-text>
-                        <h2>Envoyez-lui un message!</h2>
-                        <p>
-                            Fusce a quam. Phasellus nec sem in justo pellentesque facilisis. Nam eget dui. Proin viverra,
-                            ligula sit amet ultrices semper, ligula arcu tristique sapien, a accumsan nisi mauris ac eros.
-                            In dui magna, posuere eget, vestibulum et, tempor auctor, justo.
-                        </p>
-
-                        <p class="mb-0">
-                            Cras sagittis. Phasellus nec sem in justo pellentesque facilisis. Proin sapien ipsum, porta a,
-                            auctor quis, euismod ut, mi. Donec quam felis, ultricies nec, pellentesque eu, pretium quis,
-                            sem. Nam at tortor in tellus interdum sagittis.
-                        </p>
-                    </v-card-text>
-                </v-card>
-            </v-window-item>
-            <span v-if="userSession.user">
-                <v-window-item value="editinformations">
-                    <v-card elevation="0" flat>
-                        <v-card-text>
-                            <h2>Modification de ses informations</h2>
-                            <p>
-                                Fusce a quam. Phasellus nec sem in justo pellentesque facilisis. Nam eget dui. Proin
-                                viverra,
-                                ligula sit amet ultrices semper, ligula arcu tristique sapien, a accumsan nisi mauris ac
-                                eros.
-                                In dui magna, posuere eget, vestibulum et, tempor auctor, justo.
-                            </p>
-
-                            <p class="mb-0">
-                                Cras sagittis. Phasellus nec sem in justo pellentesque facilisis. Proin sapien ipsum, porta
-                                a,
-                                auctor quis, euismod ut, mi. Donec quam felis, ultricies nec, pellentesque eu, pretium quis,
-                                sem. Nam at tortor in tellus interdum sagittis.
-                            </p>
+                            <p class="mb-2"> Ici sera la collection de l'utilisateur. </p>
+                            <p class="mb-2"> Il sera possible de voir les items que l'utilisateur possede et qu'il public.</p>
+                            <p class="mb-2"> Il ne sera pas possible de voir les items que l'utilisateur possede et qu'il met private.</p>
+                            <p class="mb-2"> Un systeme de filtre sera mis en place pour faciliter la recherche.</p>
                         </v-card-text>
                     </v-card>
                 </v-window-item>
-                <v-window-item value="additem">
+                <v-window-item value="userwishlist">
                     <v-card elevation="0" flat>
                         <v-card-text>
-                            <h2>Ajout d'un item a sa collection</h2>
-                            <p>
-                                Fusce a quam. Phasellus nec sem in justo pellentesque facilisis. Nam eget dui. Proin
-                                viverra,
-                                ligula sit amet ultrices semper, ligula arcu tristique sapien, a accumsan nisi mauris ac
-                                eros.
-                                In dui magna, posuere eget, vestibulum et, tempor auctor, justo.
-                            </p>
-
-                            <p class="mb-0">
-                                Cras sagittis. Phasellus nec sem in justo pellentesque facilisis. Proin sapien ipsum, porta
-                                a,
-                                auctor quis, euismod ut, mi. Donec quam felis, ultricies nec, pellentesque eu, pretium quis,
-                                sem. Nam at tortor in tellus interdum sagittis.
-                            </p>
+                            <h2>Wishlist</h2>
+                            <p class="mb-2"> Ici sera la wishlist de l'utilisateur. </p>
+                            <p class="mb-2"> Il sera possible de voir les items que l'utilisateur aimerais bien trouver.</p>
                         </v-card-text>
                     </v-card>
                 </v-window-item>
-                <v-window-item value="managecollection">
+                <v-window-item value="contactuser">
                     <v-card elevation="0" flat>
                         <v-card-text>
-                            <h2>Gerer sa collection</h2>
-                            <p>
-                                Fusce a quam. Phasellus nec sem in justo pellentesque facilisis. Nam eget dui. Proin
-                                viverra,
-                                ligula sit amet ultrices semper, ligula arcu tristique sapien, a accumsan nisi mauris ac
-                                eros.
-                                In dui magna, posuere eget, vestibulum et, tempor auctor, justo.
-                            </p>
+                            <h2>Envoyez-lui un message!</h2>
 
-                            <p class="mb-0">
-                                Cras sagittis. Phasellus nec sem in justo pellentesque facilisis. Proin sapien ipsum, porta
-                                a,
-                                auctor quis, euismod ut, mi. Donec quam felis, ultricies nec, pellentesque eu, pretium quis,
-                                sem. Nam at tortor in tellus interdum sagittis.
-                            </p>
+                            <p class="mb-2"> Ici sera un formulaire pour envoyer un message a l'utilisateur. Un systeme de messagerie interne sera mis en place.</p>
+                                <p class="mb-2">Cela evitera de devoir donner son adresse courriel.</p>
+                                <p class="mb-2"> Il sera possible de voir les messages recus et envoyes dans la section "Mes message".</p>
+                                <p class="mb-2">Cela permettera de garder une trace des messages envoyes et recus.</p>
                         </v-card-text>
                     </v-card>
                 </v-window-item>
-                <v-window-item value="option-x">
-                    <v-card elevation="0" flat>
-                        <v-card-text>
-                            <h2>Un autre option a venir</h2>
-                            <p>
-                                Fusce a quam. Phasellus nec sem in justo pellentesque facilisis. Nam eget dui. Proin
-                                viverra,
-                                ligula sit amet ultrices semper, ligula arcu tristique sapien, a accumsan nisi mauris ac
-                                eros.
-                                In dui magna, posuere eget, vestibulum et, tempor auctor, justo.
-                            </p>
+                <span v-if="userSession.user">
+                    <v-window-item value="editinformations">
+                        <v-card elevation="0" flat>
+                            <v-card-text>
+                                <h2>Modification de ses informations</h2>
+                                <p class="mb-2"> Ici sera un formulaire pour modifier ses informations.</p>
+                                <p class="mb-2"> Il sera possible de modifier son nom, prenom, courriel, mot de passe, etc.</p>
+                                <p class="mb-2"> Il ne sera pas possible de modifier son nom d'utilisateur.</p>
+                            </v-card-text>
+                        </v-card>
+                    </v-window-item>
+                    <v-window-item value="additem">
+                        <v-card elevation="0" flat>
+                            <v-card-text>
+                                <h2>Ajout d'un item a sa collection</h2>
+                                <p class="mb-2"> Ici sera un formulaire pour ajouter un item a sa collection.</p>
+                                <p class="mb-2">Plusieurs options seront disponibles pour faciliter l'ajout d'un item et pour sa classification.</p>
+                                <p class="mb-2">Il sera possible d'ajouter une photo egalement afin de faciliter la reconnaisance de celui ci.</p>
+                                <p class="mb-2">Il sera possible de mettre l'item en "private" ou "public" afin que seul l'utilisateur puisse le voir ou non.</p>
+                                <p class="mb-2">Il sera possible de mettre l'item dans sa "wishlist".</p>
+                                <p class="mb-2">Il sera possible de mettre l'item a "vendre", "échanger" car éventuellement des ventes seront possible sur la plateforme version 2.0</p>
 
-                            <p class="mb-0">
-                                Cras sagittis. Phasellus nec sem in justo pellentesque facilisis. Proin sapien ipsum, porta
-                                a,
-                                auctor quis, euismod ut, mi. Donec quam felis, ultricies nec, pellentesque eu, pretium quis,
-                                sem. Nam at tortor in tellus interdum sagittis.
-                            </p>
-                        </v-card-text>
-                    </v-card>
-                </v-window-item>
-            </span>
-        </v-window>
-    </div>
+                            </v-card-text>
+                        </v-card>
+                    </v-window-item>
+                    <v-window-item value="managecollection">
+                        <v-card elevation="0" flat>
+                            <v-card-text>
+                                <h2>Gerer sa collection</h2>
+                                <p class="mb-2"> Ici sera la gestion pour gerer sa collection.</p>
+                                <p class="mb-2"> Il sera possible de modifier les informations d'un item ou le supprimer de sa collection.</p>
+                                <p class="mb-2"> Il sera possible de modifier les informations d'un item ou le supprimer de sa wishlist.</p>
+                            </v-card-text>
+                        </v-card>
+                    </v-window-item>
+                    <v-window-item value="option-x">
+                        <v-card elevation="0" flat>
+                            <v-card-text>
+                                <h2>Un autre option a venir</h2>
+                                <p class="mb-2"> Plusieurs autres options seront à venir.</p>
+                                <p class="mb-2"> Il nous feras un plaisir de connaitre vos suggestions via un formulaire qui sera fait éventuellement.</p>
+                            </v-card-text>
+                        </v-card>
+                    </v-window-item>
+                </span>
+            </v-window>
+        </div>
+        <v-snackbar v-model="snackbarShare" :timeout="2000">
+            Lien copié dans le presse-papier
+        </v-snackbar>
+    </span>
 </template>
 
 <script>
@@ -215,7 +202,7 @@ export default {
             user: {
                 firstName: "",
                 lastName: "",
-                username: "",
+                username: null,
                 email: "",
                 birthdate: "",
                 city: "",
@@ -245,6 +232,8 @@ export default {
             pathclose: mdiCloseOutline,
             errorMessage: "",
             showMenu: true,
+            shareTooltipText: 'Cliquez ici pour copier le lien de la page dans votre presse-papier',
+            snackbarShare: false,
         };
     },
     methods: {
@@ -252,15 +241,28 @@ export default {
         {
             getUserBy("username", this.username).then(user =>
             {
+
                 this.user = user;
                 this.userToEdit = cloneDeep(this.user);
                 this.user.rating = 4.5;
-                this.user.createdDate = DateTime.now().toLocaleString(DateTime.DATE_MED);
+                console.log(this.user);
+                const luxonDate = DateTime.fromISO(this.user.createdDate);
+                this.user.createdDate = luxonDate.toLocaleString(DateTime.DATE_MED);
             }).catch(err =>
             {
                 console.error(err);
+                if (err.status == 404)
+                {
+                    this.$router.push({ name: 'home' });
+                }
             })
         },
+        copyLinkToClipboard()
+        {
+            this.snackbarShare = true;
+            const link = "www.wecollectdiecast.ca/user?=" + this.user.username;
+            navigator.clipboard.writeText(link);
+        }
     },
     watch: {
         tab()
@@ -318,18 +320,27 @@ h1 {
     text-align: center;
 }
 
-h2 {
-    color: white;
-    text-align: left;
-    font-size: 25px;
-    margin-bottom: 1rem;
-    line-height: 1.2;
-}
 
 a {
     cursor: pointer;
     color: blue;
     text-decoration: underline;
+}
+
+.share-icon {
+    cursor: pointer;
+    margin-right: 10px;
+    border: none;
+    width: 32px;
+    height: 32px;
+    transition: all ease-in-out 0.2s;
+    cursor: pointer;
+    right: 0;
+}
+
+.share-icon:hover {
+    border: 1px solid #888;
+    background-color: #ddd;
 }
 
 .name-banner {
@@ -379,4 +390,7 @@ a {
     height: 75vh;
     width: 100vw !important;
 }
-</style>
+
+.v-tooltip :deep(.v-overlay__content) {
+    background-color: black !important;
+}</style>

@@ -23,6 +23,7 @@ const constructUser = function (row)
         isActive: row.is_active,
         isAdmin: row.is_admin,
         isNewUser: row.is_new_user,
+        createdDate: row.created_date,
         hadLostPassword: row.had_lost_password,
         passwordLostTimeout: row.password_lost_timeout,
     }
