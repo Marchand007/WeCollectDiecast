@@ -1,7 +1,7 @@
 <template>
   <div class="login">
 
-    <h2>Se connecter</h2>
+    <h1>Se connecter</h1>
     <p class="error-message">{{ errorMessage }}</p>
     <v-form @submit.prevent="loginWithUsername" validate-on="blur" ref="loginForm">
       <v-row no-gutters>

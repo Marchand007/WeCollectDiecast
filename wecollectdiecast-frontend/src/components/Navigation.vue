@@ -1,5 +1,6 @@
 <template>
-    <v-app-bar class="pointer-logo ma-0" app prominent dense dark color="black" style="border-bottom: 2px solid #D4AF37; width:100vw">
+    <v-app-bar class="pointer-logo ma-0" app prominent dense dark color="black"
+        style="border-bottom: 2px solid #D4AF37; width:100vw">
         <!-- <v-app-bar-nav-icon :icon="drawer ? 'mdi-close' : 'mdi-menu'" color="red" @click.stop="drawer = !drawer">
         </v-app-bar-nav-icon> -->
         <img @click="$router.push('/')" class="mr-5" height="50" aspect-ratio="0" src="@/assets/FullLogoNoBG.png" />
@@ -15,10 +16,28 @@
         <v-spacer>
         </v-spacer>
         <span v-if="!userSession.user">
-            <v-btn @click="openLoginSection" color="white" flat>
-                <span>Se connecter</span>
-                <span><v-icon>mdi-login</v-icon></span>
-            </v-btn>
+            <v-row class="ma-0" no-gutters>
+                <v-col>
+                    <v-btn v-show="display.mdAndUp.value" @click="openLoginSection" color="white">
+                        Se connecter
+                    </v-btn>
+                </v-col>
+                <v-col>
+                    <v-btn v-show="display.smAndDown.value" class="mr-5" @click="openLoginSection" width="100%" height="100%" :icon="'mdi-login-variant'"></v-btn>
+                </v-col>
+            </v-row>
+        </span>
+        <span v-if="!userSession.user">
+            <v-row class="ma-0" no-gutters>
+                <v-col>
+                    <v-btn v-show="display.mdAndUp.value" @click="openCreateAccountSection" color="white">
+                        Creer un compte
+                    </v-btn>
+                </v-col>
+                <v-col>
+                    <v-btn v-show="display.smAndDown.value" class="mr-5" @click="openCreateAccountSection" width="100%" height="100%" :icon="'mdi-new-box'"></v-btn>
+                </v-col>
+            </v-row>
         </span>
         <div v-else>
 
@@ -29,7 +48,7 @@
             <span v-show="display.smAndDown.value" style="color:white; text-align: center;">
                 {{ userSession.user.username }}
             </span>
-            <v-menu :menu-props="{ dark: true, color: $vuetify.theme.themes.dark.primary}" >
+            <v-menu :menu-props="{ dark: true, color: $vuetify.theme.themes.dark.primary }">
                 <template v-slot:activator="{ props }">
                     <v-btn v-bind="props" color="white">
                         <p v-show="display.mdAndUp.value">Mon compte </p>
@@ -46,17 +65,20 @@
                     <br />
                     <v-divider thickness="2"></v-divider>
                     <br />
-                    
+
                     <v-list-item>
-                            <v-list-item-title @click="resetUserSession">Se deconnecter</v-list-item-title>
-                        </v-list-item> 
-                        
+                        <v-list-item-title @click="disconnect">Se deconnecter</v-list-item-title>
+                    </v-list-item>
+
                 </v-list>
             </v-menu>
         </div>
     </v-app-bar>
     <v-dialog v-model="showLoginSection" class="animate__animated animate__bounceIn" scrollable persistent>
         <LoginForm></LoginForm>
+    </v-dialog>
+    <v-dialog v-model="showNewUserSection" class="animate__animated animate__bounceIn" scrollable persistent>
+        <NewUserForm></NewUserForm>
     </v-dialog>
 </template>
 
@@ -65,9 +87,10 @@ import { useDisplay } from 'vuetify'
 import { RouterLink } from 'vue-router';
 import userSession from '../session/UserSession.js'
 import LoginForm from '../components/LoginForm.vue'
+import NewUserForm from '../components/NewUserForm.vue'
 export default {
     components: {
-        RouterLink, LoginForm
+        RouterLink, LoginForm, NewUserForm
     },
     inject: ['dialogIsOpen'],
     data()
@@ -77,13 +100,15 @@ export default {
             drawer: false,
             showAdminSection: false,
             showSpecialistSection: false,
-            showLoginSection: false
+            showLoginSection: false,
+            showNewUserSection: false,
         };
     },
     computed: {
         accountUrl()
         {
-            return "/user?u=" + this.userSession.user.username;
+            if (this.userSession.user && this.userSession.user.username) return "/user?u=" + this.userSession.user.username;
+            return "/"
         },
         isMobile()
         {
@@ -94,7 +119,6 @@ export default {
         disconnect()
         {
             this.userSession.disconnect();
-            console.log("disconnect")
             this.$router.push('/')
         },
         openLoginSection()
@@ -107,6 +131,16 @@ export default {
             this.dialogIsOpen(false);
             this.showLoginSection = false
         },
+        openCreateAccountSection()
+        {
+            this.dialogIsOpen(true);
+            this.showNewUserSection = true
+        },
+        closeCreateAccountSection()
+        {
+            this.dialogIsOpen(false);
+            this.showNewUserSection = false
+        },
         resetUserSession()
         {
             this.userSession.user = null
@@ -116,7 +150,8 @@ export default {
     provide()
     {
         return {
-            closeLoginSection: this.closeLoginSection
+            closeLoginSection: this.closeLoginSection,
+            closeCreateAccountSection: this.closeCreateAccountSection
         }
     },
     setup()
@@ -125,8 +160,8 @@ export default {
         return { display }
     },
     mounted()
-    {   
-        //console.log("mounted",this.display.smAndDown.value)
+    {
+
     }
 }
 </script>
@@ -136,6 +171,18 @@ export default {
     cursor: pointer;
     flex-shrink: 0;
 }
+
+/* span>.v-btn {
+    color: white !important;
+    background-color: red !important;
+
+}
+
+.v-btn {
+    color: white !important;
+    background-color: green !important;
+
+} */
 
 .v-app-bar {
     box-shadow: rgba(138, 103, 9, 0.9) 0 0 70px 5px;
@@ -175,12 +222,13 @@ a:hover {
 .v-list-item-title:hover {
     color: white;
 }
+
 .v-list-item:hover {
-    color : white;
-    background-color: rgba(0,0,0,0.1);
+    color: white;
+    background-color: rgba(0, 0, 0, 0.1);
 }
+
 .v-list {
     background-color: rgba(138, 103, 9, 1) !important;
 
-}
-</style>
+}</style>

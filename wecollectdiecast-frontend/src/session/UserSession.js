@@ -11,22 +11,22 @@ class AuthError extends Error
 
 const userSession = reactive({
     user: null,
-    userEmail: null,
+    userUsername: null,
     password: null,
     isReady: false,
 
     initialize()
     {
 
-        if (sessionStorage.userEmail)
+        if (sessionStorage.userUsername)
         {
-            this.userEmail = sessionStorage.userEmail;
+            this.userUsername = sessionStorage.userUsername;
         }
         if (sessionStorage.password)
         {
             this.password = sessionStorage.password;
         }
-        if (this.user == null && this.userEmail != null)
+        if (this.user == null && this.userUsername != null)
         {
             this.fetchuser().catch(err =>
             {
@@ -34,27 +34,27 @@ const userSession = reactive({
                 console.error("L'authentification initiale a échouée: ", err)
             });
         }
-        if (!sessionStorage.userEmail && !sessionStorage.password)
+        if (!sessionStorage.userUsername && !sessionStorage.password)
         {
             this.isReady = true;
         }
     },
-    login(userEmail, password)
+    login(userUsername, password)
     {
-        this.setCredentials(userEmail, password);
+        this.setCredentials(userUsername, password);
         return this.fetchuser();
     },
-    setCredentials(userEmail, password)
+    setCredentials(userUsername, password)
     {
-        this.userEmail = userEmail;
-        sessionStorage.userEmail = userEmail;
+        this.userUsername = userUsername;
+        sessionStorage.userUsername = userUsername;
         this.password = password;
         sessionStorage.password = password;
     },
     clearCredentials()
     {
-        this.userEmail = null;
-        sessionStorage.removeItem('userEmail');
+        this.userUsername = null;
+        sessionStorage.removeItem('userUsername');
         this.password = null;
         sessionStorage.removeItem('password');
         sessionStorage.removeItem('user');
@@ -84,12 +84,11 @@ const userSession = reactive({
             return user;
         } else
         {
-            console.log("ici23")
             this.user = null;
             this.isReady = true;
             if (response.status === 401)
             {
-                throw new AuthError(response.status, "Courriel ou mot de passe incorrect");
+                throw new AuthError(response.status, "Nom d'utilisateur ou mot de passe incorrect");
             } else if (response.status === 403)
             {
                 throw new AuthError(response.status, "Votre compte est désactivé, veuillez nous contacter pour plus d'informations");
@@ -102,10 +101,10 @@ const userSession = reactive({
     },
     getAuthHeaders()
     {
-        if (this.userEmail)
+        if (this.userUsername)
         {
             return {
-                "Authorization": "Basic " + btoa(this.userEmail + ":" + this.password),
+                "Authorization": "Basic " + btoa(this.userUsername + ":" + this.password),
                 "X-Requested-With": "XMLHttpRequest"
             };
         } else

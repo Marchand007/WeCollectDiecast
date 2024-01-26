@@ -275,7 +275,6 @@ export default {
         phoneNumberValidation: value => validPhoneNumber.test(value) || 'Le champ numéro de téléphone ne respecte pas les critères d\'acceptation. (format: xxx-xxx-xxxx)',
         emailValidation: value =>
         {
-          console.log("value", value)
           if (value) return validEmail.test(value) || "Format du courriel invalide"
           else return true
         },
