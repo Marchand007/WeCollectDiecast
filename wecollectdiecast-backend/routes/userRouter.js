@@ -197,7 +197,7 @@ router.post("/",
                 const passwordHashBase64 = derivedKey.toString("base64");
 
                 const userAccountWithPasswordHash = await userQueries.insertUser(newUser, passwordHashBase64, passwordSalt);
-                sendEmailNewAccount(userAccountWithPasswordHash.email, userAccountWithPasswordHash.fullName, password)
+                //sendEmailNewAccount(userAccountWithPasswordHash.email, userAccountWithPasswordHash.fullName, password)
                 res.json(userAccountWithPasswordHash);
             });
         }

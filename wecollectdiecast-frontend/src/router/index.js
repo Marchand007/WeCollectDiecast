@@ -26,7 +26,7 @@ const router = createRouter({
           next('/');
         }
       }
-    }
+    },
   ],
   scrollBehavior(to, from, savedPosition)
   {

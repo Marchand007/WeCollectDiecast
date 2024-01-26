@@ -22,6 +22,7 @@ const constructUser = function (row)
         wantNewsletter: row.want_newsletter,
         isActive: row.is_active,
         isAdmin: row.is_admin,
+        createdDate: row.created_date,
         isNewUser: row.is_new_user,
         createdDate: row.created_date,
         hadLostPassword: row.had_lost_password,
@@ -67,7 +68,6 @@ const login = async (username) =>
     return undefined;
 };
 exports.login = login;
-
 
 const getUserList = async (order) =>
 {

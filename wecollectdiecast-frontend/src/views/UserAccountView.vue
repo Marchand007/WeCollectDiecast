@@ -245,7 +245,6 @@ export default {
                 this.user = user;
                 this.userToEdit = cloneDeep(this.user);
                 this.user.rating = 4.5;
-                console.log(this.user);
                 const luxonDate = DateTime.fromISO(this.user.createdDate);
                 this.user.createdDate = luxonDate.toLocaleString(DateTime.DATE_MED);
             }).catch(err =>
@@ -393,4 +392,5 @@ a {
 
 .v-tooltip :deep(.v-overlay__content) {
     background-color: black !important;
-}</style>
+}
+</style>

@@ -21,7 +21,7 @@ async function createServiceError(response) {
 }
 
 export async function getUserList(option) {
-    const response = await fetch(`/api/user/${option}`, {
+    const response = await fetch(`https://wcd-api-7fcyt.ondigitalocean.app/api/user/${option}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -38,7 +38,7 @@ export async function getUserList(option) {
 }
 
 export async function getUserBy(option, value) {
-    const response = await fetch(`/api/user/${option}/${value}`, {
+    const response = await fetch(`https://wcd-api-7fcyt.ondigitalocean.app/api/user/${option}/${value}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -53,7 +53,7 @@ export async function getUserBy(option, value) {
 }
 
 export async function createUser(user) {
-    const response = await fetch(`/api/user`, {
+    const response = await fetch(`https://wcd-api-7fcyt.ondigitalocean.app/api/user`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -70,7 +70,7 @@ export async function createUser(user) {
 }
 
 export async function updateUser(user) {
-    const response = await fetch(`/api/user`, {
+    const response = await fetch(`https://wcd-api-7fcyt.ondigitalocean.app/api/user`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
@@ -88,7 +88,7 @@ export async function updateUser(user) {
 }
 
 export async function updateUserByAdmin(user) {
-    const response = await fetch(`/api/user/admin`, {
+    const response = await fetch(`https://wcd-api-7fcyt.ondigitalocean.app/api/user/admin`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
@@ -107,7 +107,7 @@ export async function updateUserByAdmin(user) {
 
 export async function changeUserPassword(userId, newPassword)
 {
-    const response = await fetch(`/api/user/newPassword/${userId}`, {
+    const response = await fetch(`https://wcd-api-7fcyt.ondigitalocean.app/api/user/newPassword/${userId}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",

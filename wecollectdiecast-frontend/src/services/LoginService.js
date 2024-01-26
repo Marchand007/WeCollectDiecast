@@ -21,7 +21,7 @@ async function createServiceError(response) {
 }
 
 export async function resetPassword(email) {
-    const response = await fetch(`/api/login/lostpassword`, {
+    const response = await fetch(`https://wcd-api-7fcyt.ondigitalocean.app/api/login/lostpassword`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
