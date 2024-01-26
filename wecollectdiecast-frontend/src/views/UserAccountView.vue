@@ -48,25 +48,25 @@
                     </v-icon>
                     Le contacter
                 </v-tab>
-                <v-tab v-if="userSession.user" selected-class="active-tab" value="editinformations">
+                <v-tab v-if="userSession.user && userSession.user.username == user.username" selected-class="active-tab" value="editinformations">
                     <v-icon start>
                         mdi-pencil
                     </v-icon>
                     <span style="font-size:x-small">Modifier mes informations</span>
                 </v-tab>
-                <v-tab v-if="userSession.user" selected-class="active-tab" value="additem">
+                <v-tab v-if="userSession.user && userSession.user.username == user.username" selected-class="active-tab" value="additem">
                     <v-icon start>
                         mdi-plus
                     </v-icon>
                     <span style="font-size:x-small">Ajouter un item</span>
                 </v-tab>
-                <v-tab v-if="userSession.user" selected-class="active-tab" value="managecollection">
+                <v-tab v-if="userSession.user && userSession.user.username == user.username" selected-class="active-tab" value="managecollection">
                     <v-icon start>
                         mdi-chart-timeline
                     </v-icon>
                     <span style="font-size:x-small">Gerer sa collection</span>
                 </v-tab>
-                <v-tab v-if="userSession.user" selected-class="active-tab" value="option-x">
+                <v-tab v-if="userSession.user && userSession.user.username == user.username" selected-class="active-tab" value="option-x">
                     <v-icon start>
                         mdi-radioactive
                     </v-icon>

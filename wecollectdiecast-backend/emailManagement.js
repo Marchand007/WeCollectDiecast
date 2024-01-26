@@ -2,20 +2,20 @@ const nodemailer = require("nodemailer");
 
 
 const transporter = nodemailer.createTransport({
-    host: "smtp.titan.email",
-    port: 465,
+    host: process.env.EMAIL_HOST,
+    port: process.env.EMAIL_PORT,
     secure: true,
     auth: {
-        user: "brigade@eimemanagement.com",
-        pass: "Brigade123!",
+        user: process.env.EMAIL_EMAIL,
+        pass: process.env.EMAIL_PASSWORD,
     },
 });
 
 function sendNewsletterEmail(recipients, subjet, text, html)
 {
     const mailOptions = {
-        from: "brigade@eimemanagement.com",
-        to: "brigade@eimemanagement.com",
+        from: process.env.EMAIL_EMAIL,
+        to: process.env.EMAIL_EMAIL,
         bcc: recipients.join(", "),
         subject: subjet,
         text: text, // Corps du courriel en texte brut
@@ -41,8 +41,8 @@ function sendEmail(contactEmail, subject, text, html)
     return new Promise((resolve, reject) =>
     {
         const mailOptions = {
-            from: "brigade@eimemanagement.com",
-            to: "brigade@eimemanagement.com",
+            from: process.env.EMAIL_EMAIL,
+            to: process.env.EMAIL_EMAIL,
             replyTo: contactEmail,
             subject: subject,
             text: text, // Corps du courriel en texte brut
@@ -68,7 +68,7 @@ function sendEmailToUser(recipient, subject, text, html)
     return new Promise((resolve, reject) =>
     {
         const mailOptions = {
-            from: "brigade@eimemanagement.com",
+            from: process.env.EMAIL_EMAIL,
             to: recipient,
             subject: subject,
             text: text, // Corps du courriel en texte brut
@@ -94,7 +94,7 @@ function sendEmailToUser(recipient, subject, text, html)
 function sendAppointementEmail(recipient, subjet, text, html)
 {
     const mailOptions = {
-        from: "brigade@eimemanagement.com",
+        from: process.env.EMAIL_EMAIL,
         to: recipient,
         subject: subjet,
         text: text, // Corps du courriel en texte brut
