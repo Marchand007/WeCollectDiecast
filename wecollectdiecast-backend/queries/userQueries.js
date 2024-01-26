@@ -68,7 +68,6 @@ const login = async (username) =>
 };
 exports.login = login;
 
-
 const getUserList = async (order) =>
 {
     if (!order) order = "username";
