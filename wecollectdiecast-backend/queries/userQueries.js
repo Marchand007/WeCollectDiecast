@@ -22,6 +22,7 @@ const constructUser = function (row)
         wantNewsletter: row.want_newsletter,
         isActive: row.is_active,
         isAdmin: row.is_admin,
+        createdDate: row.created_date,
         isNewUser: row.is_new_user,
         hadLostPassword: row.had_lost_password,
         passwordLostTimeout: row.password_lost_timeout,

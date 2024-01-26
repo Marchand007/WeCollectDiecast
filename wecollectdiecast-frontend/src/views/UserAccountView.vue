@@ -7,13 +7,22 @@
                 readonly></v-rating>
             <span> )</span>
         </p>
+        <v-spacer></v-spacer>
+        <v-tooltip :text="shareTooltipText">
+            <template v-slot:activator="{ props }">
+                <v-icon @click="copyLinkToClipboard" v-bind="props">
+                    mdi-share
+                </v-icon>
+            </template>
+        </v-tooltip>
     </v-row>
 
     <v-icon v-if="display.smAndDown.value" @click="showMenu = !showMenu" color="white" size="40"
         :icon="showMenu ? 'mdi-close' : 'mdi-menu'"> </v-icon>
 
     <div :class="display.smAndDown.value ? 'd-flex flex-row ma-0 pa-0' : 'd-flex flex-column ma-0 pa-0'">
-        <v-tabs v-show="showMenu || display.mdAndUp.value == true" v-model="tab" :direction="display.smAndDown.value ? 'vertical' : 'horizontal'">
+        <v-tabs v-show="showMenu || display.mdAndUp.value == true" v-model="tab"
+            :direction="display.smAndDown.value ? 'vertical' : 'horizontal'">
             <v-tab selected-class="active-tab" value="userinformations">
                 <v-icon start>
                     mdi-account
@@ -26,6 +35,12 @@
                 </v-icon>
                 Collection
             </v-tab>
+            <v-tab selected-class="active-tab" value="userwishlist">
+                <v-icon start>
+                    mdi-heart
+                </v-icon>
+                Wishlist
+            </v-tab>
             <v-tab selected-class="active-tab" value="contactuser">
                 <v-icon start>
                     mdi-email
@@ -34,25 +49,25 @@
             </v-tab>
             <v-tab v-if="userSession.user" selected-class="active-tab" value="editinformations">
                 <v-icon start>
-                    mdi-email
+                    mdi-pencil
                 </v-icon>
-                <p style="font-size:x-small">Modifier mes informations</p>
+                <span style="font-size:x-small">Modifier mes informations</span>
             </v-tab>
             <v-tab v-if="userSession.user" selected-class="active-tab" value="additem">
                 <v-icon start>
-                    mdi-email
+                    mdi-plus
                 </v-icon>
                 <span style="font-size:x-small">Ajouter un item</span>
             </v-tab>
             <v-tab v-if="userSession.user" selected-class="active-tab" value="managecollection">
                 <v-icon start>
-                    mdi-email
+                    mdi-chart-timeline
                 </v-icon>
                 <span style="font-size:x-small">Gerer sa collection</span>
             </v-tab>
             <v-tab v-if="userSession.user" selected-class="active-tab" value="option-x">
                 <v-icon start>
-                    mdi-email
+                    mdi-radioactive
                 </v-icon>
                 <span style="font-size:x-small">Un autre options</span>
             </v-tab>
@@ -60,7 +75,7 @@
         </v-tabs>
         <v-window v-model="tab">
             <v-window-item value="userinformations">
-                <v-card elevation="0" flat>
+                <!-- <v-card elevation="0" flat>
                     <v-card-text >
                         <h2>Informations de l'utilisateur</h2>
                         <p> Prénom: {{ user.firstName }} </p>
@@ -70,14 +85,22 @@
                         <p v-if="user.country">Pays: {{ user.country }} </p>
                         <p>Membre depuis: {{ user.createdDate }} </p>
                     </v-card-text>
+                </v-card> -->
+                <UserInfo :user="user"> </UserInfo>
+            </v-window-item>
+            <v-window-item value="usercollection">
+                <v-card elevation="0" flat>
+                    <v-card-text>
+                        <h2>Collection</h2>
+                    </v-card-text>
                 </v-card>
             </v-window-item>
-            <v-window-item  value="usercollection">
+            <v-window-item value="userwishlist">
                 <v-card elevation="0" flat>
-                        <v-card-text>
-                            <h2>Collection</h2>
-                        </v-card-text>
-                    </v-card>
+                    <v-card-text>
+                        <h2>Wishlist</h2>
+                    </v-card-text>
+                </v-card>
             </v-window-item>
             <v-window-item value="contactuser">
                 <v-card elevation="0" flat>
@@ -185,6 +208,9 @@
             </span>
         </v-window>
     </div>
+    <v-snackbar v-model="snackbarShare" :timeout="2000">
+        Lien copié dans le presse-papier
+    </v-snackbar>
 </template>
 
 <script>
@@ -245,6 +271,8 @@ export default {
             pathclose: mdiCloseOutline,
             errorMessage: "",
             showMenu: true,
+            shareTooltipText: 'Cliquez ici pour copier le lien de la page dans votre presse-papier',
+            snackbarShare: false,
         };
     },
     methods: {
@@ -255,12 +283,19 @@ export default {
                 this.user = user;
                 this.userToEdit = cloneDeep(this.user);
                 this.user.rating = 4.5;
-                this.user.createdDate = DateTime.now().toLocaleString(DateTime.DATE_MED);
+                const luxonDate = DateTime.fromISO(this.user.createdDate);
+                this.user.createdDate = luxonDate.toLocaleString(DateTime.DATE_MED);
             }).catch(err =>
             {
                 console.error(err);
             })
         },
+        copyLinkToClipboard()
+        {
+            this.snackbarShare = true;
+            const link = "www.wecollectdiecast.com/user/" + this.user.username;
+            navigator.clipboard.writeText(link);
+        }
     },
     watch: {
         tab()
@@ -318,18 +353,27 @@ h1 {
     text-align: center;
 }
 
-h2 {
-    color: white;
-    text-align: left;
-    font-size: 25px;
-    margin-bottom: 1rem;
-    line-height: 1.2;
-}
 
 a {
     cursor: pointer;
     color: blue;
     text-decoration: underline;
+}
+
+.share-icon {
+    cursor: pointer;
+    margin-right: 10px;
+    border: none;
+    width: 32px;
+    height: 32px;
+    transition: all ease-in-out 0.2s;
+    cursor: pointer;
+    right: 0;
+}
+
+.share-icon:hover {
+    border: 1px solid #888;
+    background-color: #ddd;
 }
 
 .name-banner {
@@ -378,5 +422,9 @@ a {
     color: white;
     height: 75vh;
     width: 100vw !important;
+}
+
+.v-tooltip :deep(.v-overlay__content) {
+    background-color: black !important;
 }
 </style>

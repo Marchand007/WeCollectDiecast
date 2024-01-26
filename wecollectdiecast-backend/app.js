@@ -1,5 +1,6 @@
 
 const express = require('express');
+const cors = require('cors');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
@@ -18,6 +19,10 @@ const userQueries = require("./queries/userQueries");
 const app = express();
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
+
+app.use(cors({
+  origin: 'https://www.wecollectdiecast.ca'
+}));
 
 app.use(logger('dev'));
 app.use(express.json());

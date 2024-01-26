@@ -1,7 +1,22 @@
 <template>
-    <v-row class="justify-center">
-
-    </v-row>
+    <v-card elevation="0" flat>
+        <v-card-text>
+            <h2>Informations de l'utilisateur</h2>
+        <v-row>
+        <v-col cols="4">
+            <p> Prénom: {{ user.firstName }} </p>
+            <p> Nom de famille: {{ user.lastName }} </p>
+            <p v-if="user.city"> Ville: {{ user.city }} </p>
+            <p v-if="user.state"> Province: {{ user.state }} </p>
+            <p v-if="user.country">Pays: {{ user.country }} </p>
+            <p>Membre depuis: {{ user.createdDate }} </p>
+        </v-col>
+        <v-col cols="4">
+            <p> Nombre de diecast dans sa collection: 0 </p>
+        </v-col>
+        </v-row>
+        </v-card-text>
+    </v-card>
 </template>
 
 <script>
@@ -12,8 +27,10 @@ import userSession from '../session/UserSession';
 
 export default {
     props: {
-        clientId: Number,
-        editMode: Boolean
+        user: {
+            type: Object,
+            required: true
+        }
     },
     components: {
         SvgIcon
@@ -25,13 +42,13 @@ export default {
         };
     },
     methods: {
-       
+
     },
     watch: {
-       
+
     },
     computed: {
-       
+
     },
 
 }
