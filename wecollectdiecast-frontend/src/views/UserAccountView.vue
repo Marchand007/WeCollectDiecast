@@ -1,26 +1,25 @@
 <template>
     <span v-if="user.username">
-        <v-row class="name-banner ma-0 align-center">
-            <p class="d-flex align-center">
-                <span>{{ user.username }}&nbsp;</span>
-                <span>( </span>
-                <v-rating size="small" v-model="user.rating" color="black" density="compact" half-increments
-                    readonly></v-rating>
-                <span> )</span>
-            </p>
-            <v-spacer></v-spacer>
-            <v-tooltip :text="shareTooltipText">
-                <template v-slot:activator="{ props }">
-                    <v-icon @click="copyLinkToClipboard" v-bind="props">
-                        mdi-share
-                    </v-icon>
-                </template>
-            </v-tooltip>
-        </v-row>
 
+    <v-row class="name-banner ma-0 align-center">
+        <p class="d-flex align-center">
+            <span>{{ user.username }}&nbsp;</span>
+            <span>( </span>
+            <v-rating size="small" v-model="user.rating" color="black" density="compact" half-increments
+                readonly></v-rating>
+            <span> )</span>
+        </p>
+        <v-spacer></v-spacer>
+        <v-tooltip :text="shareTooltipText">
+            <template v-slot:activator="{ props }">
+                <v-icon @click="copyLinkToClipboard" v-bind="props">
+                    mdi-share
+                </v-icon>
+            </template>
+        </v-tooltip>
+    </v-row>
         <v-icon v-if="display.smAndDown.value" @click="showMenu = !showMenu" color="white" size="40"
             :icon="showMenu ? 'mdi-close' : 'mdi-menu'"> </v-icon>
-
         <div :class="display.smAndDown.value ? 'd-flex flex-row ma-0 pa-0' : 'd-flex flex-column ma-0 pa-0'">
             <v-tabs v-show="showMenu || display.mdAndUp.value == true" v-model="tab"
                 :direction="display.smAndDown.value ? 'vertical' : 'horizontal'">
@@ -72,7 +71,6 @@
                     </v-icon>
                     <span style="font-size:x-small">Un autre options</span>
                 </v-tab>
-
             </v-tabs>
             <v-window v-model="tab">
                 <v-window-item value="userinformations">
@@ -87,7 +85,62 @@
                         <p>Membre depuis: {{ user.createdDate }} </p>
                     </v-card-text>
                 </v-card> -->
-                    <UserInfo :user="user"> </UserInfo>
+
+                <UserInfo :user="user"> </UserInfo>
+            </v-window-item>
+            <v-window-item value="usercollection">
+                <v-card elevation="0" flat>
+                    <v-card-text>
+                        <h2>Collection</h2>
+                    </v-card-text>
+                </v-card>
+            </v-window-item>
+            <v-window-item value="userwishlist">
+                <v-card elevation="0" flat>
+                    <v-card-text>
+                        <h2>Wishlist</h2>
+                    </v-card-text>
+                </v-card>
+            </v-window-item>
+            <v-window-item value="contactuser">
+                <v-card elevation="0" flat>
+                    <v-card-text>
+                        <h2>Envoyez-lui un message!</h2>
+                        <p>
+                            Fusce a quam. Phasellus nec sem in justo pellentesque facilisis. Nam eget dui. Proin viverra,
+                            ligula sit amet ultrices semper, ligula arcu tristique sapien, a accumsan nisi mauris ac eros.
+                            In dui magna, posuere eget, vestibulum et, tempor auctor, justo.
+                        </p>
+
+                        <p class="mb-0">
+                            Cras sagittis. Phasellus nec sem in justo pellentesque facilisis. Proin sapien ipsum, porta a,
+                            auctor quis, euismod ut, mi. Donec quam felis, ultricies nec, pellentesque eu, pretium quis,
+                            sem. Nam at tortor in tellus interdum sagittis.
+                        </p>
+                    </v-card-text>
+                </v-card>
+            </v-window-item>
+            <span v-if="userSession.user">
+                <v-window-item value="editinformations">
+                    <v-card elevation="0" flat>
+                        <v-card-text>
+                            <h2>Modification de ses informations</h2>
+                            <p>
+                                Fusce a quam. Phasellus nec sem in justo pellentesque facilisis. Nam eget dui. Proin
+                                viverra,
+                                ligula sit amet ultrices semper, ligula arcu tristique sapien, a accumsan nisi mauris ac
+                                eros.
+                                In dui magna, posuere eget, vestibulum et, tempor auctor, justo.
+                            </p>
+
+                            <p class="mb-0">
+                                Cras sagittis. Phasellus nec sem in justo pellentesque facilisis. Proin sapien ipsum, porta
+                                a,
+                                auctor quis, euismod ut, mi. Donec quam felis, ultricies nec, pellentesque eu, pretium quis,
+                                sem. Nam at tortor in tellus interdum sagittis.
+                            </p>
+                        </v-card-text>
+                    </v-card>
                 </v-window-item>
                 <v-window-item value="usercollection">
                     <v-card elevation="0" flat>
@@ -172,6 +225,7 @@
             Lien copié dans le presse-papier
         </v-snackbar>
     </span>
+
 </template>
 
 <script>
@@ -242,10 +296,10 @@ export default {
             getUserBy("username", this.username).then(user =>
             {
 
+                
                 this.user = user;
                 this.userToEdit = cloneDeep(this.user);
                 this.user.rating = 4.5;
-                console.log(this.user);
                 const luxonDate = DateTime.fromISO(this.user.createdDate);
                 this.user.createdDate = luxonDate.toLocaleString(DateTime.DATE_MED);
             }).catch(err =>
@@ -393,4 +447,7 @@ a {
 
 .v-tooltip :deep(.v-overlay__content) {
     background-color: black !important;
-}</style>
+
+}
+</style>
+

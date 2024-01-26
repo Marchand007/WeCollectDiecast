@@ -64,6 +64,15 @@ p {
   font-family: 'Roboto', sans-serif;
   color: white
 }
+
+h2 {
+    color: white;
+    text-align: left;
+    font-size: 25px;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
 div {
   cursor: url('@/assets/favicon.ico'), auto;
 }
