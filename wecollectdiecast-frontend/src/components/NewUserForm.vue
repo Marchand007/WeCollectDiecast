@@ -86,6 +86,7 @@
 </template>
 
 <script>
+import userSession from '../session/UserSession.js'
 import { validEmail, validPassword } from '../../REGEX/REGEXfrontend.js';
 import { createUser } from '../services/UserService'
 
@@ -96,6 +97,7 @@ export default {
   data()
   {
     return {
+      userSession: this.userSession,
       user: {
         username: "",
         firstName: "",
@@ -142,6 +144,7 @@ export default {
 
       createUser(this.user).then(user =>
       {
+        console.log("user", user )
         if (user)
         {
           userSession.login(this.user.username, this.user.password)
