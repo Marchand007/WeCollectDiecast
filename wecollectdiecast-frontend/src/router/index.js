@@ -12,10 +12,20 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path: '/:username',
+      path: '/user',
       name: 'user',
       component: UserAccountView,
-      props: true
+      props: (route) => ({ username: route.query.u }),
+      beforeEnter: (to, from, next) =>
+      {
+        if (to.query.hasOwnProperty('u') && (to.query.u != '') && to.query.u != null)
+        {
+          next();
+        } else
+        {
+          next('/');
+        }
+      }
     }
   ],
   scrollBehavior(to, from, savedPosition)
