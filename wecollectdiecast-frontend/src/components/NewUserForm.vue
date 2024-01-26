@@ -172,7 +172,6 @@ export default {
       return !this.user.email
         || !validEmail.test(this.user.email)
         || !this.user.username
-        || this.user.username.length > 10
         || !this.user.firstName
         || !this.user.lastName
         || !this.user.password
