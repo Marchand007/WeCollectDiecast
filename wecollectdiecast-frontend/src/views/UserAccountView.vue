@@ -383,13 +383,20 @@ div {
 
 .v-tab {
     background-color: black;
-    border-top: 1px solid rgb(138, 103, 9);
+    border-bottom: 1px solid rgb(138, 103, 9);
     color: white;
 }
 
-.v-tab:last-of-type {
+@media (min-width: 960px) {
+    .v-tab {
+        border-right: 1px solid rgb(138, 103, 9);
+        border-left: 1px solid rgb(138, 103, 9);
+    }
+}
+
+.v-tab:first-of-type {
     background-color: black;
-    border-bottom: 1px solid rgb(138, 103, 9);
+    border-top: 1px solid rgb(138, 103, 9);
     color: white;
 }
 
