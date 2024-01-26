@@ -26,12 +26,12 @@ const router = createRouter({
           next('/');
         }
       }
-    }
+    },
   ],
-scrollBehavior(to, from, savedPosition)
-{
-  return { top: 0 };
-}
+  scrollBehavior(to, from, savedPosition)
+  {
+    return { top: 0 };
+  }
 })
 
 export default router
