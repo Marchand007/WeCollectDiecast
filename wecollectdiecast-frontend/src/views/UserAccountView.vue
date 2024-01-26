@@ -1,4 +1,5 @@
 <template>
+    <span v-if="user.username">
     <v-row class="name-banner ma-0 align-center">
         <p class="d-flex align-center">
             <span>{{ user.username }}&nbsp;</span>
@@ -208,9 +209,13 @@
             </span>
         </v-window>
     </div>
+<<<<<<< Updated upstream
     <v-snackbar v-model="snackbarShare" :timeout="2000">
         Lien copié dans le presse-papier
     </v-snackbar>
+=======
+</span>
+>>>>>>> Stashed changes
 </template>
 
 <script>
@@ -241,7 +246,7 @@ export default {
             user: {
                 firstName: "",
                 lastName: "",
-                username: "",
+                username: null,
                 email: "",
                 birthdate: "",
                 city: "",
@@ -280,6 +285,7 @@ export default {
         {
             getUserBy("username", this.username).then(user =>
             {
+                
                 this.user = user;
                 this.userToEdit = cloneDeep(this.user);
                 this.user.rating = 4.5;
@@ -288,6 +294,10 @@ export default {
             }).catch(err =>
             {
                 console.error(err);
+                if (err.status == 404)
+                {
+                    this.$router.push({ name: 'home' });
+                }
             })
         },
         copyLinkToClipboard()
