@@ -258,7 +258,7 @@ export default {
         copyLinkToClipboard()
         {
             this.snackbarShare = true;
-            const link = "www.wecollectdiecast.ca/user?=" + this.user.username;
+            const link = "www.wecollectdiecast.ca/user?u=" + this.user.username;
             navigator.clipboard.writeText(link);
         }
     },
