@@ -12,16 +12,16 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path: '/:username',
+      path: '/user',
       name: 'user',
       component: UserAccountView,
-      props: true
-    }
+      props: (route) => ({ username: route.query.u })
+    },
   ],
-  scrollBehavior(to, from, savedPosition)
-  {
-    return { top: 0 };
-  }
+scrollBehavior(to, from, savedPosition)
+{
+  return { top: 0 };
+}
 })
 
 export default router
