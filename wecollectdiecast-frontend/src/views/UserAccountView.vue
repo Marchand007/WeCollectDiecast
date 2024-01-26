@@ -72,7 +72,6 @@
                     </v-icon>
                     <span style="font-size:x-small">Un autre options</span>
                 </v-tab>
-
             </v-tabs>
             <v-window v-model="tab">
                 <v-window-item value="userinformations">
