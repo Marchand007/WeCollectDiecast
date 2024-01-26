@@ -9,7 +9,7 @@
             <v-col cols="2" class="text-right">
                 <v-tooltip right :text="shareTooltipText">
                     <template v-slot:activator="{ props }">
-                        <v-icon @click="copyLinkToClipboard" v-bind="props">
+                        <v-icon class="share-icon" @click="copyLinkToClipboard" v-bind="props">
                             mdi-share
                         </v-icon>
                     </template>
@@ -22,7 +22,8 @@
 
         <div :class="display.smAndDown.value ? 'd-flex flex-row ma-0 pa-0' : 'd-flex flex-column ma-0 pa-0'">
             <v-tabs v-show="showMenu || display.mdAndUp.value == true" v-model="tab"
-                :direction="display.smAndDown.value ? 'vertical' : 'horizontal'">
+                :direction="display.smAndDown.value ? 'vertical' : 'horizontal'" show-arrows center-active grow>
+
                 <v-tab selected-class="active-tab" value="userinformations">
                     <v-icon start>
                         mdi-account
@@ -73,9 +74,10 @@
                     <v-icon start>
                         mdi-radioactive
                     </v-icon>
-                    <span style="font-size:x-small">Un autre options</span>
+                    <span style="font-size:x-small">une autre option</span>
                 </v-tab>
             </v-tabs>
+            
             <v-window v-model="tab">
                 <v-window-item value="userinformations">
                     <!-- <v-card elevation="0" flat>
@@ -172,7 +174,7 @@
                     <v-window-item value="option-x">
                         <v-card elevation="0" flat>
                             <v-card-text>
-                                <h2>Un autre option a venir</h2>
+                                <h2>Une autre option a venir</h2>
                                 <p class="mb-2"> Plusieurs autres options seront à venir.</p>
                                 <p class="mb-2"> Il nous feras un plaisir de connaitre vos suggestions via un formulaire qui
                                     sera fait éventuellement.</p>
@@ -279,6 +281,10 @@ export default {
         }
     },
     watch: {
+        username()
+        {
+            this.loadUser();
+        },  
         tab()
         {
             if (this.display.smAndDown.value == true) this.showMenu = false;
@@ -348,19 +354,15 @@ div {
 
 .share-icon {
     cursor: pointer;
-    margin-right: 10px;
+    margin-right: 5px;
     border: none;
-    width: 32px;
-    height: 32px;
     transition: all ease-in-out 0.2s;
     cursor: pointer;
-    right: 0;
 }
-
 .share-icon:hover {
-    border: 1px solid #888;
-    background-color: #ddd;
-}
+    transform: scale(1.5);
+    color: black;
+} 
 
 .name-banner {
     background-color: rgb(138, 103, 9);
@@ -373,6 +375,8 @@ div {
 
 .v-tabs {
     background-color: black !important;
+    color: rgb(138, 103, 9) !important;
+    font-size: 150%;
 }
 
 @media (max-width: 960px) {
@@ -382,7 +386,7 @@ div {
 }
 
 .v-tab {
-    background-color: black;
+    background-color: #121212;
     border-bottom: 1px solid rgb(138, 103, 9);
     color: white;
 }
@@ -395,7 +399,6 @@ div {
 }
 
 .v-tab:first-of-type {
-    background-color: black;
     border-top: 1px solid rgb(138, 103, 9);
     color: white;
 }
@@ -406,18 +409,18 @@ div {
 }
 
 .active-tab {
-    background-color: rgb(138, 103, 9);
+    background-color: rgb(138, 103, 9) !important;
     color: white !important;
 }
 
 .active-tab:hover {
-    background-color: rgb(138, 103, 9);
+    background-color: rgb(138, 103, 9) !important;
     color: white !important;
 }
 
 
 .v-card {
-    background-color: black;
+    background-color: #121212;
     color: white;
     height: 75vh;
     width: 100vw !important;

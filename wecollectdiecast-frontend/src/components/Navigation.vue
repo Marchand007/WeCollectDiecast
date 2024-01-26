@@ -1,9 +1,9 @@
 <template>
-    <v-app-bar class="pointer-logo ma-0" app prominent dense dark color="black"
+    <v-app-bar class="pointer-logo ma-0" app prominent dense dark color="#121212"
         style="border-bottom: 2px solid #D4AF37; width:100vw">
         <!-- <v-app-bar-nav-icon :icon="drawer ? 'mdi-close' : 'mdi-menu'" color="red" @click.stop="drawer = !drawer">
         </v-app-bar-nav-icon> -->
-        <img @click="$router.push('/')" class="mr-5" height="50" aspect-ratio="0" src="@/assets/FullLogoNoBG.png" />
+        <img @click="$router.push('/')" class="mr-5 ml-2" height="50" aspect-ratio="0" src="@/assets/FullLogoNoBG.png" />
 
         <!-- <p v-if="!isMobile" class="menu-text" @click.stop="drawer = !drawer">MENU</p> -->
 

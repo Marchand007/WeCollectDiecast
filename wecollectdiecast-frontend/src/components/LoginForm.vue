@@ -12,8 +12,10 @@
         </v-col>
 
         <v-col cols="12">
-          <v-text-field class="mr-2" v-model="loginPassword" label="Mot de passe" type="password"
-            :rules="[rules.required]" density="compact" ref="passwordInput" clearable>
+          <v-text-field v-model="loginPassword" label="Mot de passe" :type="seePassword ? 'text' : 'password'" :rules="[rules.required]"
+            density="compact" ref="passwordInput"
+            :append-inner-icon="loginPassword ? seePassword ? 'mdi-eye-off' : 'mdi-eye' : null"
+            @click:append-inner="() => (seePassword = !seePassword)" >
           </v-text-field>
         </v-col>
 
@@ -48,7 +50,8 @@ export default {
       rules: {
         required: (value) => !!value || "Le champ est requis",
       },
-      errorMessage: ""
+      errorMessage: "",
+      seePassword: false,
     }
   },
   methods: {
@@ -62,6 +65,8 @@ export default {
         .then(user =>
         {
           this.closeLoginSection();
+          const userUrl = '/user?u=' + user.username;
+          this.$router.push(userUrl);
         })
         .catch(err =>
         {
@@ -83,7 +88,7 @@ export default {
 h2 {
   text-align: center;
 }
+
 .v-btn {
   font-size: 0.8rem;
-}
-</style>
+}</style>

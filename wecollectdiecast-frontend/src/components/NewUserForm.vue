@@ -6,36 +6,41 @@
     <v-form @submit.prevent="createUserAccount" validate-on="blur" ref="createUserForm">
       <v-row no-gutters>
         <v-col cols="12">
-          <v-text-field v-model="user.username" label="Nom d'utilisateur *" :rules="[rules.required]"
-            clearable autocomplete="null" density="compact">
+          <v-text-field v-model="user.username" label="Nom d'utilisateur *" :rules="[rules.required]" clearable
+            autocomplete="null" density="compact" required>
           </v-text-field>
         </v-col>
         <v-col cols="6">
           <v-text-field class="mr-2" v-model="user.firstName" label="Prénom *" :rules="[rules.required]" clearable
-            density="compact" autocomplete="given-name">
+            density="compact" autocomplete="given-name" required>
           </v-text-field>
         </v-col>
         <v-col cols="6">
           <v-text-field class="ml-2" v-model="user.lastName" label="Nom de famille *" :rules="[rules.required]" clearable
-            density="compact" autocomplete="family-name">
+            density="compact" autocomplete="family-name" required>
           </v-text-field>
         </v-col>
         <v-col cols="12">
           <v-text-field v-model="user.email" label="Adresse courriel *" :rules="[
             rules.required,
             rules.validEmail
-          ]" density="compact" clearable>
+          ]" density="compact" clearable required>
           </v-text-field>
         </v-col>
         <v-col cols="6">
-          <v-text-field class="mr-2" v-model="user.password" label="Mot de passe" type="password"
-            :rules="[rules.required, rules.validPassword]" density="compact" ref="passwordInput" clearable>
+          <v-text-field class="mr-2" v-model="user.password" label="Mot de passe"
+            :type="seePassword ? 'text' : 'password'"
+            :append-inner-icon="user.password ? seePassword ? 'mdi-eye-off' : 'mdi-eye' : null"
+            @click:append-inner="() => (seePassword = !seePassword)" :rules="[rules.required, rules.validPassword]"
+            density="compact" ref="passwordInput" required>
           </v-text-field>
         </v-col>
         <v-col cols="6">
           <v-text-field class="ml-2" v-model="user.passwordConfirmation" label="Confirmer le mot de passe"
-            :rules="[rules.required, rules.passwordsMatch]" type="password" density="compact" ref="passwordConfirmInput"
-            clearable>
+            :rules="[rules.required, rules.passwordsMatch]" :type="seePasswordConfirmation ? 'text' : 'password'"
+            @click:append-inner="() => (seePasswordConfirmation = !seePasswordConfirmation)"
+            :append-inner-icon="user.passwordConfirmation ? seePasswordConfirmation ? 'mdi-eye-off' : 'mdi-eye' : null"
+            density="compact" ref="passwordConfirmInput" required>
           </v-text-field>
         </v-col>
         <v-col cols="12">
@@ -121,7 +126,7 @@ export default {
           ;
           return (
             validPassword.test(value) ||
-            "Le mot de passe doit contenir au moins 8 caractères, 1 majuscule, 1 chiffre et 1 caractère spécial"
+            `Le mot de passe doit contenir: 8 caractères minimum, 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial`
           );
         },
         passwordsMatch: () =>
@@ -133,8 +138,11 @@ export default {
           return this.user.password === this.user.passwordConfirmation || "Les mots de passe ne correspondent pas";
         }
       },
+      
       errorMessage: "",
-      newUserAddedDialog: false
+      newUserAddedDialog: false,
+      seePassword: false,
+      seePasswordConfirmation: false,
     }
   },
   methods: {
@@ -144,18 +152,19 @@ export default {
 
       createUser(this.user).then(user =>
       {
-        console.log("user", user )
+        console.log("user", user)
         if (user)
         {
           userSession.login(this.user.username, this.user.password)
             .then(user =>
             {
-              if (user) {
-              this.newUserAddedDialog = true;
+              if (user)
+              {
+                this.newUserAddedDialog = true;
               } else
               {
                 throw new Error("Une erreur est survenue lors de la création de votre compte. Veuillez réessayer plus tard.");
-            }
+              }
             })
             .catch(err =>
             {
