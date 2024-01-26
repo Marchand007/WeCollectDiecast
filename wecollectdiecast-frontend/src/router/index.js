@@ -15,9 +15,6 @@ const router = createRouter({
       path: '/user',
       name: 'user',
       component: UserAccountView,
-<<<<<<< Updated upstream
-      props: (route) => ({ username: route.query.u })
-=======
       props: (route) => ({ username: route.query.u }),
       beforeEnter: (to, from, next) => {
         if (to.query.hasOwnProperty('u') && (to.query.u != '') && to.query.u != null) {
@@ -26,7 +23,6 @@ const router = createRouter({
           next('/');
         }
       }
->>>>>>> Stashed changes
     },
   ],
 scrollBehavior(to, from, savedPosition)

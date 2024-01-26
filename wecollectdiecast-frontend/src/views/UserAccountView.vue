@@ -209,13 +209,11 @@
             </span>
         </v-window>
     </div>
-<<<<<<< Updated upstream
     <v-snackbar v-model="snackbarShare" :timeout="2000">
         Lien copié dans le presse-papier
     </v-snackbar>
-=======
 </span>
->>>>>>> Stashed changes
+
 </template>
 
 <script>
