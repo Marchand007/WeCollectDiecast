@@ -52,6 +52,14 @@ export default {
 *::-webkit-scrollbar {
     display: none;
 }
+
+h2 {
+  text-align: left;
+  font-size: 1.5rem;
+  font-weight: 300;
+  margin-bottom: 1rem;
+}
+
 p {
   font-family: 'Roboto', sans-serif;
   color: white

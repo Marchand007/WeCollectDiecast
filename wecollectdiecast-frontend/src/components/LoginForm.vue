@@ -83,4 +83,7 @@ export default {
 h2 {
   text-align: center;
 }
+.v-btn {
+  font-size: 0.8rem;
+}
 </style>

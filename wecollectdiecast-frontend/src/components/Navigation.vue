@@ -83,7 +83,7 @@ export default {
     computed: {
         accountUrl()
         {
-            return "/" + this.userSession.user.username;
+            return "/user?u=" + this.userSession.user.username;
         },
         isMobile()
         {

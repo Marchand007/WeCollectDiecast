@@ -16,14 +16,17 @@ const router = createRouter({
       name: 'user',
       component: UserAccountView,
       props: (route) => ({ username: route.query.u }),
-      beforeEnter: (to, from, next) => {
-        if (to.query.hasOwnProperty('u') && (to.query.u != '') && to.query.u != null) {
+      beforeEnter: (to, from, next) =>
+      {
+        if (to.query.hasOwnProperty('u') && (to.query.u != '') && to.query.u != null)
+        {
           next();
-        } else {
+        } else
+        {
           next('/');
         }
       }
-    },
+    }
   ],
 scrollBehavior(to, from, savedPosition)
 {

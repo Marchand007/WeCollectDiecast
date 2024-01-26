@@ -24,6 +24,7 @@ const constructUser = function (row)
         isAdmin: row.is_admin,
         createdDate: row.created_date,
         isNewUser: row.is_new_user,
+        createdDate: row.created_date,
         hadLostPassword: row.had_lost_password,
         passwordLostTimeout: row.password_lost_timeout,
     }
