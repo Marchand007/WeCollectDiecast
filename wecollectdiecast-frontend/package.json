@@ -28,7 +28,8 @@
     "vue-cal": "^4.8.1",
     "vue-luxon": "^0.10.0",
     "vue-router": "^4.2.5",
-    "vuetify": "^3.4.2"
+    "vuetify": "^3.4.2",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@iconify/vue": "^4.1.1",

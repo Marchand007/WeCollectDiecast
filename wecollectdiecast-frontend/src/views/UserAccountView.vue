@@ -16,31 +16,35 @@
                 </v-tooltip>
             </v-col>
         </v-row>
+        <v-row v-if="userSession.user && userSession.user.username == user.username" class="ma-0">
+            <v-icon v-if="display.smAndDown.value" @click="showMenuUser = !showMenuUser" color="white" size="40"
+                    :icon="showMenuUser ? 'mdi-close' : 'mdi-menu'"> </v-icon>
+        </v-row>
+        <v-row v-else class="ma-0">
+                <v-icon v-if="display.smAndDown.value" @click="showMenu = !showMenu" color="white" size="40"
+                    :icon="showMenu ? 'mdi-close' : 'mdi-menu'"> </v-icon>
 
-        <v-icon v-if="display.smAndDown.value" @click="showMenu = !showMenu" color="white" size="40"
-            :icon="showMenu ? 'mdi-close' : 'mdi-menu'"> </v-icon>
-
+        </v-row>
         <div :class="display.smAndDown.value ? 'd-flex flex-row ma-0 pa-0' : 'd-flex flex-column ma-0 pa-0'">
-            <v-tabs v-show="showMenu || display.mdAndUp.value == true" v-model="tab"
-                :direction="display.smAndDown.value ? 'vertical' : 'horizontal'" show-arrows center-active grow>
-
+            <v-tabs v-if="shownedMenu" v-model="tab"
+                :direction="display.smAndDown.value ? 'vertical' : 'horizontal'" show-arrows center-active :grow="display.mdAndUp.value">
                 <v-tab selected-class="active-tab" value="userinformations">
                     <v-icon start>
                         mdi-account
                     </v-icon>
-                    Informations
+                    Son profil
                 </v-tab>
                 <v-tab selected-class="active-tab" value="usercollection">
                     <v-icon start>
                         mdi-car
                     </v-icon>
-                    Collection
+                Sa collection
                 </v-tab>
                 <v-tab selected-class="active-tab" value="userwishlist">
                     <v-icon start>
                         mdi-heart
                     </v-icon>
-                    Wishlist
+                    Sa wishlist
                 </v-tab>
                 <v-tab selected-class="active-tab" value="contactuser">
                     <v-icon start>
@@ -48,36 +52,34 @@
                     </v-icon>
                     Le contacter
                 </v-tab>
-                <v-tab v-if="userSession.user && userSession.user.username == user.username" selected-class="active-tab"
-                    value="editinformations">
+            </v-tabs>
+            <v-tabs v-if="shownedMenuUser" v-model="tab" :direction="display.smAndDown.value ? 'vertical' : 'horizontal'" show-arrows center-active :grow="display.mdAndUp.value">
+                <v-tab selected-class="active-tab" value="userinformations">
+                    <v-icon start>
+                        mdi-account
+                    </v-icon>
+                    Mon profil
+                </v-tab>
+                <v-tab selected-class="active-tab" value="editinformations">
                     <v-icon start>
                         mdi-pencil
                     </v-icon>
-                    <span style="font-size:x-small">Modifier mes informations</span>
+                    <span>Informations</span>
                 </v-tab>
-                <v-tab v-if="userSession.user && userSession.user.username == user.username" selected-class="active-tab"
-                    value="additem">
+                <v-tab selected-class="active-tab" value="additem">
                     <v-icon start>
                         mdi-plus
                     </v-icon>
-                    <span style="font-size:x-small">Ajouter un item</span>
+                    <span s>Item</span>
                 </v-tab>
-                <v-tab v-if="userSession.user && userSession.user.username == user.username" selected-class="active-tab"
-                    value="managecollection">
+                <v-tab selected-class="active-tab" value="managecollection">
                     <v-icon start>
                         mdi-chart-timeline
                     </v-icon>
-                    <span style="font-size:x-small">Gerer sa collection</span>
+                    <span>Gerer sa collection</span>
                 </v-tab>
-                <v-tab v-if="userSession.user && userSession.user.username == user.username" selected-class="active-tab"
-                    value="option-x">
-                    <v-icon start>
-                        mdi-radioactive
-                    </v-icon>
-                    <span style="font-size:x-small">une autre option</span>
-                </v-tab>
+
             </v-tabs>
-            
             <v-window v-model="tab">
                 <v-window-item value="userinformations">
                     <!-- <v-card elevation="0" flat>
@@ -93,6 +95,7 @@
                 </v-card> -->
                     <UserInfo :user="user"> </UserInfo>
                 </v-window-item>
+                <span v-if="!userSession.user || (userSession.user && userSession.user.username != user.username)">
                 <v-window-item value="usercollection">
                     <v-card elevation="0" flat>
                         <v-card-text>
@@ -129,7 +132,8 @@
                         </v-card-text>
                     </v-card>
                 </v-window-item>
-                <span v-if="userSession.user">
+                </span>
+                <span v-if="userSession.user && userSession.user.username == user.username">
                     <v-window-item value="editinformations">
                         <v-card elevation="0" flat>
                             <v-card-text>
@@ -248,6 +252,7 @@ export default {
             pathclose: mdiCloseOutline,
             errorMessage: "",
             showMenu: true,
+            showMenuUser: false,
             shareTooltipText: 'Cliquez ici pour copier le lien de la page dans votre presse-papier',
             snackbarShare: false,
         };
@@ -275,7 +280,7 @@ export default {
         copyLinkToClipboard()
         {
             this.shareTooltipText = 'Lien copié dans le presse-papier';
-            //this.snackbarShare = true;
+            if (this.display.mdAndDown.value) this.snackbarShare = true;
             const link = "www.wecollectdiecast.ca/user?u=" + this.user.username;
             navigator.clipboard.writeText(link);
         }
@@ -284,10 +289,11 @@ export default {
         username()
         {
             this.loadUser();
-        },  
+        },
         tab()
         {
             if (this.display.smAndDown.value == true) this.showMenu = false;
+            if (this.display.smAndDown.value == true) this.showMenuUser = false;
         },
         'userSession.user': {
             handler(newUser)
@@ -304,6 +310,22 @@ export default {
     {
         const display = useDisplay()
         return { display }
+    },
+    computed: {
+        shownedMenu()
+        {
+            if (!this.userSession.user) return this.showMenu;
+            if (this.userSession.user.username == this.user.username) return false;
+            if (this.display.smAndDown.value == true) return this.showMenu;
+            return true;
+        },
+        shownedMenuUser()
+        {
+            if (!this.userSession.user) return false;
+            if (this.userSession.user.username != this.user.username) return false;
+            if (this.display.smAndDown.value == true) return this.showMenuUser;
+            return true;
+        },
     },
     created()
     {
@@ -359,10 +381,11 @@ div {
     transition: all ease-in-out 0.2s;
     cursor: pointer;
 }
+
 .share-icon:hover {
     transform: scale(1.5);
     color: black;
-} 
+}
 
 .name-banner {
     background-color: rgb(138, 103, 9);
@@ -393,6 +416,7 @@ div {
 
 @media (min-width: 960px) {
     .v-tab {
+        border-top: 1px solid rgb(138, 103, 9);
         border-right: 1px solid rgb(138, 103, 9);
         border-left: 1px solid rgb(138, 103, 9);
     }

@@ -9,6 +9,15 @@ const { DateTime } = require("luxon");
 const { sendEmailToUser } = require("../emailManagement");
 
 
+
+router.get("/test",
+    //passport.authenticate('basic', { session: false }),
+    (req, res, next) =>
+    {
+        sendEmailLostPassword("m.marchand22@hotmail.com", "Mathieu", "123456789")
+    }
+);
+
 router.get("/all/:option",
     //passport.authenticate('basic', { session: false }),
     (req, res, next) =>
@@ -177,7 +186,7 @@ router.post("/",
                 wantNewsletter: req.body.wantNewsletter,
                 isAdmin: isAdmin,
                 isNewUser: true,
-                createdDate :DateTime.now().toString(),
+                createdDate: DateTime.now().toString(),
                 hadLostPassword: false,
                 passwordLostTimeout: null,
             };
@@ -446,9 +455,72 @@ router.put("/newpassword/:clientid",
     }
 );
 
-function sendEmailNewAccount(email, userFullName, password)
+router.post("/lostpassword",
+    async (req, res, next) =>
+    {
+        try
+        {
+            if (!req.body) return next(new HttpError(400, "Un body est requis"));
+            if (!req.body.email) return next(new HttpError(400, "Un champ email est requis "));
+            let user = await userQueries.getUserBy("email", req.body.email);
+            if (!user)
+            {
+                return res.status(404).json({ message: "Email invalide - utilisateur non trouvé" });
+            }
+            if (!user.isActive)
+            {
+                return res.status(403).json({ message: "Compte desactivé - Veuillez nous contacter pour plus d'informations" });
+            }
+            else
+            {
+                const timeoutToIso = DateTime.now().toISO();
+                const userInfos = {
+                    email: user.email,
+                    passwordLost: true,
+                    passwordLostTimeout: timeoutToIso
+                };
+
+                let password = generatePassword();
+
+                const saltBuf = crypto.randomBytes(16);
+                const passwordSalt = saltBuf.toString("base64");
+
+                crypto.pbkdf2(password, passwordSalt, 100000, 64, "sha512", async (err, derivedKey) =>
+                {
+                    if (err) return next(err);
+
+                    const passwordHashBase64 = derivedKey.toString("base64");
+
+                    try
+                    {
+                        let userUpdated = await userQueries.updateUserPassword(userInfos, passwordHashBase64, passwordSalt);
+                        let emailDone = sendEmailLostPassword(userUpdated.email, userUpdated.firstName, password);
+                        if (emailDone)
+                        {
+                            res.json(userUpdated);
+                        }
+                        else
+                        {
+                            return next(new HttpError(400, `Erreur dans l'envoie du courriel`));
+                        }
+
+                    } catch (err)
+                    {
+                        return next(err);
+                    }
+                });
+            }
+        }
+        catch (error)
+        {
+            next(error);
+        }
+    });
+
+
+function sendEmailLostPassword(email, userFirstName, password)
 {
-    let subject = "Nouveau compte chez Kinésens";
+    let subject = "Réinitialisation du mot de passe";
     const text = "";
     const html = `
       <style>
@@ -458,16 +530,34 @@ function sendEmailNewAccount(email, userFullName, password)
       </style>
         <div>
           <img
-            src="https://img1.wsimg.com/isteam/ip/6c474611-a729-46b3-8e6b-a971b551f3b1/logo2_20_22532.png/:/rs=w:200,h:200,cg:true,m/cr=w:200,h:200/qt=q:95" />
+            src="https://www.wecollectdiecast.ca/assets/FullLogoNoBG-95f6531e.png" alt="We Collect Diecast Logo" width="600px" />
+        </div>
+          <h1>Réinitialisation du mot de passe</h1>
+          <p>Bonjour ` + userFirstName + `,</p>
+          <p>Voici votre mot de passe temporaire : `+ password + `</p>
+          <a href="www.wecollectdiecast.ca">Veuillez vous connecter à l'application et changer votre mot de passe.</a>
+          <p>Pour votre sécurité, ce mot de passe n'est valide que pour les 15 prochaines minutes.</p>`
+    sendEmailToUser(email, subject, text, html);
+    return true
+};
+
+function sendEmailNewAccount(email, userFullName, password)
+{
+    let subject = "Nouveau compte chez We Collect Diecast";
+    const text = "";
+    const html = `
+      <style>
+      h1 { text-align: center; }
+      p { text-align: left; }
+      div { text-align: center; }
+      </style>
+        <div>
+          <img
+            src="https://www.wecollectdiecast.ca/assets/FullLogoNoBG-95f6531e.png" alt="We Collect Diecast Logo" width="600px" />
         </div>
           <h1>Nouveau compte</h1>
           <p>Bonjour ` + userFullName + `,</p>
-          <p>Un compte client a été créer pour vous de la part de l'un de nos spécialistes.</p>
-          <p>L'application vous permet de prendre des rendez-vous, de voir vos informations et aussi pouvoir annuler un rendez-vous.</p>
-          <p>Voici votre mot de passe temporaire : `+ password + `</p>
-          <a href="https://www.wecollectdiecast.ca/login"><p>Veuillez vous connecter à l'application et changer votre mot de passe.</p><a>
-          <p>Pour votre sécurité, ce mot de passe n'est valide que pour les 15 prochaines minutes. 
-          Il vous sera possible de redemander un nouveau mot de passe temporaire lors de votre première connexion si ce délai est passé</p>`
+          <p>Il nous fait plaisir de vous avoir comme utilisateur sur notre plateforme</p>`
     sendEmailToUser(email, subject, text, html);
     return true
 };
@@ -475,7 +565,7 @@ function sendEmailNewAccount(email, userFullName, password)
 function generatePassword()
 {
     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@$!%*?&';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$!%*?&';
     let password = '';
 
     while (!password.match(regex))

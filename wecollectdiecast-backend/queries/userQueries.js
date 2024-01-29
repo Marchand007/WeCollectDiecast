@@ -171,32 +171,17 @@ exports.insertUser = insertUser;
 const updateUserPassword = async (userInfos, passwordHash, passwordSalt, clientParam) =>
 {
     const result = await pool.query(
-        `INSERT INTO
-        "user"(
-            username,
-            first_name,
-            last_name,
-            email,
-            birthdate,
-            city,
-            state,
-            country,
-            want_newsletter,
-            is_active,
-            is_admin,
-            password_hash,
-            password_salt,
-            is_new_user,
-            had_lost_password,
-            password_lost_timeout
-        )
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
+        `UPDATE "user"
+        SET
+            password_hash = $2,
+            password_salt = $3,
+            had_lost_password = $4,
+            password_lost_timeout = $5
+        WHERE email = $1
         RETURNING *;`,
-        [userInfos.username, userInfos.firstName, userInfos.lastName, userInfos.email, userInfos.birthdate, userInfos.city, userInfos.state, userInfos.country,
-        userInfos.wantNewsletter, true, userInfos.isAdmin, passwordHash, passwordSalt, userInfos.isNewUser, false, userInfos.passwordLostTimeout]);
+        [userInfos.email, passwordHash, passwordSalt, true, userInfos.passwordLostTimeout]);
 
     const row = result.rows[0];
-
     if (row)
     {
         const user = constructUser(row);

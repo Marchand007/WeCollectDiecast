@@ -20,7 +20,7 @@ CREATE TABLE "user" (
   password_hash varchar(255) NOT NULL,
   password_salt varchar(255) NOT NULL,
   had_lost_password boolean NOT NULL,
-  password_lost_timeout date NULL,
+  password_lost_timeout timestamptz NULL,
   PRIMARY KEY (id)
 );
 
