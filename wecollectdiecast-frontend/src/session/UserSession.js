@@ -67,8 +67,8 @@ const userSession = reactive({
     },
     async fetchuser()
     {
-        const response = await fetch("https://wcd-api-7fcyt.ondigitalocean.app/api/login", {
-        //const response = await fetch("api/login", {
+        //const response = await fetch("https://wcd-api-7fcyt.ondigitalocean.app/api/login", {
+        const response = await fetch("api/login", {
             method: "GET",
             headers: {
                 ... this.getAuthHeaders()

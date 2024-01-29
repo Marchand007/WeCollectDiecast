@@ -1,24 +1,21 @@
 <template>
-  <div class="home-view ma-10">
-  <v-row class="ma-0 d-flex flex-column">
-    <v-row style="margin: 0px 15%">
-      <img class="w-100" src="@/assets/FullLogoNoBG.png" />
+  <div class="home-view">
+    <v-row class="ma-0 d-flex flex-column">
+      <v-row class="ma-0 justify-center">
+        <img class="logo" width="50%" src="@/assets/FullLogoNoBG.png" />
+      </v-row>
+      <v-row class="justify-center ma-0" no-gutters>
+        <p style="font-size: 24px; text-align: center; color:white">bientôt disponible</p>
+      </v-row>
+      <v-row class="justify-center mt-10" no-gutters>
+        <p style="font-size: 14px; text-align: left; color:white">Il est cependant possible de créer un compte dès
+          maintenant</p>
+      </v-row>
     </v-row>
-    <v-row class="justify-center ma-0" no-gutters>
-      <p style="font-size: 24px; text-align: center; color:white">We Collect Diecast sera bientôt disponible</p>
-    </v-row>
-    <v-row v-if="!userSession || !userSession.user" class="justify-center ma-0" no-gutters>
-        <v-btn class="pointer btn-new-account" max-width="80%" outline @click="openCreateAccountSection">
-          <p class="text-wrap">
-            CLIQUEZ ICI POUR
-            CREER UN COMPTE DÈS MAINTENANT</p>
-        </v-btn>
-    </v-row>
-  </v-row>
   </div>
   <!-- transition="dialog-bottom-transition" -->
 
-  <v-dialog v-model="showCreateAccountSection" class="animate__animated animate__bounceIn" scrollable persistent>
+  <v-dialog v-model="showRegistrerSection" class="animate__animated animate__bounceIn" scrollable persistent>
     <NewUserForm></NewUserForm>
   </v-dialog>
 </template>
@@ -38,31 +35,31 @@ export default {
   data()
   {
     return {
-      showCreateAccountSection: false,
+      showRegistrerSection: false,
       userSession: userSession
     }
   },
   methods: {
-    openCreateAccountSection()
+    openRegistrerSection()
     {
-      this.showCreateAccountSection = true
+      this.showRegistrerSection = true
     },
-    closeCreateAccountSection()
+    closeRegistrerSection()
     {
-      this.showCreateAccountSection = false
+      this.showRegistrerSection = false
     }
   },
   provide()
   {
     return {
-      closeCreateAccountSection: this.closeCreateAccountSection
+      closeRegistrerSection: this.closeRegistrerSection
     }
   },
   watch:
   {
-    showCreateAccountSection()
+    showRegistrerSection()
     {
-      this.dialogIsOpen(this.showCreateAccountSection);
+      this.dialogIsOpen(this.showRegistrerSection);
     }
   }
 }
@@ -71,25 +68,33 @@ export default {
 
 <style scoped>
 
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+
 div {
   margin-bottom: 10px;
 }
+
 p {
 
   color: black
 }
-.pointer {
-  cursor: pointer;
+
+.logo:hover {
+  animation: shake 0.5s;
+  animation-iteration-count: infinite;
+
+
+}
+.home-view {
+  margin-bottom: 50px;
 }
 
-.home-view {
-  height: 75vh;
-}
-.v-btn.btn-new-account:hover,
-.v-btn.btn-new-account:focus {
-  background-color: #D9AF37;
-  transform: scale(1.35);
-}
 </style>
 
 

@@ -16,40 +16,36 @@
         <v-spacer>
         </v-spacer>
         <span v-if="!userSession.user">
-            <v-row class="ma-0" no-gutters>
-                <v-col>
-                    <v-btn v-show="display.mdAndUp.value" @click="openLoginSection" color="white">
-                        Se connecter
+            <v-row v-if="display.mdAndUp.value" class="ma-0" no-gutters>
+                <v-col cols="12" class="text-right">
+                    <v-btn @click="openLoginSection" class="text-subtitle-1"
+                        color="white">
+                        CONNEXION / INSCRIPTION
                     </v-btn>
-                </v-col>
-                <v-col>
-                    <v-btn v-show="display.smAndDown.value" class="mr-5" @click="openLoginSection" width="100%" height="100%" :icon="'mdi-login-variant'"></v-btn>
                 </v-col>
             </v-row>
-        </span>
-        <span v-if="!userSession.user">
-            <v-row class="ma-0" no-gutters>
-                <v-col>
-                    <v-btn v-show="display.mdAndUp.value" @click="openCreateAccountSection" color="white">
-                        Creer un compte
+            <v-row v-else class="ma-0" no-gutters>
+                <v-col cols="12" md="6" class="text-right">
+                    <v-btn @click="openLoginSection" :class="display.smAndDown.value ? 'text-subtitle-2' : ''"
+                        color="white">
+                        CONNEXION
+                        <br />
+                        INSCRIPTION
                     </v-btn>
-                </v-col>
-                <v-col>
-                    <v-btn v-show="display.smAndDown.value" class="mr-5" @click="openCreateAccountSection" width="100%" height="100%" :icon="'mdi-new-box'"></v-btn>
                 </v-col>
             </v-row>
         </span>
         <div v-else>
-
-            <span v-show="display.mdAndUp.value" class="mx-2" style="color:white">
-                Bienvenue, {{ userSession.user.username }}
-            </span>
-
-            <span v-show="display.smAndDown.value" style="color:white; text-align: center;">
-                {{ userSession.user.username }}
-            </span>
             <v-menu :menu-props="{ dark: true, color: $vuetify.theme.themes.dark.primary }">
-                <template v-slot:activator="{ props }">
+                <template  v-slot:activator="{ props }">
+                    <span v-bind="props" v-show="display.mdAndUp.value" class="mx-2 username-text" style="color:white">
+                        Bienvenue, {{ userSession.user.username }}
+                    </span>
+
+                    <span v-bind="props" v-show="display.smAndDown.value" class="username-text"
+                        style="color:white; text-align: center;">
+                        {{ userSession.user.username }}
+                    </span>
                     <v-btn v-bind="props" color="white">
                         <p v-show="display.mdAndUp.value">Mon compte </p>
                         <span><v-icon>mdi-account-circle</v-icon></span>
@@ -77,12 +73,13 @@
     <v-dialog v-model="showLoginSection" class="animate__animated animate__bounceIn" scrollable persistent>
         <LoginForm></LoginForm>
     </v-dialog>
-    <v-dialog v-model="showNewUserSection" class="animate__animated animate__bounceIn" scrollable persistent>
+    <v-dialog v-model="showRegistrerSection" class="animate__animated animate__bounceIn" scrollable persistent>
         <NewUserForm></NewUserForm>
     </v-dialog>
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex';
 import { useDisplay } from 'vuetify'
 import { RouterLink } from 'vue-router';
 import userSession from '../session/UserSession.js'
@@ -101,7 +98,7 @@ export default {
             showAdminSection: false,
             showSpecialistSection: false,
             showLoginSection: false,
-            showNewUserSection: false,
+            showRegistrerSection: false,
         };
     },
     computed: {
@@ -114,6 +111,14 @@ export default {
         {
             return screen.width < 500;
         },
+        switch()
+        {
+            return this.userSession.user && this.userSession.user.username;
+        },
+        ...mapState({
+            loginSectionOpened: state => state.loginSectionOpened,
+            registrerSectionOpened: state => state.registrerSectionOpened
+        })
     },
     methods: {
         disconnect()
@@ -121,25 +126,27 @@ export default {
             this.userSession.disconnect();
             this.$router.push('/')
         },
+        ...mapActions(['setLoginSectionToTrue']), // Assurez-vous d'avoir une action appropriée définie dans votre store
         openLoginSection()
         {
             this.dialogIsOpen(true);
             this.showLoginSection = true
+            this.setLoginSectionToTrue(); // Appel de l'action pour basculer la valeur de loginSectionOpen
         },
         closeLoginSection()
         {
             this.dialogIsOpen(false);
             this.showLoginSection = false
         },
-        openCreateAccountSection()
+        openRegistrerSection()
         {
             this.dialogIsOpen(true);
-            this.showNewUserSection = true
+            this.showRegistrerSection = true
         },
-        closeCreateAccountSection()
+        closeRegistrerSection()
         {
             this.dialogIsOpen(false);
-            this.showNewUserSection = false
+            this.showRegistrerSection = false
         },
         resetUserSession()
         {
@@ -147,11 +154,33 @@ export default {
             this.$router.push('/')
         }
     },
+    watch: {
+        loginSectionOpened(newValue, oldValue)
+        {
+            // Faites quelque chose en réponse au changement de loginSectionOpen
+            if (newValue == true)
+            {
+                this.closeRegistrerSection();
+                this.openLoginSection();
+            }
+            console.log('La valeur de loginSectionOpen a changé :', newValue);
+        },
+        registrerSectionOpened(newValue, oldValue)
+        {
+            // Faites quelque chose en réponse au changement de registrerSectionOpen
+            if (newValue == true)
+            {
+                this.openRegistrerSection();
+                this.closeLoginSection();
+            }
+            console.log('La valeur de registrerSectionOpen a changé :', newValue);
+        }
+    },
     provide()
     {
         return {
             closeLoginSection: this.closeLoginSection,
-            closeCreateAccountSection: this.closeCreateAccountSection
+            closeRegistrerSection: this.closeRegistrerSection
         }
     },
     setup()
@@ -219,6 +248,10 @@ a:hover {
     color: rgb(138, 103, 9);
 }
 
+.username-text:hover {
+    cursor: default
+}
+
 .v-list-item-title:hover {
     color: white;
 }
@@ -231,4 +264,5 @@ a:hover {
 .v-list {
     background-color: rgba(138, 103, 9, 1) !important;
 
-}</style>
+}
+</style>

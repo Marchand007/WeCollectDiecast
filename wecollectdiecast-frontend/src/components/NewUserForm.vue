@@ -2,6 +2,7 @@
   <div class="authentication">
 
     <h1>Bienvenue à bord</h1>
+    <p>Vous avez déjà un compte ? <span class="link font-weight-bold" @click="toggleLogin">Connectez-vous</span></p>
     <p class="error-message">{{ errorMessage }}</p>
     <v-form @submit.prevent="createUserAccount" validate-on="blur" ref="createUserForm">
       <v-row no-gutters>
@@ -50,7 +51,7 @@
         </v-col>
         <v-row class="justify-right mt-5">
           <v-col cols="6">
-            <v-btn @click="closeCreateAccountSection" color="black" size="large" elevation="5">Annuler</v-btn>
+            <v-btn @click="closeRegistrerSection" color="black" size="large" elevation="5">Annuler</v-btn>
           </v-col>
           <v-col cols="6">
             <v-btn type="submit" block color="rgba(138, 103, 9, 0.9)" size="large" elevation="5"
@@ -83,7 +84,7 @@
       </v-card-text>
       <v-row class="justify-center">
         <v-col cols="12">
-          <v-btn @click="closeCreateAccountSection" color="black" size="large" elevation="5">OK</v-btn>
+          <v-btn @click="closeRegistrerSection" color="black" size="large" elevation="5">OK</v-btn>
         </v-col>
       </v-row>
     </v-card>
@@ -91,6 +92,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import userSession from '../session/UserSession.js'
 import { validEmail, validPassword } from '../../REGEX/REGEXfrontend.js';
 import { createUser } from '../services/UserService'
@@ -98,7 +100,7 @@ import { createUser } from '../services/UserService'
 
 
 export default {
-  inject: ['closeCreateAccountSection'],
+  inject: ['closeRegistrerSection'],
   data()
   {
     return {
@@ -177,6 +179,11 @@ export default {
         console.error(err);
       })
     },
+    ...mapActions(['toggleLoginSection']), // Assurez-vous d'avoir une action appropriée définie dans votre store
+    toggleLogin()
+    {
+      this.toggleLoginSection(); // Appel de l'action pour basculer la valeur de loginSectionOpen
+    }
   },
   computed: {
     disabledCreateAccountButton()
@@ -196,12 +203,28 @@ export default {
 </script>
 
 <style scoped>
+
 p {
   color: black;
+  font-size: small;
   text-align: center;
+}
+
+h1 {
+margin-bottom: 0px;
 }
 
 h2 {
   text-align: center;
 }
+
+@media (max-width: 500px){
+  .v-text-field:deep(label) {
+    font-size: 12px !important;
+  } 
+
+}
+
+
+
 </style>

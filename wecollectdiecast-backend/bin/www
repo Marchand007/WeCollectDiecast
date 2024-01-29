@@ -5,7 +5,7 @@
  */
 
 var app = require('../app');
-var debug = require('debug')('brigade_backend:server');
+var debug = require('debug')('wecollectdiecast_backend:server');
 var http = require('http');
 
 /**

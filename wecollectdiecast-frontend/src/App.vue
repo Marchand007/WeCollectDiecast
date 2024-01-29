@@ -80,15 +80,18 @@ h2 {
   line-height: 1.2;
 }
 
-div {
-  cursor: url('@/assets/favicon.ico'), auto;
+.link {
+  color: blue;
+  text-decoration: none;
+  cursor: pointer;
+  text-decoration: none;
 }
 
 .error-message {
-  color: red;
-  font-size: x-small;
-  margin-bottom: 5px;
-  text-align: center;
+  color: red !important;
+  font-size: x-small !important;
+  margin-bottom: 5px !important;
+  text-align: center !important;
 }
 
 .v-enter-active,
@@ -104,12 +107,12 @@ div {
 .authentication {
   max-height: 100vh;
   width: 400px;
-  opacity: 0.9;
+  opacity: 1;
   left: 0;
   top: 0;
   bottom: 0;
   padding: 10px;
-  background-color: white;
+  background-color: beige;
   border-radius: 10px;
   box-shadow: rgba(138, 103, 9, 0.9) 0 0 70px 5px;
 
@@ -124,12 +127,12 @@ div {
     max-height: 100vh;
     width: 50%;
     margin: auto;
-    opacity: 0.9;
+    opacity: 1;
     left: 0;
     top: 0;
     bottom: 0;
     padding: 10px;
-    background-color: white;
+    background-color: beige;
     border-radius: 10px;
     box-shadow: rgba(138, 103, 9, 0.9) 0 0 70px 5px;
 
@@ -146,12 +149,12 @@ div {
     max-height: 100vh;
     width: 90%;
     margin: auto;
-    opacity: 0.9;
+    opacity: 1;
     left: 0;
     top: 0;
     bottom: 0;
     padding: 10px;
-    background-color: white;
+    background-color: beige;
     border-radius: 10px;
     box-shadow: rgba(138, 103, 9, 0.9) 0 0 70px 5px;
 

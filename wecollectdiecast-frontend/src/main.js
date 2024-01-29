@@ -10,7 +10,10 @@ import { aliases, mdi } from 'vuetify/iconsets/mdi';
 
 import App from './App.vue'
 import router from './router'
+import store from './stores/index.js'
+
 const app = createApp(App)
+app.use(store);
 
 const vuetify = createVuetify({
     components: {
