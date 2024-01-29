@@ -21,7 +21,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 
 app.use(cors({
-  origin: 'https://www.wecollectdiecast.ca'
+  origin: ['https://wcd.app', 'https://www.wcd.app', 'https://wecollectdiecast.ca', 'https://www.wecollectdiecast.ca']
 }));
 
 app.use(logger('dev'));
