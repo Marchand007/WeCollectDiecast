@@ -161,16 +161,6 @@
                             </v-card-text>
                         </v-card>
                     </v-window-item>
-                    <v-window-item value="option-x">
-                        <v-card elevation="0" flat>
-                            <v-card-text>
-                                <h2>Une autre option a venir</h2>
-                                <p class="mb-2"> Plusieurs autres options seront à venir.</p>
-                                <p class="mb-2"> Il nous feras un plaisir de connaitre vos suggestions via un formulaire qui
-                                    sera fait éventuellement.</p>
-                            </v-card-text>
-                        </v-card>
-                    </v-window-item>
                 </span>
             </v-window>
         </div>

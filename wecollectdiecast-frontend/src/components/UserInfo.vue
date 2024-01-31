@@ -9,8 +9,8 @@
                 <v-col cols="12" sm="6">
                     <p>Prénom: {{ user.firstName }} </p>
                     <p>Nom de famille: {{ user.lastName }} </p>
-                    <p v-if="user.city"> Ville: {{ user.city }} </p>
-                    <p v-if="user.state"> Province: {{ user.state }} </p>
+                    <p v-if="user.city">Ville: {{ user.city }} </p>
+                    <p v-if="user.state">Province: {{ user.state }} </p>
                     <p v-if="user.country">Pays: {{ user.country }} </p>
                     <p>Membre depuis: {{ user.createdDate }} </p>
                 </v-col>
