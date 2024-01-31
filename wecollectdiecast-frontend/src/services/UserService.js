@@ -87,7 +87,7 @@ export async function createUser(user)
     }
 }
 
-export async function updateUser(user)
+export async function updateUser(userInfos)
 {
     const response = await fetch(`https://wcd-api-7fcyt.ondigitalocean.app/api/user`, {
     //const response = await fetch(`api/user`, {
@@ -96,7 +96,7 @@ export async function updateUser(user)
             "Content-Type": "application/json",
             ...session.getAuthHeaders()
         },
-        body: JSON.stringify(user)
+        body: JSON.stringify(userInfos)
     });
 
     if (response.ok)

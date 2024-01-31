@@ -165,7 +165,35 @@ const insertUser = async (userInfos, passwordHash, passwordSalt, clientParam) =>
 };
 exports.insertUser = insertUser;
 
+const updateUserInformations = async (userInfos, clientParam) =>
+{
+    const result = await pool.query(
+        `UPDATE "user"
+        SET
+            first_name = $2,
+            last_name = $3,
+            email = $4,
+            birthdate = $5,
+            city = $6,
+            state = $7,
+            country = $8,
+            want_newsletter = $9,
+            is_admin = $10
+        WHERE id = $1
+        RETURNING *;`,
+        [userInfos.id, userInfos.firstName, userInfos.lastName, userInfos.email, userInfos.birthdate, userInfos.city, userInfos.state, userInfos.country,
+            userInfos.wantNewsletter, userInfos.isAdmin]);
 
+    const row = result.rows[0];
+    if (row)
+    {
+        const user = constructUser(row);
+        return user;
+    }
+
+    throw new Error("L'insertion a échoué pour une raison inconnue");
+};
+exports.updateUserInformations = updateUserInformations;
 
 
 const updateUserPassword = async (userInfos, passwordHash, passwordSalt, clientParam) =>
@@ -191,3 +219,35 @@ const updateUserPassword = async (userInfos, passwordHash, passwordSalt, clientP
     throw new Error("L'insertion a échoué pour une raison inconnue");
 };
 exports.updateUserPassword = updateUserPassword;
+
+const updateUserInformationsAndPassword = async (userInfos, passwordHash, passwordSalt, clientParam) =>
+{
+    const result = await pool.query(
+        `UPDATE "user"
+        SET
+            first_name = $2,
+            last_name = $3,
+            email = $4,
+            birthdate = $5,
+            city = $6,
+            state = $7,
+            country = $8,
+            want_newsletter = $9,
+            is_admin = $10,
+            password_hash = $11,
+            password_salt = $12
+        WHERE id = $1
+        RETURNING *;`,
+        [userInfos.id, userInfos.firstName, userInfos.lastName, userInfos.email, userInfos.birthdate, userInfos.city, userInfos.state, userInfos.country,
+            userInfos.wantNewsletter, userInfos.isAdmin, passwordHash, passwordSalt]);
+
+    const row = result.rows[0];
+    if (row)
+    {
+        const user = constructUser(row);
+        return user;
+    }
+
+    throw new Error("L'insertion a échoué pour une raison inconnue");
+};
+exports.updateUserInformationsAndPassword = updateUserInformationsAndPassword;
