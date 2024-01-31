@@ -13,8 +13,10 @@ const BasicStrategy = require('passport-http').BasicStrategy;
 const crypto = require('crypto');
 
 const userRouter = require('./routes/userRouter');
+const ratingRouter = require('./routes/ratingRouter');
 
 const userQueries = require("./queries/userQueries");
+const ratingQueries = require("./queries/ratingQueries");
 
 const app = express();
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
@@ -31,6 +33,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/user', userRouter);
+app.use('/rating', ratingRouter);
 
 
 class BasicStrategyModified extends BasicStrategy

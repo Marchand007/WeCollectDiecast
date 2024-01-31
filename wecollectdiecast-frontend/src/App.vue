@@ -112,7 +112,7 @@ h2 {
   top: 0;
   bottom: 0;
   padding: 10px;
-  background-color: beige;
+  background-color: rgb(255, 255, 240);
   border-radius: 10px;
   box-shadow: rgba(138, 103, 9, 0.9) 0 0 70px 5px;
 
@@ -132,7 +132,7 @@ h2 {
     top: 0;
     bottom: 0;
     padding: 10px;
-    background-color: beige;
+    background-color: rgb(255, 255, 240);
     border-radius: 10px;
     box-shadow: rgba(138, 103, 9, 0.9) 0 0 70px 5px;
 
@@ -154,7 +154,7 @@ h2 {
     top: 0;
     bottom: 0;
     padding: 10px;
-    background-color: beige;
+    background-color: rgb(255, 255, 240);
     border-radius: 10px;
     box-shadow: rgba(138, 103, 9, 0.9) 0 0 70px 5px;
 

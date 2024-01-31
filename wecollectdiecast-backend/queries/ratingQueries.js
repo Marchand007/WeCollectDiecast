@@ -9,10 +9,11 @@ const constructRating = function (row)
         ratedByUserUsername: row.rated_by_user_username,
         rating: row.rating,
         ratingNote: row.rating_note,    
-        ratingDate: row.rating_date
+        ratingDate: row.rating_date,
+        average: row.avg || 0,
+        count : row.count
     }
 }
-
 
 const getUserRatingBy = async (option, value) =>
 {
@@ -21,22 +22,24 @@ const getUserRatingBy = async (option, value) =>
     if (option === "id")
     {
         result = await pool.query(
-            `SELECT * FROM "user"
-             WHERE id = $1`,
+            `SELECT AVG(rating), COUNT("id")
+            FROM public.user_rating
+            WHERE rated_user_id = $1`,
             [value]);
     } else
     {
         result = await pool.query(
-            `SELECT * FROM "user"
-             WHERE LOWER(${option}) = LOWER($1)`,
+            `SELECT AVG(rating), COUNT("id")
+            FROM public.user_rating
+            WHERE rated_user_id = (SELECT "id" FROM "user" WHERE LOWER(${option}) = LOWER($1))`,
             [value]);
     }
     const row = result.rows[0];
 
     if (row)
     {
-        const user = constructUser(row);
-        return user;
+        const rating = constructRating(row);
+        return rating;
     }
 
     return undefined;
@@ -44,38 +47,25 @@ const getUserRatingBy = async (option, value) =>
 exports.getUserRatingBy = getUserRatingBy;
 
 
-const insertUserRating = async (userInfos, passwordHash, passwordSalt, clientParam) =>
+const insertUserRating = async (ratingInfos, clientParam) =>
 {
     const result = await pool.query(
         `INSERT INTO
-        "user"(
-            username,
-            first_name,
-            last_name,
-            email,
-            birthdate,
-            city,
-            state,
-            country,
-            want_newsletter,
-            is_active,
-            is_admin,
-            password_hash,
-            password_salt,
-            is_new_user,
-            had_lost_password,
-            password_lost_timeout
-        )
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
+        rating (
+            rated_user_id,
+            rated_by_user_username,
+            rating,
+            rating_note,
+            rating_date)
+        VALUES ($1, $2, $3, $4, $5)
         RETURNING *;`,
-        [userInfos.username, userInfos.firstName, userInfos.lastName, userInfos.email, userInfos.birthdate, userInfos.city, userInfos.state, userInfos.country,
-        userInfos.wantNewsletter, true, userInfos.isAdmin, passwordHash, passwordSalt, userInfos.isNewUser, false, userInfos.passwordLostTimeout]);
+        [ratingInfos.ratedUserId, ratingInfos.ratedByUserUsername, ratingInfos.rating, ratingInfos.ratingNote, ratingInfos.ratingDate]);
 
     const row = result.rows[0];
 
     if (row)
     {
-        const user = constructUser(row);
+        const user = constructRating(row);
         return user;
     }
 

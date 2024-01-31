@@ -1,10 +1,10 @@
 <template>
     <v-card elevation="0" flat>
         <v-card-text>
-            <v-row class="ma-0">
-            <v-rating size="small" v-model="user.rating" color="rgb(138, 103, 9)" density="compact" half-increments
-                readonly></v-rating> (5)
-                </v-row>   
+            <!-- <v-row class="ma-0">
+            <v-rating size="small" v-model="user.rating.average" color="rgb(138, 103, 9)" density="compact" half-increments
+                readonly></v-rating> ({{ user.rating.count }})
+                </v-row>    -->
             <v-row class="ma-0 no-gutters">
                 <v-col cols="12" sm="6">
                     <p>Prénom: {{ user.firstName }} </p>

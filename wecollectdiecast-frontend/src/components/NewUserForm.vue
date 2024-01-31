@@ -7,22 +7,22 @@
     <v-form @submit.prevent="createUserAccount" validate-on="blur" ref="createUserForm">
       <v-row no-gutters>
         <v-col cols="12">
-          <v-text-field v-model="user.username" label="Nom d'utilisateur *" :rules="[rules.required]" clearable
+          <v-text-field v-model.trim="user.username" label="Nom d'utilisateur *" :rules="[rules.required]" clearable
             autocomplete="null" density="compact" required>
           </v-text-field>
         </v-col>
         <v-col cols="6">
-          <v-text-field class="mr-2" v-model="user.firstName" label="Prénom *" :rules="[rules.required]" clearable
+          <v-text-field class="mr-2" v-model.trim="user.firstName" label="Prénom *" :rules="[rules.required]" clearable
             density="compact" autocomplete="given-name" required>
           </v-text-field>
         </v-col>
         <v-col cols="6">
-          <v-text-field class="ml-2" v-model="user.lastName" label="Nom de famille *" :rules="[rules.required]" clearable
+          <v-text-field class="ml-2" v-model.trim="user.lastName" label="Nom de famille *" :rules="[rules.required]" clearable
             density="compact" autocomplete="family-name" required>
           </v-text-field>
         </v-col>
         <v-col cols="12">
-          <v-text-field v-model="user.email" label="Adresse courriel *" :rules="[
+          <v-text-field v-model.trim="user.email" label="Adresse courriel *" :rules="[
             rules.required,
             rules.validEmail
           ]" density="compact" clearable required>
@@ -125,7 +125,6 @@ export default {
         },
         validPassword: (value) =>
         {
-          ;
           return (
             validPassword.test(value) ||
             `Le mot de passe doit contenir: 8 caractères minimum, 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial`

@@ -37,31 +37,99 @@ CREATE TABLE user_rating (
 
 CREATE TABLE diecast (
   id SERIAL NOT NULL,
-  owner_id int4 NOT NULL REFERENCES user("id") ON DELETE CASCADE,
-  item_brand varchar(255) NOT NULL,
-  car_brand varchar(255) NOT NULL,
-  car_model varchar(255) NOT NULL,
-  color varchar(255) NOT NULL,
-  scale varchar(255) NOT NULL,
-  numbered_number int4 NULL,
-  limited_quantity int4 NULL,
-  is_custom boolean NOT NULL,
-  is_carded boolean NOT NULL,
-  is_zamac boolean NOT NULL,
-  is_red_edition boolean NOT NULL,
-  is_exclusive boolean NOT NULL,
-  exclusive_location boolean NOT NULL,
-  is_chase_super_chase boolean NOT NULL,
-  is_treasure_hunt boolean NOT NULL,
-  is_super_treasure_hunt boolean NOT NULL,
-  is_rlc boolean NOT NULL,
-  rlc_year int4 NULL is_mail_in boolean NOT NULL,
-  is_convention boolean NOT NULL,
+  item_brand varchar(255) NOT NULL REFERENCES diecastbrand(brand_name) ON DELETE CASCADE,
+  car_brand varchar(255) NOT NULL REFERENCES carbrand(car_brand_name) ON DELETE CASCADE,
+  car_model varchar(255) NOT NULL REFERENCES carmodel(car_model_name) ON DELETE CASCADE,
+  car_year int4 NULL,
+  color varchar(255) NOT NULL REFERENCES color(color) ON DELETE CASCADE,
+  scale varchar(255) NOT NULL REFERENCES scale(scale_name) ON DELETE CASCADE,
+  serie_name varchar(255) NOT NULL REFERENCES diecast_serie(serie_name) ON DELETE CASCADE,
+  serie_number int4 NULL,
+  serie_number_of int4 NULL,
+  year_produced int4 NULL,
+  limited_quantity_number int4 NULL,
+  is_mainline boolean NOT NULL DEFAULT false,
+  is_premium boolean NOT NULL DEFAULT false,
+  is_monster boolean NOT NULL DEFAULT false,
+  is_mystery_models boolean NOT NULL DEFAULT false,
+  is_zamac boolean NOT NULL DEFAULT false,
+  is_red_edition boolean NOT NULL DEFAULT false,
+  is_motorcycle boolean NOT NULL DEFAULT false,
+  is_exclusive boolean NOT NULL DEFAULT false,
+  exclusive_location varchar(255) NOT NULL,
+  is_chase_super_chase boolean NOT NULL DEFAULT false,
+  is_treasure_hunt boolean NOT NULL DEFAULT false,
+  is_super_treasure_hunt boolean NOT NULL DEFAULT false,
+  is_rlc boolean NOT NULL DEFAULT false,
+  rlc_year int4 NULL,
+  is_mail_in boolean NOT NULL DEFAULT false,
+  is_convention boolean NOT NULL DEFAULT false,
   convention_location varchar(255) NULL,
   convention_number varchar(255) NULL,
-  condition varchar(255) NOT NULL buy_date date NULL,
+  convention_year int4 NULL,
+  is_event_exclusive boolean NOT NULL DEFAULT false,
+  event_location varchar(255) NULL,
+  event_year int4 NULL,
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE user_diecast (
+  id SERIAL NOT NULL,
+  user_id int4 NOT NULL REFERENCES user("id") ON DELETE CASCADE,
+  diecast_id int4 NOT NULL REFERENCES diecast("id") ON DELETE CASCADE,
+  numbered_number int4 NULL,
+  is_custom boolean NOT NULL,
+  is_carded boolean NOT NULL,
+  condition varchar(255) NOT NULL,
+  buy_date date NULL,
   buy_price float4 NULL,
   sell_date date NULL,
   sell_price float4 NULL,
+  PRIMARY KEY (id),
+  UNIQUE (user_id, diecast_id)
+);
+
+CREATE TABLE diecast_serie (
+  id SERIAL NOT NULL,
+  diecast_brand varchar(255) NOT NULL REFERENCES diecastbrand(brand_name) ON DELETE CASCADE,
+  serie_name varchar(255) NOT NULL,
+  PRIMARY KEY (id),
+  UNIQUE (diecast_brand, serie_name)
+);
+
+CREATE TABLE matchbox (
+  id SERIAL NOT NULL,
+  is_super_chase boolean NOT NULL,
+  is_red_edition boolean NOT NULL,
   PRIMARY KEY (id)
+);
+
+CREATE TABLE diecastbrand (
+  brand_name varchar(255) NOT NULL,
+  PRIMARY KEY (brand_name)
+);
+
+CREATE TABLE diecastscale (
+  scale_name varchar(255) NOT NULL,
+  PRIMARY KEY (scale)
+);
+
+CREATE TABLE carbrand (
+  car_brand_name varchar(255) NOT NULL,
+  PRIMARY KEY (car_brand_name)
+);
+
+CREATE TABLE carmodel (
+  car_model_name varchar(255) NOT NULL,
+  PRIMARY KEY (car_model_name)
+);
+
+CREATE TABLE itemcondition (
+  condition varchar(255) NOT NULL,
+  PRIMARY KEY (condition)
+);
+
+CREATE TABLE color (
+  color varchar(255) NOT NULL,
+  PRIMARY KEY (color)
 );

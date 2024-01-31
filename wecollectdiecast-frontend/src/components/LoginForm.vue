@@ -8,12 +8,12 @@
     <v-form @submit.prevent="loginWithUsername" validate-on="blur" ref="loginForm">
       <v-row no-gutters>
         <v-col cols="12">
-          <v-text-field v-model="loginUsername" label="Nom d'utilisateur" :rules="[rules.required]" clearable
+          <v-text-field v-model.trim="loginUsername" label="Nom d'utilisateur" :rules="[rules.required]" clearable
             autocomplete="null" density="compact">
           </v-text-field>
         </v-col>
         <v-col cols="12">
-          <v-text-field v-model="loginPassword" label="Mot de passe" :type="seePassword ? 'text' : 'password'"
+          <v-text-field v-model.trim="loginPassword" label="Mot de passe" :type="seePassword ? 'text' : 'password'"
             :rules="[rules.required]" density="compact" ref="passwordInput"
             :append-inner-icon="loginPassword ? seePassword ? 'mdi-eye-off' : 'mdi-eye' : null"
             @click:append-inner="() => (seePassword = !seePassword)">
@@ -45,7 +45,7 @@
         <v-col cols="12">
           <p class="error-message">{{ lostpasswordErrorMessage }}</p>
         <p>Veuillez inscrire votre courriel</p>
-          <v-text-field v-model="forgotPasswordEmail" label="Courriel" :rules="[rules.required]" clearable color="white" variant="solo"
+          <v-text-field v-model.trim="forgotPasswordEmail" label="Courriel" :rules="[rules.required]" clearable color="white" variant="solo"
             autocomplete="null" density="compact">
           </v-text-field>
         </v-col>

@@ -7,17 +7,12 @@
       <v-row class="justify-center ma-0" no-gutters>
         <p style="font-size: 24px; text-align: center; color:white">bientôt disponible</p>
       </v-row>
-      <v-row class="justify-center mt-10" no-gutters>
+      <v-row class="justify-center ma-10" no-gutters>
         <p style="font-size: 14px; text-align: left; color:white">Il est cependant possible de créer un compte dès
           maintenant</p>
       </v-row>
     </v-row>
   </div>
-  <!-- transition="dialog-bottom-transition" -->
-
-  <v-dialog v-model="showRegistrerSection" class="animate__animated animate__bounceIn" scrollable persistent>
-    <NewUserForm></NewUserForm>
-  </v-dialog>
 </template>
 
 <script>

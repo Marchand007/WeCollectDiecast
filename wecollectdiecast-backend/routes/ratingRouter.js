@@ -2,128 +2,34 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const crypto = require('crypto');
-const userQueries = require('../queries/userQueries');
-const regex = require('../REGEX/REGEXbackend');
+const ratingQueries = require('../queries/ratingQueries');
 const HttpError = require("../HTTPError");
 const { DateTime } = require("luxon");
-const { sendEmailToUser } = require("../emailManagement");
 
 
-
-router.get("/test",
+router.get("/id/:userId",
     //passport.authenticate('basic', { session: false }),
-    (req, res, next) =>
-    {
-        sendEmailLostPassword("m.marchand22@hotmail.com", "Mathieu", "123456789")
-    }
-);
-
-router.get("/all/:optionOrder",
-    //passport.authenticate('basic', { session: false }),
-    (req, res, next) =>
+    async (req, res, next) =>
     {
         // const user = req.user;
 
         // if (!user) return next(new HttpError(401, "Authentification nécessaire"))
         // if (!user.isAdmin) return next(new HttpError(403, "Vous n'avez pas les droits requis"))
+        const userId = req.params.userId;
+        userExist = await ratingQueries.getUserRatingBy("id", userId);
+        if (!userExist) return next(new HttpError(404, `L'utilisateur avec le id ${userId} n'existe pas"`));
+        if (!userId || userId === "") return next(new HttpError(400, "Le champ userId est requis"));
 
-        const optionOrder = req.params.optionOrder || "id"
-        userQueries
-            .getUserList(optionOrder)
-            .then((userList) =>
+        ratingQueries
+            .getUserRatingBy("id", userId)
+            .then((ratingList) =>
             {
-                if (userList)
+                if (ratingList)
                 {
-                    res.json(userList);
+                    res.json(ratingList);
                 } else
                 {
                     return next(new HttpError(404, `Une erreur inconnue est survenue`));
-                }
-            })
-            .catch((err) =>
-            {
-                return next(err);
-            });
-    }
-);
-
-
-router.get("/id/:id",
-    //passport.authenticate('basic', { session: false }),
-    (req, res, next) =>
-    {
-        //const user = req.user;
-        const id = req.params.id;
-        // if (!user) return next(new HttpError(401, "Authentification nécessaire"))
-        // if (!user.isAdmin && (req.user.id != id)) return next(new HttpError(403, "Vous n'avez pas les droits requis"))
-
-        userQueries
-            .getUserBy("id", id)
-            .then((client) =>
-            {
-                if (client)
-                {
-                    res.json(client);
-                } else
-                {
-                    return next(new HttpError(404, `Aucun user trouvé avec le id ${id}`));
-                }
-            })
-            .catch((err) =>
-            {
-                return next(err);
-            });
-    }
-);
-
-
-router.get("/username/:username",
-    //passport.authenticate('basic', { session: false }),
-    (req, res, next) =>
-    {
-        //const user = req.user;
-        const username = req.params.username;
-        //if (!user) return next(new HttpError(401, "Authentification nécessaire"))
-        //if (!user.isAdmin && (req.user.username != username)) return next(new HttpError(403, "Vous n'avez pas les droits requis"))
-
-        userQueries
-            .getUserBy("username", username)
-            .then((client) =>
-            {
-                if (client)
-                {
-                    res.json(client);
-                } else
-                {
-                    return next(new HttpError(404, `Aucun user trouvé avec le username ${username}`));
-                }
-            })
-            .catch((err) =>
-            {
-                return next(err);
-            });
-    }
-);
-
-router.get("/email/:email",
-    //passport.authenticate('basic', { session: false }),
-    (req, res, next) =>
-    {
-        //const user = req.user;
-        const email = req.params.email;
-        //if (!user) return next(new HttpError(401, "Authentification nécessaire"))
-        //if (!user.isAdmin && (req.user.email != email)) return next(new HttpError(403, "Vous n'avez pas les droits requis"))
-
-        userQueries
-            .getUserBy("email", email)
-            .then((user) =>
-            {
-                if (user)
-                {
-                    res.json(user);
-                } else
-                {
-                    return next(new HttpError(404, `Aucun user trouvé avec le courriel ${email}`));
                 }
             })
             .catch((err) =>

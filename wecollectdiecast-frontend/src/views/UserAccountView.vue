@@ -82,17 +82,6 @@
             </v-tabs>
             <v-window v-model="tab">
                 <v-window-item value="userinformations">
-                    <!-- <v-card elevation="0" flat>
-                    <v-card-text >
-                        <h2>Informations de l'utilisateur</h2>
-                        <p> Prénom: {{ user.firstName }} </p>
-                        <p> Nom de famille: {{ user.lastName }} </p>
-                        <p v-if="user.city"> Ville: {{ user.city }} </p>
-                        <p v-if="user.state"> Province: {{ user.state }} </p>
-                        <p v-if="user.country">Pays: {{ user.country }} </p>
-                        <p>Membre depuis: {{ user.createdDate }} </p>
-                    </v-card-text>
-                </v-card> -->
                     <UserInfo :user="user"> </UserInfo>
                 </v-window-item>
                 <span v-if="!userSession.user || (userSession.user && userSession.user.username != user.username)">
@@ -135,15 +124,7 @@
                 </span>
                 <span v-if="userSession.user && userSession.user.username == user.username">
                     <v-window-item value="editinformations">
-                        <v-card elevation="0" flat>
-                            <v-card-text>
-                                <h2>Modification de ses informations</h2>
-                                <p class="mb-2"> Ici sera un formulaire pour modifier ses informations.</p>
-                                <p class="mb-2"> Il sera possible de modifier son nom, prenom, courriel, mot de passe, etc.
-                                </p>
-                                <p class="mb-2"> Il ne sera pas possible de modifier son nom d'utilisateur.</p>
-                            </v-card-text>
-                        </v-card>
+                        <EditUserInfo :user="user" :refreshUser="refreshUser" @saveEdit="saveEdit" />
                     </v-window-item>
                     <v-window-item value="additem">
                         <v-card elevation="0" flat>
@@ -195,16 +176,19 @@
 </template>
 
 <script>
-import { useDisplay } from 'vuetify'
 import cloneDeep from 'lodash/cloneDeep';
 import SvgIcon from '@jamescoyle/vue-icon';
+import { useDisplay } from 'vuetify'
+import { DateTime } from 'luxon';
 import { mdiSquareEditOutline, mdiContentSaveOutline, mdiCloseOutline } from '@mdi/js';
+import { computed } from "vue";
+
 import userSession from '../session/UserSession.js'
 import UserInfo from '../components/UserInfo.vue';
-import { DateTime } from 'luxon';
-import { getUserBy } from '../services/UserService.js';
+import EditUserInfo from '../components/EditUserInfo.vue';
 
-import { computed } from "vue";
+import { getUserBy } from '../services/UserService.js';
+import { getRatingUserBy } from '../services/RatingService.js'
 
 export default {
     inheritAttrs: false,
@@ -213,6 +197,7 @@ export default {
     },
     components: {
         UserInfo,
+        EditUserInfo,
         SvgIcon
     },
     data()
@@ -230,6 +215,10 @@ export default {
                 country: "",
                 isActive: null,
                 isAdmin: null,
+                rating: {
+                    average: 0,
+                    count: 0
+                }
             },
             userToEdit: {
                 firstName: "",
@@ -265,7 +254,11 @@ export default {
 
                 this.user = user;
                 this.userToEdit = cloneDeep(this.user);
-                this.user.rating = 4.5;
+                this.user.rating = {
+                    average: 0,
+                    count: 0
+                }
+                this.loadUserRating();
                 const luxonDate = DateTime.fromISO(this.user.createdDate);
                 this.user.createdDate = luxonDate.toLocaleString(DateTime.DATE_MED);
             }).catch(err =>
@@ -277,12 +270,28 @@ export default {
                 }
             })
         },
+        saveEdit(editedUser)
+        {
+            console.log("saveEdit", editedUser);
+        },
         copyLinkToClipboard()
         {
             this.shareTooltipText = 'Lien copié dans le presse-papier';
             if (this.display.mdAndDown.value) this.snackbarShare = true;
-            const link = "www.wecollectdiecast.ca/user?u=" + this.user.username;
+            const link = "wcd.app/user?u=" + this.user.username;
             navigator.clipboard.writeText(link);
+        },
+        loadUserRating()
+        {
+            getRatingUserBy("id", this.user.id).then(rating =>
+            {
+
+                this.user.rating.average = rating.average;
+                this.user.rating.count = rating.count;
+            }).catch(err =>
+            {
+                console.error(err);
+            });
         }
     },
     watch: {
@@ -446,7 +455,8 @@ div {
 .v-card {
     background-color: #121212;
     color: white;
-    height: 75vh;
+    min-height: 75vh;
+    height: 100%;
     width: 100vw !important;
 }
 
