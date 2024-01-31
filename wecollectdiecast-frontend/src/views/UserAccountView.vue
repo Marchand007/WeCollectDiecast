@@ -18,16 +18,16 @@
         </v-row>
         <v-row v-if="userSession.user && userSession.user.username == user.username" class="ma-0">
             <v-icon v-if="display.smAndDown.value" @click="showMenuUser = !showMenuUser" color="white" size="40"
-                    :icon="showMenuUser ? 'mdi-close' : 'mdi-menu'"> </v-icon>
+                :icon="showMenuUser ? 'mdi-close' : 'mdi-menu'"> </v-icon>
         </v-row>
         <v-row v-else class="ma-0">
-                <v-icon v-if="display.smAndDown.value" @click="showMenu = !showMenu" color="white" size="40"
-                    :icon="showMenu ? 'mdi-close' : 'mdi-menu'"> </v-icon>
+            <v-icon v-if="display.smAndDown.value" @click="showMenu = !showMenu" color="white" size="40"
+                :icon="showMenu ? 'mdi-close' : 'mdi-menu'"> </v-icon>
 
         </v-row>
         <div :class="display.smAndDown.value ? 'd-flex flex-row ma-0 pa-0' : 'd-flex flex-column ma-0 pa-0'">
-            <v-tabs v-if="shownedMenu" v-model="tab"
-                :direction="display.smAndDown.value ? 'vertical' : 'horizontal'" show-arrows center-active :grow="display.mdAndUp.value">
+            <v-tabs v-if="shownedMenu" v-model="tab" :direction="display.smAndDown.value ? 'vertical' : 'horizontal'"
+                show-arrows center-active :grow="display.mdAndUp.value">
                 <v-tab selected-class="active-tab" value="userinformations">
                     <v-icon start>
                         mdi-account
@@ -38,7 +38,7 @@
                     <v-icon start>
                         mdi-car
                     </v-icon>
-                Sa collection
+                    Sa collection
                 </v-tab>
                 <v-tab selected-class="active-tab" value="userwishlist">
                     <v-icon start>
@@ -53,7 +53,8 @@
                     Le contacter
                 </v-tab>
             </v-tabs>
-            <v-tabs v-if="shownedMenuUser" v-model="tab" :direction="display.smAndDown.value ? 'vertical' : 'horizontal'" show-arrows center-active :grow="display.mdAndUp.value">
+            <v-tabs v-if="shownedMenuUser" v-model="tab" :direction="display.smAndDown.value ? 'vertical' : 'horizontal'"
+                show-arrows center-active :grow="display.mdAndUp.value">
                 <v-tab selected-class="active-tab" value="userinformations">
                     <v-icon start>
                         mdi-account
@@ -85,46 +86,50 @@
                     <UserInfo :user="user"> </UserInfo>
                 </v-window-item>
                 <span v-if="!userSession.user || (userSession.user && userSession.user.username != user.username)">
-                <v-window-item value="usercollection">
-                    <v-card elevation="0" flat>
-                        <v-card-text>
-                            <h2>Collection</h2>
-                            <p class="mb-2"> Ici sera la collection de l'utilisateur. </p>
-                            <p class="mb-2"> Il sera possible de voir les items que l'utilisateur possede et qu'il public.
-                            </p>
-                            <p class="mb-2"> Il ne sera pas possible de voir les items que l'utilisateur possede et qu'il
-                                met private.</p>
-                            <p class="mb-2"> Un systeme de filtre sera mis en place pour faciliter la recherche.</p>
-                        </v-card-text>
-                    </v-card>
-                </v-window-item>
-                <v-window-item value="userwishlist">
-                    <v-card elevation="0" flat>
-                        <v-card-text>
-                            <h2>Wishlist</h2>
-                            <p class="mb-2"> Ici sera la wishlist de l'utilisateur. </p>
-                            <p class="mb-2"> Il sera possible de voir les items que l'utilisateur aimerais bien trouver.</p>
-                        </v-card-text>
-                    </v-card>
-                </v-window-item>
-                <v-window-item value="contactuser">
-                    <v-card elevation="0" flat>
-                        <v-card-text>
-                            <h2>Envoyez-lui un message!</h2>
+                    <v-window-item value="usercollection">
+                        <v-card elevation="0" flat>
+                            <v-card-text>
+                                <h2>Collection</h2>
+                                <p class="mb-2"> Ici sera la collection de l'utilisateur. </p>
+                                <p class="mb-2"> Il sera possible de voir les items que l'utilisateur possede et qu'il
+                                    public.
+                                </p>
+                                <p class="mb-2"> Il ne sera pas possible de voir les items que l'utilisateur possede et
+                                    qu'il
+                                    met private.</p>
+                                <p class="mb-2"> Un systeme de filtre sera mis en place pour faciliter la recherche.</p>
+                            </v-card-text>
+                        </v-card>
+                    </v-window-item>
+                    <v-window-item value="userwishlist">
+                        <v-card elevation="0" flat>
+                            <v-card-text>
+                                <h2>Wishlist</h2>
+                                <p class="mb-2"> Ici sera la wishlist de l'utilisateur. </p>
+                                <p class="mb-2"> Il sera possible de voir les items que l'utilisateur aimerais bien trouver.
+                                </p>
+                            </v-card-text>
+                        </v-card>
+                    </v-window-item>
+                    <v-window-item value="contactuser">
+                        <v-card elevation="0" flat>
+                            <v-card-text>
+                                <h2>Envoyez-lui un message!</h2>
 
-                            <p class="mb-2"> Ici sera un formulaire pour envoyer un message a l'utilisateur. Un systeme de
-                                messagerie interne sera mis en place.</p>
-                            <p class="mb-2">Cela evitera de devoir donner son adresse courriel.</p>
-                            <p class="mb-2"> Il sera possible de voir les messages recus et envoyes dans la section "Mes
-                                message".</p>
-                            <p class="mb-2">Cela permettera de garder une trace des messages envoyes et recus.</p>
-                        </v-card-text>
-                    </v-card>
-                </v-window-item>
+                                <p class="mb-2"> Ici sera un formulaire pour envoyer un message a l'utilisateur. Un systeme
+                                    de
+                                    messagerie interne sera mis en place.</p>
+                                <p class="mb-2">Cela evitera de devoir donner son adresse courriel.</p>
+                                <p class="mb-2"> Il sera possible de voir les messages recus et envoyes dans la section "Mes
+                                    message".</p>
+                                <p class="mb-2">Cela permettera de garder une trace des messages envoyes et recus.</p>
+                            </v-card-text>
+                        </v-card>
+                    </v-window-item>
                 </span>
                 <span v-if="userSession.user && userSession.user.username == user.username">
                     <v-window-item value="editinformations">
-                        <EditUserInfo :user="user" :refreshUser="refreshUser" @saveEdit="saveEdit" />
+                        <EditUserInfo :user="userToEdit" @saveEdit="saveEdit" />
                     </v-window-item>
                     <v-window-item value="additem">
                         <v-card elevation="0" flat>
@@ -187,7 +192,7 @@ import userSession from '../session/UserSession.js'
 import UserInfo from '../components/UserInfo.vue';
 import EditUserInfo from '../components/EditUserInfo.vue';
 
-import { getUserBy } from '../services/UserService.js';
+import { getUserBy, updateUser } from '../services/UserService.js';
 import { getRatingUserBy } from '../services/RatingService.js'
 
 export default {
@@ -232,7 +237,7 @@ export default {
                 isActive: null,
                 isAdmin: null,
                 newPassword: '',
-                confirmNewPassword: ''
+                newPasswordConfirmation: ''
             },
             tab: 'informations',
             refreshUser: false,
@@ -254,6 +259,8 @@ export default {
 
                 this.user = user;
                 this.userToEdit = cloneDeep(this.user);
+                this.userToEdit.newPassword = '';
+                this.userToEdit.confirmNewPassword = '';
                 this.user.rating = {
                     average: 0,
                     count: 0
@@ -273,6 +280,18 @@ export default {
         saveEdit(editedUser)
         {
             console.log("saveEdit", editedUser);
+            updateUser(editedUser).then(user =>
+            {
+                this.user = user;
+                this.userToEdit = cloneDeep(this.user);
+                this.userToEdit.newPassword = '';
+                this.userToEdit.confirmNewPassword = '';
+                this.loadUserRating();
+                this.tab = 'userinformations';
+            }).catch(err =>
+            {
+                console.error(err);
+            })
         },
         copyLinkToClipboard()
         {
@@ -285,9 +304,10 @@ export default {
         {
             getRatingUserBy("id", this.user.id).then(rating =>
             {
-
-                this.user.rating.average = rating.average;
-                this.user.rating.count = rating.count;
+                this.user.rating = {
+                    average: rating.average,
+                    count: rating.count
+                }
             }).catch(err =>
             {
                 console.error(err);
@@ -309,7 +329,7 @@ export default {
             {
                 if (newUser == null)
                 {
-                    this.tab = 'informations';
+                    this.tab = 'userinformations';
                 }
             },
             deep: true
@@ -462,5 +482,4 @@ div {
 
 .v-tooltip :deep(.v-overlay__content) {
     background-color: black !important;
-}
-</style>
+}</style>

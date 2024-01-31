@@ -307,6 +307,11 @@ router.put("/",
             if (!user) return next(new HttpError(401, "Authentification nécessaire"))
             if (!user.isAdmin && (!user.isAdmin && user.id != req.body.id)) return next(new HttpError(403, "Vous n'avez pas les droits requis"))
 
+            const userId = req.body.id;
+            if (!userId || userId === "") return next(new HttpError(400, "Le champ id est requis"));
+            if (isNaN(userId)) return next(new HttpError(400, `Le champ id doit être un chiffre et ne contenir aucune lettre ou caractères spéciaux`));
+
+
             const firstName = req.body.firstName;
             if (!firstName || firstName === "") return next(new HttpError(400, "Le champ prénom est requis"));
             if (firstName.length > 255) return next(new HttpError(400, `Le champ prénom ne peux pas dépasser 255 caractères. Il y a ${firstName.length - 255} caractères de trop.`));
@@ -315,70 +320,38 @@ router.put("/",
             if (!lastName || lastName === "") return next(new HttpError(400, "Le champ nom de famille est requis"));
             if (lastName.length > 255) return next(new HttpError(400, `Le champ nom de famille ne peux pas dépasser 255 caractères. Il y a ${lastName.length - 255} caractères de trop.`));
 
-            const phoneNumber = req.body.phoneNumber;
-            if (!phoneNumber || phoneNumber === "") return next(new HttpError(400, "Le champ numéro de téléphone est requis"));
-            if (!regex.validPhoneNumber.test(phoneNumber)) return next(new HttpError(400, "Le champ numéro de téléphone ne respect pas les critères d'acceptation"));
-            if (phoneNumber.length > 12 || phoneNumber.length < 10) return next(new HttpError(400, `Le champ numéro de téléphone ne peux pas dépasser 10 caractères. Il y a ${phoneNumber.length - 10} caractères de trop.`));
+            //TODO : Verifier que si un birthdate est fournis, il est valide
+            
+            const isAdmin = req.body.isAdmin || false;
 
-            const phoneType = req.body.phoneType;
-            if (!phoneType || phoneType === "") return next(new HttpError(400, "Le champ type de numéro de téléphone est requis"));
-            if (phoneType != "Mobile" && phoneType != "Domicile") return next(new HttpError(400, "Le type de numéro de tétéphone est invalide."));
-
-            if (!req.body.birthdate || req.body.birthdate === "") return next(new HttpError(400, "Le champ birthdate est requis"));
-
-            const addressNumber = req.body.addressNumber;
-            if (!addressNumber || addressNumber === "") return next(new HttpError(400, "Le champ numéro de l'adresse est requis"));
-            if (isNaN(addressNumber)) return next(new HttpError(400, `Le champ numéro de l'adresse doit être un chiffre et ne contenir aucune lettre ou caractères spéciaux`));
-
-            if (!req.body.addressStreet || req.body.addressStreet === "") return next(new HttpError(400, "Le champ rue de l'adresse est requis"));
-            if (!req.body.addressCity || req.body.addressCity === "") return next(new HttpError(400, "Le champ ville de l'adresse est requis"));
-            if (!req.body.addressState || req.body.addressState === "") return next(new HttpError(400, "Le champ province de l'adresse est requis"));
-            if (!req.body.addressCountry || req.body.addressCountry === "") return next(new HttpError(400, "Le champ pays de l'adresse est requis"));
-            if (!req.body.addressPostalCode || req.body.addressPostalCode === "") return next(new HttpError(400, "Le champ code postal de l'adresse est requis"));
-            if (!req.body.contactPreference || req.body.contactPreference === "") return next(new HttpError(400, "Le champ préférence de contact est requis"));
-            // TODO :  FAIRE VERIFICATION SI LE CONTACT PREFERENCE EXISTE DANS LA BD
-
-
-            const email = req.body.email.toLowerCase();
-            const clientWithEmail = await clientQueries.getClientByEmail(email);
-            if (clientWithEmail)
+            const email = req.body.email;
+            const userWithEmail = await userQueries.getUserBy("email", email);
+            if (userWithEmail)
             {
-                if (clientWithEmail.id != req.body.id)
+                if (userWithEmail.id != req.body.id)
                 {
                     throw new HttpError(409, `Un client avec le email ''${email}'' existe déjà`);
                 }
             }
 
-            if (req.body.contactPreference == "Sms" && phoneType != "Mobile")
-            {
-                throw new HttpError(400, `La préférence de contact ne peux pas être SMS si le téléphone fournis n'est pas un Mobile`);
-            }
-            const clientInfos = {
+            const userInfos = {
                 id: req.body.id,
                 firstName: firstName,
                 lastName: lastName,
                 email: email,
-                phoneNumber: phoneNumber,
-                phoneType: phoneType,
                 birthdate: req.body.birthdate,
-                addressNumber: addressNumber,
-                addressUnit: req.body.addressUnit,
-                addressStreet: req.body.addressStreet,
-                addressCity: req.body.addressCity,
-                addressState: req.body.addressState,
-                addressCountry: req.body.addressCountry,
-                addressPostalCode: req.body.addressPostalCode,
+                city: req.body.city,
+                state: req.body.state,
+                country: req.body.country,
                 wantNewsletter: req.body.wantNewsletter,
-                contactPreference: req.body.contactPreference,
-                isActive: req.body.isActive,
-                passwordLost: false
+                isAdmin: isAdmin
             };
 
             if (req.body.newPassword)
             {
                 const password = req.body.newPassword;
                 if (!password || password == '') return next(new HttpError(400, 'Le champ password est requis'));
-                if (password != req.body.confirmNewPassword) return next(new HttpError(400, 'Les mots de passe de correspondent pas'));
+                if (password != req.body.newPasswordConfirmation) return next(new HttpError(400, 'Les mots de passe de correspondent pas'));
                 if (!regex.validPassword.test(password)) return next(new HttpError(400, "Le champ password ne respect pas les critères d'acceptation"));
                 const saltBuf = crypto.randomBytes(16);
                 const passwordSalt = saltBuf.toString("base64");
@@ -389,8 +362,8 @@ router.put("/",
                     const passwordHashBase64 = derivedKey.toString("base64");
                     try
                     {
-                        const clientAccountWithPasswordHash = await clientQueries.updateClientAndPassword(clientInfos, passwordSalt, passwordHashBase64);
-                        res.json(clientAccountWithPasswordHash);
+                        const userAccountWithPasswordHash = await userQueries.updateUserInformationsAndPassword(userInfos, passwordHashBase64, passwordSalt);
+                        res.json(userAccountWithPasswordHash);
                     } catch (err)
                     {
                         return next(err);
@@ -399,8 +372,8 @@ router.put("/",
             }
             else
             {
-                const clientToReturn = await clientQueries.updateClientByAdmin(clientInfos);
-                res.json(clientToReturn);
+                const userToReturn = await userQueries.updateUserInformations(userInfos);
+                res.json(userToReturn);
             }
         } catch (err)
         {

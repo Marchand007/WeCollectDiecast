@@ -39,12 +39,12 @@
                             variant="outlined"></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4" order="8" order-sm="9" order-md="8">
-                        <v-text-field label="Nouveau mot de passe" v-model.trim="newPassword" type="password"
+                        <v-text-field label="Nouveau mot de passe" v-model.trim="editedUser.newPassword" type="password"
                             :density="display.smAndDown.value ? 'compact' : 'comfortable'" variant="outlined" bg-color="rgb(25,25,25)"
                             :rules="[rules.validPassword]"></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4" order="9" order-sm="10" order-md="9">
-                        <v-text-field label="Confirmation nouveau mot de passe" v-model.trim="newPasswordConfirmation"
+                        <v-text-field label="Confirmation nouveau mot de passe" v-model.trim="editedUser.newPasswordConfirmation"
                             type="password" :density="display.smAndDown.value ? 'compact' : 'comfortable'" bg-color="rgb(25,25,25)"
                             variant="outlined" :rules="[rules.passwordsMatch]"></v-text-field>
                     </v-col>
@@ -86,9 +86,7 @@ export default {
     {
         return {
             userSession: userSession,
-            editedUser: cloneDeep(this.user),
-            newPassword: '',
-            newPasswordConfirmation: '',
+            editedUser: this.user,
             rules: {
                 required: (value) => !!value || "Le champ est requis",
                 validEmail: (value) =>
@@ -111,11 +109,11 @@ export default {
                 },
                 passwordsMatch: () =>
                 {
-                    if (!this.newPassword || !this.newPasswordConfirmation)
+                    if (!this.editedUser.newPassword || !this.editedUser.newPasswordConfirmation)
                     {
                         return true;
                     }
-                    return this.newPassword === this.newPasswordConfirmation || "Les mots de passe ne correspondent pas";
+                    return this.editedUser.newPassword === this.editedUser.newPasswordConfirmation || "Les mots de passe ne correspondent pas";
                 }
             },
         };
