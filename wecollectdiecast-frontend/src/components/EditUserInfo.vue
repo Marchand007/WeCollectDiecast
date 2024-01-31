@@ -6,32 +6,32 @@
                     <v-col cols="12" sm="6" md="4" order="1">
                         <v-text-field label="Prénom" v-model.trim="editedUser.firstName"
                             :density="display.smAndDown.value ? 'compact' : 'comfortable'" variant="outlined"  bg-color="rgb(25,25,25)"
-                            :rules="[rules.required]"></v-text-field>
+                            :rules="[rules.required]" autocomplete="null"></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4" order="2">
                         <v-text-field label="Nom de famille" v-model.trim="editedUser.lastName"
                             :density="display.smAndDown.value ? 'compact' : 'comfortable'" variant="outlined" bg-color="rgb(25,25,25)"
-                            :rules="[rules.required]"></v-text-field>
+                            :rules="[rules.required]" autocomplete="null"></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4" order="3">
                         <v-text-field label="Courriel" v-model.trim="editedUser.email"
                             :density="display.smAndDown.value ? 'compact' : 'comfortable'" variant="outlined" bg-color="rgb(25,25,25)"
-                            :rules="[rules.required, rules.validEmail]"></v-text-field>
+                            :rules="[rules.required, rules.validEmail]" autocomplete="null"></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4" order="4">
                         <v-text-field label="Ville" v-model.trim="editedUser.city"
                             :density="display.smAndDown.value ? 'compact' : 'comfortable'" bg-color="rgb(25,25,25)"
-                            variant="outlined"></v-text-field>
+                            variant="outlined" autocomplete="null"></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4" order="5">
                         <v-text-field label="Province" v-model.trim="editedUser.state"
                             :density="display.smAndDown.value ? 'compact' : 'comfortable'" bg-color="rgb(25,25,25)"
-                            variant="outlined"></v-text-field>
+                            variant="outlined" autocomplete="null"></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4" order="6">
                         <v-text-field label="Pays" v-model.trim="editedUser.country"
                             :density="display.smAndDown.value ? 'compact' : 'comfortable'" bg-color="rgb(25,25,25)"
-                            variant="outlined"></v-text-field>
+                            variant="outlined" autocomplete="null"></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4" order="7">
                         <v-text-field label="Date de naissance" type="date" v-model.trim="editedUser.birthdate"
@@ -41,12 +41,12 @@
                     <v-col cols="12" sm="6" md="4" order="8" order-sm="9" order-md="8">
                         <v-text-field label="Nouveau mot de passe" v-model.trim="editedUser.newPassword" type="password"
                             :density="display.smAndDown.value ? 'compact' : 'comfortable'" variant="outlined" bg-color="rgb(25,25,25)"
-                            :rules="[rules.validPassword]"></v-text-field>
+                            :rules="[rules.validPassword]" autocomplete="null"></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4" order="9" order-sm="10" order-md="9">
                         <v-text-field label="Confirmation nouveau mot de passe" v-model.trim="editedUser.newPasswordConfirmation"
                             type="password" :density="display.smAndDown.value ? 'compact' : 'comfortable'" bg-color="rgb(25,25,25)"
-                            variant="outlined" :rules="[rules.passwordsMatch]"></v-text-field>
+                            variant="outlined" :rules="[rules.passwordsMatch]" autocomplete="null"></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4" order="10" order-sm="8" order-md="10">
                         <v-checkbox label="Abonné a l'infolettre" v-model.trim="editedUser.wantNewsletter"></v-checkbox>
