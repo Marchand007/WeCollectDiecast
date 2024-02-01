@@ -32,25 +32,25 @@
                     <v-icon start>
                         mdi-account
                     </v-icon>
-                    Son profil
+                    {{ $t('hisProfile') }}
                 </v-tab>
                 <v-tab selected-class="active-tab" value="usercollection">
                     <v-icon start>
                         mdi-car
                     </v-icon>
-                    Sa collection
+                    {{ $t('hisCollection') }}
                 </v-tab>
                 <v-tab selected-class="active-tab" value="userwishlist">
                     <v-icon start>
                         mdi-heart
                     </v-icon>
-                    Sa wishlist
+                    {{ $t('hisWishlist') }}
                 </v-tab>
                 <v-tab selected-class="active-tab" value="contactuser">
                     <v-icon start>
                         mdi-email
                     </v-icon>
-                    Le contacter
+                    {{ $t('contactHim') }}
                 </v-tab>
             </v-tabs>
             <v-tabs v-if="shownedMenuUser" v-model="tab" :direction="display.smAndDown.value ? 'vertical' : 'horizontal'"
@@ -59,25 +59,25 @@
                     <v-icon start>
                         mdi-account
                     </v-icon>
-                    Mon profil
+                    {{ $t('myProfile') }}
                 </v-tab>
                 <v-tab selected-class="active-tab" value="editinformations">
                     <v-icon start>
                         mdi-pencil
                     </v-icon>
-                    <span>Informations</span>
+                    <span>{{ $t('informations') }}</span>
                 </v-tab>
                 <v-tab selected-class="active-tab" value="additem">
                     <v-icon start>
                         mdi-plus
                     </v-icon>
-                    <span s>Item</span>
+                    <span s>{{ $t('item') }}</span>
                 </v-tab>
                 <v-tab selected-class="active-tab" value="managecollection">
                     <v-icon start>
                         mdi-chart-timeline
                     </v-icon>
-                    <span>Gerer sa collection</span>
+                    <span>{{ $t('manageMyCollection') }}</span>
                 </v-tab>
 
             </v-tabs>
@@ -90,14 +90,10 @@
                         <v-card elevation="0" flat>
                             <v-card-text>
                                 <h2>Collection</h2>
-                                <p class="mb-2"> Ici sera la collection de l'utilisateur. </p>
-                                <p class="mb-2"> Il sera possible de voir les items que l'utilisateur possede et qu'il
-                                    public.
-                                </p>
-                                <p class="mb-2"> Il ne sera pas possible de voir les items que l'utilisateur possede et
-                                    qu'il
-                                    met private.</p>
-                                <p class="mb-2"> Un systeme de filtre sera mis en place pour faciliter la recherche.</p>
+                                <p class="mb-2">{{ $t('collection1') }}</p>
+                                <p class="mb-2">{{ $t('collection2') }}</p>
+                                <p class="mb-2">{{ $t('collection3') }}.</p>
+                                <p class="mb-2">{{ $t('collection4') }}</p>
                             </v-card-text>
                         </v-card>
                     </v-window-item>
@@ -105,24 +101,20 @@
                         <v-card elevation="0" flat>
                             <v-card-text>
                                 <h2>Wishlist</h2>
-                                <p class="mb-2"> Ici sera la wishlist de l'utilisateur. </p>
-                                <p class="mb-2"> Il sera possible de voir les items que l'utilisateur aimerais bien trouver.
-                                </p>
+                                <p class="mb-2">{{ $t('wishlist1') }}</p>
+                                <p class="mb-2">{{ $t('wishlist2') }}</p>
                             </v-card-text>
                         </v-card>
                     </v-window-item>
                     <v-window-item value="contactuser">
                         <v-card elevation="0" flat>
                             <v-card-text>
-                                <h2>Envoyez-lui un message!</h2>
+                                <h2>{{ $t('message1') }}</h2>
 
-                                <p class="mb-2"> Ici sera un formulaire pour envoyer un message a l'utilisateur. Un systeme
-                                    de
-                                    messagerie interne sera mis en place.</p>
-                                <p class="mb-2">Cela evitera de devoir donner son adresse courriel.</p>
-                                <p class="mb-2"> Il sera possible de voir les messages recus et envoyes dans la section "Mes
-                                    message".</p>
-                                <p class="mb-2">Cela permettera de garder une trace des messages envoyes et recus.</p>
+                                <p class="mb-2">{{ $t('message1') }}</p>
+                                <p class="mb-2">{{ $t('message2') }}</p>
+                                <p class="mb-2">{{ $t('message3') }}</p>
+                                <p class="mb-2">{{ $t('message4') }}</p>
                             </v-card-text>
                         </v-card>
                     </v-window-item>
@@ -134,17 +126,13 @@
                     <v-window-item value="additem">
                         <v-card elevation="0" flat>
                             <v-card-text>
-                                <h2>Ajout d'un item a sa collection</h2>
-                                <p class="mb-2"> Ici sera un formulaire pour ajouter un item a sa collection.</p>
-                                <p class="mb-2">Plusieurs options seront disponibles pour faciliter l'ajout d'un item et
-                                    pour sa classification.</p>
-                                <p class="mb-2">Il sera possible d'ajouter une photo egalement afin de faciliter la
-                                    reconnaisance de celui ci.</p>
-                                <p class="mb-2">Il sera possible de mettre l'item en "private" ou "public" afin que seul
-                                    l'utilisateur puisse le voir ou non.</p>
-                                <p class="mb-2">Il sera possible de mettre l'item dans sa "wishlist".</p>
-                                <p class="mb-2">Il sera possible de mettre l'item a "vendre", "échanger" car éventuellement
-                                    des ventes seront possible sur la plateforme version 2.0</p>
+                                <h2>{{ $t('addNewItem1') }}</h2>
+                                <p class="mb-2">{{ $t('addNewItem2') }}</p>
+                                <p class="mb-2">{{ $t('addNewItem3') }}</p>
+                                <p class="mb-2">{{ $t('addNewItem4') }}</p>
+                                <p class="mb-2">{{ $t('addNewItem5') }}</p>
+                                <p class="mb-2">{{ $t('addNewItem6') }}</p>
+                                <p class="mb-2">{{ $t('addNewItem7') }}</p>
 
                             </v-card-text>
                         </v-card>
@@ -152,12 +140,10 @@
                     <v-window-item value="managecollection">
                         <v-card elevation="0" flat>
                             <v-card-text>
-                                <h2>Gerer sa collection</h2>
-                                <p class="mb-2"> Ici sera la gestion pour gerer sa collection.</p>
-                                <p class="mb-2"> Il sera possible de modifier les informations d'un item ou le supprimer de
-                                    sa collection.</p>
-                                <p class="mb-2"> Il sera possible de modifier les informations d'un item ou le supprimer de
-                                    sa wishlist.</p>
+                                <h2>{{ $t('manageCollection1') }}</h2>
+                                <p class="mb-2">{{ $t('manageCollection2') }}</p>
+                                <p class="mb-2">{{ $t('manageCollection3') }}</p>
+                                <p class="mb-2">{{ $t('manageCollection4') }}</p>
                             </v-card-text>
                         </v-card>
                     </v-window-item>
@@ -165,7 +151,7 @@
             </v-window>
         </div>
         <v-snackbar v-model="snackbarShare" :timeout="2000">
-            Lien copié dans le presse-papier
+            {{ $t('linkCopiedToClipboard') }}
         </v-snackbar>
     </div>
 </template>
@@ -237,7 +223,7 @@ export default {
             errorMessage: "",
             showMenu: true,
             showMenuUser: false,
-            shareTooltipText: 'Cliquez ici pour copier le lien de la page dans votre presse-papier',
+            shareTooltipText: this.$t('clickHereToShareAccount'),
             snackbarShare: false,
         };
     },
@@ -257,7 +243,7 @@ export default {
                 }
                 this.loadUserRating();
                 const luxonDate = DateTime.fromISO(this.user.createdDate);
-                this.user.createdDate = luxonDate.toLocaleString(DateTime.DATE_MED);
+                this.user.createdDate = luxonDate;
             }).catch(err =>
             {
                 console.error(err);
@@ -277,6 +263,8 @@ export default {
                 this.userToEdit.newPassword = '';
                 this.userToEdit.confirmNewPassword = '';
                 this.loadUserRating();
+                const luxonDate = DateTime.fromISO(this.user.createdDate);
+                this.user.createdDate = luxonDate;
                 this.tab = 'userinformations';
             }).catch(err =>
             {

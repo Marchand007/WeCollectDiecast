@@ -20,7 +20,7 @@
                 <v-col cols="12" class="text-right">
                     <v-btn @click="openLoginSection" class="text-subtitle-1"
                         color="white">
-                        CONNEXION / INSCRIPTION
+                        {{ $t('connection').toLocaleUpperCase() }} / {{ $t('registration').toLocaleUpperCase() }}
                     </v-btn>
                 </v-col>
             </v-row>
@@ -28,9 +28,9 @@
                 <v-col cols="12" md="6" class="text-right">
                     <v-btn @click="openLoginSection" :class="display.smAndDown.value ? 'text-subtitle-2' : ''"
                         color="white">
-                        CONNEXION
+                        {{ $t('connection').toLocaleUpperCase() }}
                         <br />
-                        INSCRIPTION
+                        {{ $t('registration').toLocaleUpperCase() }}
                     </v-btn>
                 </v-col>
             </v-row>
@@ -39,7 +39,7 @@
             <v-menu :menu-props="{ dark: true, color: $vuetify.theme.themes.dark.primary }">
                 <template  v-slot:activator="{ props }">
                     <span v-bind="props" v-show="display.mdAndUp.value" class="mx-2 username-text" style="color:white">
-                        Bienvenue, {{ userSession.user.username }}
+                        {{ $t('welcome') }}, {{ userSession.user.username }}
                     </span>
 
                     <span v-bind="props" v-show="display.smAndDown.value" class="username-text"
@@ -47,23 +47,23 @@
                         {{ userSession.user.username }}
                     </span>
                     <v-btn v-bind="props" color="white">
-                        <p v-show="display.mdAndUp.value">Mon compte </p>
+                        <p v-show="display.mdAndUp.value">{{ $t('myAccount') }}</p>
                         <span><v-icon>mdi-account-circle</v-icon></span>
                     </v-btn>
                 </template>
                 <v-list>
                     <RouterLink class="my-account" :to="accountUrl"><v-list-item>
-                            <v-list-item-title>Mes informations</v-list-item-title>
+                            <v-list-item-title> {{ $t('myInformations') }}</v-list-item-title>
                         </v-list-item></RouterLink>
                     <RouterLink class="my-account" to="/"><v-list-item>
-                            <v-list-item-title>Ma Collection (a venir)</v-list-item-title>
+                            <v-list-item-title> {{ $t('myCollection') }} ({{ $t('toCome') }})</v-list-item-title>
                         </v-list-item></RouterLink>
                     <br />
                     <v-divider thickness="2"></v-divider>
                     <br />
 
                     <v-list-item>
-                        <v-list-item-title @click="disconnect">Se deconnecter</v-list-item-title>
+                        <v-list-item-title @click="disconnect"> {{ $t('logout') }}</v-list-item-title>
                     </v-list-item>
 
                 </v-list>

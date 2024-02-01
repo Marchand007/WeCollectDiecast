@@ -3,56 +3,59 @@
         <v-card-text>
             <v-form @submit.prevent="saveEdit" validate="on-blur" validate-on="blur" ref="createUserForm">
                 <v-row class="ma-0" no-gutters>
-                    <v-col cols="12" sm="6" md="4" order="1">
-                        <v-text-field label="Prénom" v-model.trim="editedUser.firstName"
+                    <v-col cols="12" sm="6" md="4" order="2" order-sm="1">
+                        <v-text-field :label="$t('firstName').concat(' *')" v-model.trim="editedUser.firstName"
                             :density="display.smAndDown.value ? 'compact' : 'comfortable'" variant="outlined"  bg-color="rgb(25,25,25)"
                             :rules="[rules.required]" autocomplete="null"></v-text-field>
                     </v-col>
-                    <v-col cols="12" sm="6" md="4" order="2">
-                        <v-text-field label="Nom de famille" v-model.trim="editedUser.lastName"
+                    <v-col cols="12" sm="6" md="4" order="3" order-sm="2">
+                        <v-text-field :label="$t('lastName').concat(' *')" v-model.trim="editedUser.lastName"
                             :density="display.smAndDown.value ? 'compact' : 'comfortable'" variant="outlined" bg-color="rgb(25,25,25)"
                             :rules="[rules.required]" autocomplete="null"></v-text-field>
                     </v-col>
-                    <v-col cols="12" sm="6" md="4" order="3">
-                        <v-text-field label="Courriel" v-model.trim="editedUser.email"
+                    <v-col cols="12" sm="6" md="4" order="4" order-sm="3">
+                        <v-text-field :label="$t('email').concat(' *')" v-model.trim="editedUser.email"
                             :density="display.smAndDown.value ? 'compact' : 'comfortable'" variant="outlined" bg-color="rgb(25,25,25)"
                             :rules="[rules.required, rules.validEmail]" autocomplete="null"></v-text-field>
                     </v-col>
-                    <v-col cols="12" sm="6" md="4" order="4">
-                        <v-text-field label="Ville" v-model.trim="editedUser.city"
+                    <v-col cols="12" sm="6" md="4" order="5" order-sm="4">
+                        <v-text-field :label="$t('city')" v-model.trim="editedUser.city"
                             :density="display.smAndDown.value ? 'compact' : 'comfortable'" bg-color="rgb(25,25,25)"
                             variant="outlined" autocomplete="null"></v-text-field>
                     </v-col>
-                    <v-col cols="12" sm="6" md="4" order="5">
-                        <v-text-field label="Province" v-model.trim="editedUser.state"
+                    <v-col cols="12" sm="6" md="4" order="6" order-sm="5">
+                        <v-text-field :label="$t('state')" v-model.trim="editedUser.state"
                             :density="display.smAndDown.value ? 'compact' : 'comfortable'" bg-color="rgb(25,25,25)"
                             variant="outlined" autocomplete="null"></v-text-field>
                     </v-col>
-                    <v-col cols="12" sm="6" md="4" order="6">
-                        <v-text-field label="Pays" v-model.trim="editedUser.country"
+                    <v-col cols="12" sm="6" md="4" order="7" order-sm="6">
+                        <v-text-field :label="$t('country')" v-model.trim="editedUser.country"
                             :density="display.smAndDown.value ? 'compact' : 'comfortable'" bg-color="rgb(25,25,25)"
                             variant="outlined" autocomplete="null"></v-text-field>
                     </v-col>
-                    <v-col cols="12" sm="6" md="4" order="7">
-                        <v-text-field label="Date de naissance" type="date" v-model.trim="editedUser.birthdate"
+                    <v-col cols="12" sm="6" md="4" order="8" order-sm="7">
+                        <v-text-field :label="$t('birthdate')" type="date" v-model.trim="editedUser.birthdate"
                             :density="display.smAndDown.value ? 'compact' : 'comfortable'" bg-color="rgb(25,25,25)"
                             variant="outlined"></v-text-field>
                     </v-col>
-                    <v-col cols="12" sm="6" md="4" order="8" order-sm="9" order-md="8">
-                        <v-text-field label="Nouveau mot de passe" v-model.trim="editedUser.newPassword" type="password"
+                    <v-col cols="12" sm="6" md="4" order="9" order-sm="9" order-md="8">
+                        <v-text-field :label="$t('newPassword').concat(' *')" v-model.trim="editedUser.newPassword" type="password"
                             :density="display.smAndDown.value ? 'compact' : 'comfortable'" variant="outlined" bg-color="rgb(25,25,25)"
                             :rules="[rules.validPassword]" autocomplete="null"></v-text-field>
                     </v-col>
-                    <v-col cols="12" sm="6" md="4" order="9" order-sm="10" order-md="9">
-                        <v-text-field label="Confirmation nouveau mot de passe" v-model.trim="editedUser.newPasswordConfirmation"
+                    <v-col cols="12" sm="6" md="4" order="10" order-sm="10" order-md="9">
+                        <v-text-field :label="$t('confirmNewPassword').concat(' *')" v-model.trim="editedUser.newPasswordConfirmation"
                             type="password" :density="display.smAndDown.value ? 'compact' : 'comfortable'" bg-color="rgb(25,25,25)"
                             variant="outlined" :rules="[rules.passwordsMatch]" autocomplete="null"></v-text-field>
                     </v-col>
-                    <v-col cols="12" sm="6" md="4" order="10" order-sm="8" order-md="10">
-                        <v-checkbox label="Abonné a l'infolettre" v-model.trim="editedUser.wantNewsletter"></v-checkbox>
+                    <v-col cols="12" sm="6" md="4" order="11" order-sm="8" order-md="10">
+                        <v-checkbox :label="$t('subscribedToNewsletter')" v-model.trim="editedUser.wantNewsletter"></v-checkbox>
                     </v-col>
-                    <v-col class="px-2" cols="12" sm="12" md="8" order="11">
-                        <v-btn type="submit" block>Sauvegarder</v-btn>
+                    
+                    <v-col class="px-2" cols="12" sm="12" md="8" order="1" order-sm="11" order-md="11">
+                    <v-row class="ma-0 mb-5">
+                        <v-btn type="submit" block>{{ $t('save') }}</v-btn>
+                    </v-row>
                     </v-col>
                 </v-row>
             </v-form>
@@ -88,12 +91,12 @@ export default {
             userSession: userSession,
             editedUser: this.user,
             rules: {
-                required: (value) => !!value || "Le champ est requis",
+                required: (value) => !!value || this.$t('fieldRequired'),
                 validEmail: (value) =>
                 {
                     return (
                         validEmail.test(value) ||
-                        "Veuillez entrer une adresse courriel valide"
+                        this.$t('invalidEmail')
                     );
                 },
                 validPassword: (value) =>
@@ -104,7 +107,7 @@ export default {
                     }
                     return (
                         validPassword.test(value) ||
-                        `Le mot de passe doit contenir: 8 caractères minimum, 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial`
+                        this.$t('passwordDontMatchRegex')
                     );
                 },
                 passwordsMatch: () =>
@@ -113,7 +116,7 @@ export default {
                     {
                         return true;
                     }
-                    return this.editedUser.newPassword === this.editedUser.newPasswordConfirmation || "Les mots de passe ne correspondent pas";
+                    return this.editedUser.newPassword === this.editedUser.newPasswordConfirmation || this.$t('passwordsDontMatch');
                 }
             },
         };

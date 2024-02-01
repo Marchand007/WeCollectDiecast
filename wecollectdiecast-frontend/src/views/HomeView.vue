@@ -5,11 +5,10 @@
         <img class="logo" width="50%" src="@/assets/FullLogoNoBG.png" />
       </v-row>
       <v-row class="justify-center ma-0" no-gutters>
-        <p style="font-size: 24px; text-align: center; color:white">bientôt disponible</p>
+        <p style="font-size: 24px; text-align: center; color:white"> {{ $t('comingSoon') }}</p>
       </v-row>
       <v-row class="justify-center ma-10" no-gutters>
-        <p style="font-size: 14px; text-align: left; color:white">Il est cependant possible de créer un compte dès
-          maintenant</p>
+        <p style="font-size: 14px; text-align: left; color:white">{{ $t('createAccountNow') }}</p>
       </v-row>
     </v-row>
   </div>
@@ -56,6 +55,10 @@ export default {
     {
       this.dialogIsOpen(this.showRegistrerSection);
     }
+  },
+  mounted()
+  {
+    
   }
 }
 
@@ -88,6 +91,7 @@ p {
 }
 .home-view {
   margin-bottom: 50px;
+  min-height: 75vh;
 }
 
 </style>

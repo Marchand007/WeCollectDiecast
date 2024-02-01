@@ -1,37 +1,36 @@
 <template>
   <div class="login">
 
-    <h1>Se connecter</h1>
-    <p>Vous n'avez pas de compte ? <span class="link font-weight-bold" @click="toggleLogin">Créez-en
-        un</span></p>
+    <h1> {{ $t('login') }}</h1>
+    <p> {{ $t('havingNoAccount') }} <span class="link font-weight-bold" @click="toggleLogin"> {{ $t('createAccount') }}</span></p>
     <p class="error-message">{{ errorMessage }}</p>
     <v-form @submit.prevent="loginWithUsername" validate-on="blur" ref="loginForm">
       <v-row no-gutters>
         <v-col cols="12">
-          <v-text-field v-model.trim="loginUsername" label="Nom d'utilisateur" :rules="[rules.required]" clearable
+          <v-text-field v-model.trim="loginUsername" :label="$t('username')" :rules="[rules.required]" clearable
             autocomplete="null" density="compact">
           </v-text-field>
         </v-col>
         <v-col cols="12">
-          <v-text-field v-model.trim="loginPassword" label="Mot de passe" :type="seePassword ? 'text' : 'password'"
+          <v-text-field v-model.trim="loginPassword" :label="$t('password')" :type="seePassword ? 'text' : 'password'"
             :rules="[rules.required]" density="compact" ref="passwordInput"
             :append-inner-icon="loginPassword ? seePassword ? 'mdi-eye-off' : 'mdi-eye' : null"
             @click:append-inner="() => (seePassword = !seePassword)">
           </v-text-field>
-          <p @click="openForgotPasswordSection" class="link">Mot de passe oublié ?</p>
+          <p @click="openForgotPasswordSection" class="link"> {{ $t('forgotPassword') }}</p>
         </v-col>
         <v-col cols="12" class="ma-0" no-gutters>
-          <v-checkbox label="Se souvenir de moi">
+          <v-checkbox :label="$t('rememberMe')">
           </v-checkbox>
         </v-col>
       </v-row>
       <v-row class="justify-right ma-0" no-gutters>
         <v-col cols="6">
-          <v-btn @click="closeLoginSection" color="black" size="large" elevation="5">Annuler</v-btn>
+          <v-btn @click="closeLoginSection" color="black" size="large" elevation="5"> {{ $t('cancel') }}</v-btn>
         </v-col>
         <v-col cols="6">
           <v-btn type="submit" block color="rgba(138, 103, 9, 0.9)" size="large" elevation="5"
-            :disabled="disabledLoginButton">Se connecter</v-btn>
+            :disabled="disabledLoginButton"> {{ $t('login') }}</v-btn>
         </v-col>
 
       </v-row>
@@ -44,7 +43,7 @@
       <v-row class="ma-0">
         <v-col cols="12">
           <p class="error-message">{{ lostpasswordErrorMessage }}</p>
-        <p>Veuillez inscrire votre courriel</p>
+        <p>{{ $t('writeEmail') }}</p>
           <v-text-field v-model.trim="forgotPasswordEmail" label="Courriel" :rules="[rules.required]" clearable color="white" variant="solo"
             autocomplete="null" density="compact">
           </v-text-field>
@@ -52,11 +51,11 @@
       </v-row>
       <v-row class="justify-right" no-gutters>
         <v-col cols="6">
-          <v-btn @click="closeForgotPasswordSection" color="white" size="large" elevation="5">Annuler</v-btn>
+          <v-btn @click="closeForgotPasswordSection" color="white" size="large" elevation="5">{{ $t('cancel') }}</v-btn>
         </v-col>
         <v-col cols="6">
           <v-btn type="submit" block color="rgba(138, 103, 9, 0.9)" size="large" elevation="5"
-            :disabled="!forgotPasswordEmail">Réinitialiser</v-btn>
+            :disabled="!forgotPasswordEmail">{{ $t('reset') }}</v-btn>
         </v-col>
       </v-row>
     </v-form>
@@ -67,7 +66,7 @@
     <v-form @submit.prevent="sendForgotPasswordRequest" validate-on="blur" ref="lostpasswordForm">
       <v-row class="ma-0">
         <v-col cols="12">
-        <p>Un courriel vous a été envoyé avec les instructions pour réinitialiser votre mot de passe</p>
+        <p>{{ $t('resetPasswordLinkSent') }}</p>
         </v-col>
       </v-row>
     </v-form>
@@ -90,7 +89,7 @@ export default {
       loginUsername: "",
       loginPassword: "",
       rules: {
-        required: (value) => !!value || "Le champ est requis",
+        required: (value) => !!value || this.$t('fieldRequired'),
       },
       errorMessage: "",
       lostpasswordErrorMessage: "",

@@ -11,6 +11,8 @@ import { aliases, mdi } from 'vuetify/iconsets/mdi';
 import App from './App.vue'
 import router from './router'
 import store from './stores/index.js'
+import i18n from './i18n.js'
+
 
 const app = createApp(App)
 app.use(store);
@@ -38,7 +40,7 @@ const vuetify = createVuetify({
     },
 });
 
-
+app.use(i18n);
 app.use(vuetify);
 app.use(router)
 

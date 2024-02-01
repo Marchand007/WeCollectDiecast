@@ -59,11 +59,11 @@ router.get("/id/:id",
 
         userQueries
             .getUserBy("id", id)
-            .then((client) =>
+            .then((user) =>
             {
-                if (client)
+                if (user)
                 {
-                    res.json(client);
+                    res.json(user);
                 } else
                 {
                     return next(new HttpError(404, `Aucun user trouvé avec le id ${id}`));
@@ -88,11 +88,11 @@ router.get("/username/:username",
 
         userQueries
             .getUserBy("username", username)
-            .then((client) =>
+            .then((user) =>
             {
-                if (client)
+                if (user)
                 {
-                    res.json(client);
+                    res.json(user);
                 } else
                 {
                     return next(new HttpError(404, `Aucun user trouvé avec le username ${username}`));
