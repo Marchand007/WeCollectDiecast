@@ -28,8 +28,8 @@ async function createServiceError(response)
 
 export async function getUserList(option)
 {
-    const response = await fetch(`https://wcd-api-7fcyt.ondigitalocean.app/api/user/${option}`, {
-    //const response = await fetch(`api/user/${option}`, {
+    //const response = await fetch(`https://wcd-api-7fcyt.ondigitalocean.app/api/user/${option}`, {
+    const response = await fetch(`api/user/${option}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -49,8 +49,8 @@ export async function getUserList(option)
 
 export async function getUserBy(option, value)
 {
-    const response = await fetch(`https://wcd-api-7fcyt.ondigitalocean.app/api/user/${option}/${value}`, {
-    //const response = await fetch(`api/user/${option}/${value}`, {
+    //const response = await fetch(`https://wcd-api-7fcyt.ondigitalocean.app/api/user/${option}/${value}`, {
+    const response = await fetch(`api/user/${option}/${value}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -68,8 +68,8 @@ export async function getUserBy(option, value)
 
 export async function createUser(user)
 {
-    const response = await fetch(`https://wcd-api-7fcyt.ondigitalocean.app/api/user`, {
-    //const response = await fetch(`api/user`, {
+    //const response = await fetch(`https://wcd-api-7fcyt.ondigitalocean.app/api/user`, {
+    const response = await fetch(`api/user`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -89,8 +89,8 @@ export async function createUser(user)
 
 export async function updateUser(userInfos)
 {
-    const response = await fetch(`https://wcd-api-7fcyt.ondigitalocean.app/api/user`, {
-    //const response = await fetch(`api/user`, {
+    //const response = await fetch(`https://wcd-api-7fcyt.ondigitalocean.app/api/user`, {
+    const response = await fetch(`api/user`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
@@ -112,8 +112,8 @@ export async function updateUser(userInfos)
 
 export async function resetUserPassword(userEmail, newPassword)
 {
-    const response = await fetch(`https://wcd-api-7fcyt.ondigitalocean.app/api/user/lostpassword`, {
-    //const response = await fetch(`api/user/lostpassword`, {
+    //const response = await fetch(`https://wcd-api-7fcyt.ondigitalocean.app/api/user/lostpassword`, {
+    const response = await fetch(`api/user/lostpassword`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

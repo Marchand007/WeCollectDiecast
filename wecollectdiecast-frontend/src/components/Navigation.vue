@@ -160,20 +160,21 @@ export default {
             // Faites quelque chose en réponse au changement de loginSectionOpen
             if (newValue == true)
             {
-                this.closeRegistrerSection();
+
+                this.dialogIsOpen(true);
+                this.showRegistrerSection = false;
                 this.openLoginSection();
             }
-            console.log('La valeur de loginSectionOpen a changé :', newValue);
         },
         registrerSectionOpened(newValue, oldValue)
         {
             // Faites quelque chose en réponse au changement de registrerSectionOpen
             if (newValue == true)
             {
+                this.dialogIsOpen(true);
                 this.openRegistrerSection();
-                this.closeLoginSection();
+                this.showLoginSection = false;
             }
-            console.log('La valeur de registrerSectionOpen a changé :', newValue);
         }
     },
     provide()

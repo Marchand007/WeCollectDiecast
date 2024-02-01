@@ -31,7 +31,7 @@ const userSession = reactive({
             this.fetchuser().catch(err =>
             {
                 this.clearCredentials();
-                console.error("L'authentification initiale a échouée: ", err)
+                console.error(this.$t('initalLoginFailed'), err)
             });
         }
         if (!sessionStorage.userUsername && !sessionStorage.password)
@@ -67,8 +67,8 @@ const userSession = reactive({
     },
     async fetchuser()
     {
-        const response = await fetch("https://wcd-api-7fcyt.ondigitalocean.app/api/login", {
-        //const response = await fetch("api/login", {
+        //const response = await fetch("https://wcd-api-7fcyt.ondigitalocean.app/api/login", {
+        const response = await fetch("api/login", {
             method: "GET",
             headers: {
                 ... this.getAuthHeaders()
@@ -88,14 +88,14 @@ const userSession = reactive({
             this.isReady = true;
             if (response.status === 401)
             {
-                throw new AuthError(response.status, "Nom d'utilisateur ou mot de passe incorrect");
+                throw new AuthError(response.status, this.$t("errorUsernameOrPassword"));
             } else if (response.status === 403)
             {
-                throw new AuthError(response.status, "Votre compte est désactivé, veuillez nous contacter pour plus d'informations");
+                throw new AuthError(response.status, this.$t("YourAccountIsDeactivated"));
             }
             else
             {
-                throw new AuthError(response.status, "Erreur lors de l'authentification: " + response.status);
+                throw new AuthError(response.status, this.$t("errorLogin") + response.status);
             }
         }
     },

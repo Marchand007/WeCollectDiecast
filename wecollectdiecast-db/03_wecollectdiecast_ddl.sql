@@ -37,23 +37,35 @@ CREATE TABLE user_rating (
 
 CREATE TABLE diecast (
   id SERIAL NOT NULL,
+  owner_id int4 NOT NULL REFERENCES user("id") ON DELETE CASCADE,
   item_brand varchar(255) NOT NULL REFERENCES diecastbrand(brand_name) ON DELETE CASCADE,
   car_brand varchar(255) NOT NULL REFERENCES carbrand(car_brand_name) ON DELETE CASCADE,
   car_model varchar(255) NOT NULL REFERENCES carmodel(car_model_name) ON DELETE CASCADE,
   car_year int4 NULL,
   color varchar(255) NOT NULL REFERENCES color(color) ON DELETE CASCADE,
+  condition varchar(255) NOT NULL,
   scale varchar(255) NOT NULL REFERENCES scale(scale_name) ON DELETE CASCADE,
+  
   serie_name varchar(255) NOT NULL REFERENCES diecast_serie(serie_name) ON DELETE CASCADE,
   serie_number int4 NULL,
   serie_number_of int4 NULL,
   year_produced int4 NULL,
+
   limited_quantity_number int4 NULL,
+  numbered_number int4 NULL,
+  is_custom boolean NOT NULL DEFAULT false,
+  is_error boolean NOT NULL DEFAULT false,
+  is_carded boolean NOT NULL,
   is_mainline boolean NOT NULL DEFAULT false,
   is_premium boolean NOT NULL DEFAULT false,
   is_monster boolean NOT NULL DEFAULT false,
   is_mystery_models boolean NOT NULL DEFAULT false,
-  is_zamac boolean NOT NULL DEFAULT false,
+  is_zamac_raw boolean NOT NULL DEFAULT false,
   is_red_edition boolean NOT NULL DEFAULT false,
+  is_box_set boolean NOT NULL DEFAULT false,
+  box_name varchar(255) NULL,
+  is_pack boolean NOT NULL DEFAULT false,
+  pack_size int4 NULL,
   is_motorcycle boolean NOT NULL DEFAULT false,
   is_exclusive boolean NOT NULL DEFAULT false,
   exclusive_location varchar(255) NOT NULL,
@@ -70,23 +82,24 @@ CREATE TABLE diecast (
   is_event_exclusive boolean NOT NULL DEFAULT false,
   event_location varchar(255) NULL,
   event_year int4 NULL,
-  PRIMARY KEY (id)
-);
-
-CREATE TABLE user_diecast (
-  id SERIAL NOT NULL,
-  user_id int4 NOT NULL REFERENCES user("id") ON DELETE CASCADE,
-  diecast_id int4 NOT NULL REFERENCES diecast("id") ON DELETE CASCADE,
-  numbered_number int4 NULL,
-  is_custom boolean NOT NULL,
-  is_carded boolean NOT NULL,
-  condition varchar(255) NOT NULL,
   buy_date date NULL,
   buy_price float4 NULL,
   sell_date date NULL,
   sell_price float4 NULL,
+  variation varchar(255) NULL,
+  additional_info varchar(255) NULL,
+  picture bytea,
+  picture_type varchar(255),
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE diecast_custom_field (
+  id SERIAL NOT NULL,
+  diecast_id int4 NOT NULL REFERENCES diecast(id) ON DELETE CASCADE,
+  custom_field_name varchar(255) NOT NULL,
+  custom_field_value varchar(255) NOT NULL,
   PRIMARY KEY (id),
-  UNIQUE (user_id, diecast_id)
+  UNIQUE (diecast_id, custom_field_name)
 );
 
 CREATE TABLE diecast_serie (

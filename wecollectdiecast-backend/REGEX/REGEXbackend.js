@@ -14,5 +14,5 @@ exports.validDate = validDate;
 const validTime = /^(?:[01]\d|2[0-3]):[0-5]\d(?::[0-5]\d)?$/;
 exports.validTime = validTime;
 
-const validPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$!%*?&])[A-Za-z\d@#$!%*?&]{8,}$/;
+const validPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$!%-+*?&])[A-Za-z\d@#$!%-+*?&]{8,}$/;
 exports.validPassword = validPassword;

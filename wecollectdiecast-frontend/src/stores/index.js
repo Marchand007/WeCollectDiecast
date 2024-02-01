@@ -17,7 +17,6 @@ export default createStore({
         },
         openLoginSection(state)
         {
-            console.log("openLoginSection");
             state.loginSectionOpened = true; 
             state.registrerSectionOpened = false;
         }

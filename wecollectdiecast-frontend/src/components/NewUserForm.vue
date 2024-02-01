@@ -141,7 +141,6 @@ export default {
 
       createUser(this.user).then(user =>
       {
-        console.log("user", user)
         if (user)
         {
           userSession.login(this.user.username, this.user.password)

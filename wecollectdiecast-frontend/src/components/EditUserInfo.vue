@@ -142,7 +142,7 @@ export default {
     },
     mounted()
     {
-        console.log("this.user", this.user)
+        
     },
 
 }

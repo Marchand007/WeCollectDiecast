@@ -126,14 +126,7 @@
                     <v-window-item value="additem">
                         <v-card elevation="0" flat>
                             <v-card-text>
-                                <h2>{{ $t('addNewItem1') }}</h2>
-                                <p class="mb-2">{{ $t('addNewItem2') }}</p>
-                                <p class="mb-2">{{ $t('addNewItem3') }}</p>
-                                <p class="mb-2">{{ $t('addNewItem4') }}</p>
-                                <p class="mb-2">{{ $t('addNewItem5') }}</p>
-                                <p class="mb-2">{{ $t('addNewItem6') }}</p>
-                                <p class="mb-2">{{ $t('addNewItem7') }}</p>
-
+                                <AddItem />
                             </v-card-text>
                         </v-card>
                     </v-window-item>
@@ -167,6 +160,7 @@ import { computed } from "vue";
 import userSession from '../session/UserSession.js'
 import UserInfo from '../components/UserInfo.vue';
 import EditUserInfo from '../components/EditUserInfo.vue';
+import AddItem from '../components/AddItem.vue';
 
 import { getUserBy, updateUser } from '../services/UserService.js';
 import { getRatingUserBy } from '../services/RatingService.js'
@@ -179,6 +173,7 @@ export default {
     components: {
         UserInfo,
         EditUserInfo,
+        AddItem,
         SvgIcon
     },
     data()
@@ -255,7 +250,6 @@ export default {
         },
         saveEdit(editedUser)
         {
-            console.log("saveEdit", editedUser);
             updateUser(editedUser).then(user =>
             {
                 this.user = user;

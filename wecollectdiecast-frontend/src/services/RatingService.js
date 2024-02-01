@@ -28,8 +28,8 @@ async function createServiceError(response)
 
 export async function getAllUserRatingList(option)
 {
-    const response = await fetch(`https://wcd-api-7fcyt.ondigitalocean.app/api/rating`, {
-    //const response = await fetch(`api/rating`, {
+    //const response = await fetch(`https://wcd-api-7fcyt.ondigitalocean.app/api/rating`, {
+    const response = await fetch(`api/rating`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -49,8 +49,8 @@ export async function getAllUserRatingList(option)
 
 export async function getRatingUserBy(option, value)
 {
-    const response = await fetch(`https://wcd-api-7fcyt.ondigitalocean.app/api/user/${option}/${value}`, {
-    //const response = await fetch(`api/rating/${option}/${value}`, {
+    //const response = await fetch(`https://wcd-api-7fcyt.ondigitalocean.app/api/user/${option}/${value}`, {
+    const response = await fetch(`api/rating/${option}/${value}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -68,8 +68,8 @@ export async function getRatingUserBy(option, value)
 
 export async function createRating(ratingInfos)
 {
-    const response = await fetch(`https://wcd-api-7fcyt.ondigitalocean.app/api/rating`, {
-    //const response = await fetch(`api/rating`, {
+    //const response = await fetch(`https://wcd-api-7fcyt.ondigitalocean.app/api/rating`, {
+    const response = await fetch(`api/rating`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -86,3 +86,4 @@ export async function createRating(ratingInfos)
         throw await createServiceError(response);
     }
 }
+
