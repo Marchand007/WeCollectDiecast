@@ -7,15 +7,15 @@
                 </v-row>    -->
             <v-row class="ma-0 no-gutters">
                 <v-col cols="12" sm="6">
-                    <p>Prénom: {{ user.firstName }} </p>
-                    <p>Nom de famille: {{ user.lastName }} </p>
-                    <p v-if="user.city">Ville: {{ user.city }} </p>
-                    <p v-if="user.state">Province: {{ user.state }} </p>
-                    <p v-if="user.country">Pays: {{ user.country }} </p>
-                    <p>Membre depuis: {{ user.createdDate }} </p>
+                    <p>{{ $t('firstName') }}: {{ user.firstName }} </p>
+                    <p>{{ $t('lastName') }}: {{ user.lastName }} </p>
+                    <p v-if="user.city">{{ $t('city') }}: {{ user.city }} </p>
+                    <p v-if="user.state">{{ $t('state') }}: {{ user.state }} </p>
+                    <p v-if="user.country">{{ $t('country') }}: {{ user.country }} </p>
+                    <p>{{ $t('memberSince') }}: {{ formatedDate(user.createdDate) }} </p>
                 </v-col>
                 <v-col cols="12" sm="6">
-                    <p>Nombre de diecast dans sa collection: 0 </p>
+                    <p>{{ $t('diecastQuantityInCollection') }}: 0 </p>
                 </v-col>
             </v-row>
         </v-card-text>
@@ -45,7 +45,9 @@ export default {
         };
     },
     methods: {
-
+        formatedDate(date) {
+            return DateTime.fromISO(date).setLocale(this.$i18n.locale).toLocaleString(DateTime.DATE_MED);
+        }	
     },
     watch: {
 
@@ -63,7 +65,7 @@ export default {
 p {
     font-size: 1rem;
     color: white;
-    margin-top: 0.5px;
+    margin-top: 1rem;
     margin-bottom: 0.5px;
 }
 

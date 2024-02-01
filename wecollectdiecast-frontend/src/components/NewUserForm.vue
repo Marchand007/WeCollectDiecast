@@ -1,35 +1,35 @@
 <template>
   <div class="authentication">
 
-    <h1>Bienvenue à bord</h1>
-    <p>Vous avez déjà un compte ? <span class="link font-weight-bold" @click="toggleLogin">Connectez-vous</span></p>
+    <h1> {{ $t('welcomeAboard') }}</h1>
+    <p> {{ $t('alreadyHaveAccount') }} <span class="link font-weight-bold" @click="toggleLogin"> {{ $t('log in') }}</span></p>
     <p class="error-message">{{ errorMessage }}</p>
     <v-form @submit.prevent="createUserAccount" validate-on="blur" ref="createUserForm">
       <v-row no-gutters>
         <v-col cols="12">
-          <v-text-field v-model.trim="user.username" label="Nom d'utilisateur *" :rules="[rules.required]" clearable
+          <v-text-field v-model.trim="user.username" :label="$t('username').concat(' *')" :rules="[rules.required]" clearable
             autocomplete="null" density="compact" required>
           </v-text-field>
         </v-col>
         <v-col cols="6">
-          <v-text-field class="mr-2" v-model.trim="user.firstName" label="Prénom *" :rules="[rules.required]" clearable
+          <v-text-field class="mr-2" v-model.trim="user.firstName" :label="$t('firstName').concat(' *')" :rules="[rules.required]" clearable
             density="compact" autocomplete="given-name" required>
           </v-text-field>
         </v-col>
         <v-col cols="6">
-          <v-text-field class="ml-2" v-model.trim="user.lastName" label="Nom de famille *" :rules="[rules.required]" clearable
+          <v-text-field class="ml-2" v-model.trim="user.lastName" :label="$t('lastName').concat(' *')" :rules="[rules.required]" clearable
             density="compact" autocomplete="family-name" required>
           </v-text-field>
         </v-col>
         <v-col cols="12">
-          <v-text-field v-model.trim="user.email" label="Adresse courriel *" :rules="[
+          <v-text-field v-model.trim="user.email" :label="$t('email').concat(' *')" :rules="[
             rules.required,
             rules.validEmail
           ]" density="compact" clearable required>
           </v-text-field>
         </v-col>
         <v-col cols="6">
-          <v-text-field class="mr-2" v-model="user.password" label="Mot de passe"
+          <v-text-field class="mr-2" v-model="user.password" :label="$t('password').concat(' *')"
             :type="seePassword ? 'text' : 'password'"
             :append-inner-icon="user.password ? seePassword ? 'mdi-eye-off' : 'mdi-eye' : null"
             @click:append-inner="() => (seePassword = !seePassword)" :rules="[rules.required, rules.validPassword]"
@@ -37,7 +37,7 @@
           </v-text-field>
         </v-col>
         <v-col cols="6">
-          <v-text-field class="ml-2" v-model="user.passwordConfirmation" label="Confirmer le mot de passe"
+          <v-text-field class="ml-2" v-model="user.passwordConfirmation" :label="$t('confirmPassword').concat(' *')"
             :rules="[rules.required, rules.passwordsMatch]" :type="seePasswordConfirmation ? 'text' : 'password'"
             @click:append-inner="() => (seePasswordConfirmation = !seePasswordConfirmation)"
             :append-inner-icon="user.passwordConfirmation ? seePasswordConfirmation ? 'mdi-eye-off' : 'mdi-eye' : null"
@@ -46,30 +46,19 @@
         </v-col>
         <v-col cols="12">
           <v-checkbox v-model="user.wantNewsletter"
-            label="J'accepte de recevoir des courriels d'information à propos de la plateforme">
+            :label="$t('acceptNewsletter')">
           </v-checkbox>
         </v-col>
         <v-row class="justify-right mt-5">
           <v-col cols="6">
-            <v-btn @click="closeRegistrerSection" color="black" size="large" elevation="5">Annuler</v-btn>
+            <v-btn @click="closeRegistrerSection" color="black" size="large" elevation="5">{{ $t('cancel') }}</v-btn>
           </v-col>
           <v-col cols="6">
             <v-btn type="submit" block color="rgba(138, 103, 9, 0.9)" size="large" elevation="5"
-              :disabled="disabledCreateAccountButton">S'inscrire</v-btn>
+              :disabled="disabledCreateAccountButton">{{ $t('registrer') }}</v-btn>
           </v-col>
         </v-row>
       </v-row>
-      <!-- <p
-                class=" text-muted font-weight-medium d-flex justify-center align-center mt-3"
-              >
-                Vous avez déjà un compte?
-                <RouterLink
-                  to="/auth/login"
-                  class="text-red text-decoration-none text-body-1 opacity-1 font-weight-medium pl-2"
-                >
-                  Connectez-vous</RouterLink
-                >
-            </p> -->
     </v-form>
   </div>
   <v-dialog v-model="newUserAddedDialog" class="animate__animated animate__bounceIn" width="100%" persistant>
@@ -78,9 +67,8 @@
         <h2>Confirmation</h2>
       </v-card-title>
       <v-card-text>
-        <p>Félicitations {{ user.username }}, votre compte utilisateur a bien été créé. </p>
-        <p>Un courriel vous sera envoyé lorsque la plateforme
-          sera prête pour l'utilisation</p>
+        <p>{{ $t('congrats') }}, {{ user.username }}, {{ $t('accountCreated') }} </p>
+        <p>{{ $t('youAreNowRegistered') }}</p>
       </v-card-text>
       <v-row class="justify-center">
         <v-col cols="12">
@@ -115,19 +103,19 @@ export default {
         passwordConfirmation: ""
       },
       rules: {
-        required: (value) => !!value || "Le champ est requis",
+        required: (value) => !!value || this.$t('fieldRequired'),
         validEmail: (value) =>
         {
           return (
             validEmail.test(value) ||
-            "Veuillez entrer une adresse courriel valide"
+            this.$t('invalidEmail')
           );
         },
         validPassword: (value) =>
         {
           return (
             validPassword.test(value) ||
-            `Le mot de passe doit contenir: 8 caractères minimum, 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial`
+            this.$t('passwordDontMatchRegex')
           );
         },
         passwordsMatch: () =>
@@ -136,7 +124,7 @@ export default {
           {
             return true;
           }
-          return this.user.password === this.user.passwordConfirmation || "Les mots de passe ne correspondent pas";
+          return this.user.password === this.user.passwordConfirmation || this.$t('passwordsDontMatch');
         }
       },
       
@@ -164,7 +152,7 @@ export default {
                 this.newUserAddedDialog = true;
               } else
               {
-                throw new Error("Une erreur est survenue lors de la création de votre compte. Veuillez réessayer plus tard.");
+                throw new Error(this.$t('errorCreationAccount'));
               }
             })
             .catch(err =>

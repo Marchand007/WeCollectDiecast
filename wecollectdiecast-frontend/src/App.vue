@@ -10,21 +10,23 @@
 
       </router-view>
     </v-row>
-      <footer>
+      <!-- <footer>
         <v-row class="ma-0 justify-center" style="border-top: 1px white solid">
           <p>Ceci sera un footer</p>
         </v-row>
-      </footer>
+      </footer> -->
+      <Footer />
     </v-main>
   </v-app>
 </template>
 
 <script>
+import Footer from './components/Footer.vue';
 import Navigation from './components/Navigation.vue';
 
 export default {
   name: 'App',
-  components: { Navigation },
+  components: { Navigation, Footer },
   data()
   {
     return {
